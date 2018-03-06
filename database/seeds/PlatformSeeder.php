@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Platform;
 
 class PlatformSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class PlatformSeeder extends Seeder
      */
     public function run()
     {
-        //
+	    $faker = Faker\Factory::create();
+	    for($i=0;$i<10;$i++) {
+		    Platform::create( [
+			    'name' => $faker->name,
+		    ] );
+	    }
     }
 }
