@@ -7,9 +7,9 @@
 		<input type="text" name="name" value="{{$category->name}}">
 		<button type="submit">Save</button>
 	</form>
-	@if(!empty($errors->first('name')))
+	@if(!empty($errors->has('name')))
 		<div class="alert alert-success" role="alert">
-			{{$errors->first('name')}}
+			{{$errors->has('name')}}
 		</div>
 	@endif
 @endsection
