@@ -7,80 +7,51 @@ use App\Platform;
 
 class PlatformController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('platforms.index');
+        $platforms = Platform::all();
+        return view('platforms.index', ['platforms' => $platforms]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('platforms.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(StorePlatformRequest $request)
     {
         Platform::create($request->except('_token'));
         return redirect()->route('platforms.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function single($id)
     {
-        //
+        $platform = Platform::findOrFail($id);
+        return view('platforms.single', ['platformSingle' => $platform]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $platform = Platform::findOrFail($id);
+        return view('platforms.edit', ['platformEdit' => $platform]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(StorePlatformRequest $request, $id)
     {
-        //
+        Platform::findOrFail($id)->update(['name' => $request->get('name')]);
+        return redirect()->route('platforms.single', $id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        //
+        Platform::destroy($id);
+        return redirect()->route('platforms.index');
     }
 }
