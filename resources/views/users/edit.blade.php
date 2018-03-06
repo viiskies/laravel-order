@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-8 mx-auto">
-                <form class="from-group" method="post" action="{{route('users.update', $user->id)}}">
+                <form class="form-group" method="post" action="{{route('users.update', $user->id)}}">
                     {{csrf_field()}}
                     {{method_field('PATCH')}}
                     @if(isset($client))
