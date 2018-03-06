@@ -40,11 +40,6 @@ class UsersController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $username = User::where('name', $request->name)->first();
-        if ($username != null) {
-            return redirect()->back()->withInput()->with('error', 'Username exists.');
-        }
-
        if($request->role != 'admin'){
            $client = Client::create($request->except('name', 'password', 'role', '_token'));
            $client->user()->create($request->only('name', 'role','price_coefficient') + ['password' => bcrypt($request->password)]);
