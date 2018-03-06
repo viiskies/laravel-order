@@ -28,10 +28,10 @@ class PlatformController extends Controller
     }
 
 
-    public function single($id)
+    public function show($id)
     {
         $platform = Platform::findOrFail($id);
-        return view('platforms.single', ['platformSingle' => $platform]);
+        return view('platforms.show', ['platformSingle' => $platform]);
     }
 
 
@@ -45,7 +45,7 @@ class PlatformController extends Controller
     public function update(StorePlatformRequest $request, $id)
     {
         Platform::findOrFail($id)->update(['name' => $request->get('name')]);
-        return redirect()->route('platforms.single', $id);
+        return redirect()->route('platforms.show', $id);
     }
 
 

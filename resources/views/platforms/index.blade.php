@@ -3,7 +3,7 @@
 <ul>
     @foreach($platforms as $platform)
         <li>
-            <a href="{{ route('platforms.single', [ 'id' => $platform->id ]) }}">{{ $platform->name }}</a>
+            <a href="{{ route('platforms.show', [ 'id' => $platform->id ]) }}">{{ $platform->name }}</a>
         </li>
     @endforeach
 </ul>

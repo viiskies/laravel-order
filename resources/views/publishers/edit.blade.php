@@ -1,4 +1,4 @@
-<form action="{{route('platforms.store')}}" method="post">
+<form action="{{ route('publishers.update', ['id' => $publisherEdit->id])}}" method="post">
     @csrf
     <div class="form-group">
         @if ($errors->get('name'))
@@ -8,9 +8,10 @@
                 </div>
             @endforeach
         @endif
-        <label for="name">Name:</label>
+        <input type="hidden" name="_method" value="put">
+        <label for="name">Publisher name:</label>
         <br>
-        <input type="text" name="name" class="form-control" placeholder="Platform name" value="{{old('name')}}">
+        <input type="text" name="name" class="form-control" placeholder="Publisher name" value="{{ $publisherEdit->name }}">
         <br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </div>
