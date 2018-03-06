@@ -19,7 +19,8 @@ class User extends Authenticatable
         'password',
         'role',
         'client_id',
-        'price_coefficient'
+        'price_coefficient',
+        'disabled'
     ];
 
     public $timestamps = false;
@@ -32,4 +33,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
 }
