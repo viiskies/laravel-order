@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
-
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use App\Category;
 
 class CategoriesController extends Controller {
-	public function index() {
-		$categories = Category ::orderBy( 'name' ) -> get();
-		
-		return view( 'categories.index', [ 'categories' => $categories ] );
+    public function index() {
+        $categories = Category ::orderBy( 'name' ) -> get();
+
+	    return view( 'categories.index', [ 'categories' => $categories ] );
 	}
 	
 	public function create() {

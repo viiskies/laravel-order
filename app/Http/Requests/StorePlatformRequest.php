@@ -24,7 +24,7 @@ class StorePlatformRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:platforms,name,' . $this->route('platform') . ',id|max:255|min:2'
         ];
     }
 }
