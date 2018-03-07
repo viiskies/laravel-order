@@ -97,7 +97,7 @@ class ProductsSeed extends Seeder
 
                 ]);
 
-                $product->category()->attach($categories_array);
+                $product->categories()->attach($categories_array);
 
 
 
@@ -106,7 +106,7 @@ class ProductsSeed extends Seeder
                 $filename = basename($url);
                 $file = file_get_contents('https://images.igdb.com/igdb/image/upload/t_original/'.$filename);
                 Storage::put('public/image/' . $filename, $file);
-                $product->image()->create([
+                $product->images()->create([
                     'filename' => $filename,
                     'product_id' => $product->id,
                     'featured' => 1,
@@ -119,7 +119,7 @@ class ProductsSeed extends Seeder
                     $filename = basename($url);
                     $file = file_get_contents('https://images.igdb.com/igdb/image/upload/t_original/'.$filename);
                     Storage::put('public/image/' . $filename, $file);
-                    $product->image()->create([
+                    $product->images()->create([
                         'filename' => $filename,
                         'product_id' => $product->id,
                         'featured' => 0,
