@@ -22,11 +22,6 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
-                                @if(session('status'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ session('status') }}</strong>
-                                    </span>
-                                    @endif
                             </div>
                         </div>
 

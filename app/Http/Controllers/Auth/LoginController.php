@@ -41,9 +41,7 @@ class LoginController extends Controller
         {
             return $this->guard()->attempt($this->credentials($request), $request->filled('remember'));
         }else{
-            session()->flash('status', 'Your account disabled');
-            
-            return redirect()->back();
+            return false;
 
         };
     }
