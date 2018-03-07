@@ -15,11 +15,11 @@
                             <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('name'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -55,9 +55,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
-                                </a>
+
                             </div>
                         </div>
                     </form>
