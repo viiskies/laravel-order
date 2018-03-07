@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 		
 		User ::create( [
 			'name'         => $faker -> company,
-			'password'          => 'slaptas',
+			'password'          => bcrypt('secret'),
 			'role'              => 'user',
 			'client_id'         => $client -> id,
 			'price_coefficient' => rand( 0, 50 ),
