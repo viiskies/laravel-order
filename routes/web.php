@@ -22,9 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
-
-
 Route::resource('users', 'UsersController');
-
 Route::resource('categories', 'CategoriesController');
 
+Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
