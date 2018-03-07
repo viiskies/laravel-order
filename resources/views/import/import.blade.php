@@ -9,6 +9,11 @@
                         {{ $errors->first('file') }}
                     </small>
                 @endif
+                    @if (Session::has('error'))
+                        <small class="alert alert-danger">
+                            {{ Session::get('error') }}
+                        </small>
+                    @endif
                 <form action="{{ route('products.import') }}" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="form-group">
