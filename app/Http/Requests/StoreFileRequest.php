@@ -24,7 +24,16 @@ class StoreFileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'mimes:xls'
+            'file' => 'required|file|mimetypes:application/vnd.ms-excel,' .
+            'text/xml,' .
+            'application/msexcel,' .
+            'application/x-msexcel,' .
+            'application/x-ms-excel,' .
+            'application/x-excel,' .
+            'application/x-dos_ms_excel,' .
+            'application/xls,' .
+            'application/x-xls,' .
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ];
     }
 }

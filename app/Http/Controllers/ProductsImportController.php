@@ -14,7 +14,8 @@ class ProductsImportController extends Controller
 {
 
     private $importer;
-    public function __construct(UploadToDatabase $upload) {
+    public function __construct(UploadToDatabase $upload)
+    {
         $this->importer=$upload;
     }
 
@@ -27,6 +28,15 @@ class ProductsImportController extends Controller
     public function import(StoreFileRequest $request)
     {
         $filename = $request->file('file');
+
+        $error = $this->importer->validate($filename);
+
+        if ($error !== null) {
+            return redirect()->back()->with('error', $error);
+        }
+
         $this->importer->upload($filename);
+
+        return redirect()->back()->with('success', 'File uploaded successfully.');
     }
 }
