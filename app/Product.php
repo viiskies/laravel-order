@@ -55,7 +55,17 @@ class Product extends Model
             $result = "-";
         }
         return $result;
-
-//        return ucfirst($value);
     }
+
+    public function getStockAmountAttribute()
+    {
+        return $this->stock->last()->amount;
+    }
+
+    public function getPriceAmountAttribute()
+    {
+        return $this->price->last()->amount;
+    }
+
+
 }

@@ -14,30 +14,27 @@
 
             <label for="name">Name:</label>
             <br>
-            <input type="text" name="name" class="form-control" placeholder="Product name" value="{{ $product->name }}">
+            <input type="text" name="name" class="form-control" placeholder="Product name" value="{{ old('name', $product->name) }}">
             <br>
             <label for="ean">EAN:</label>
             <br>
-            <input type="number" name="ean" class="form-control" placeholder="EAN" value="{{ $product->ean }}">
+            <input type="number" name="ean" class="form-control" placeholder="EAN" value="{{ old('ean', $product->ean) }}">
             <br>
             <label for="price_amount">Price:</label>
             <br>
-            <input type="text" step="0.01" name="price_amount" class="form-control" placeholder="Price" value="{{ $product->price->last()->amount }}">
+            <input type="text" step="0.01" name="price_amount" class="form-control" placeholder="Price" value="{{ old('price_amount', $product->price->last()->amount) }}">
             <br>
             <label for="stock_amount">Stock:</label>
             <br>
-            <input type="number" name="stock_amount" class="form-control" placeholder="Stock" value="{{ $product->stock->last()->amount }}">
+            <input type="number" name="stock_amount" class="form-control" placeholder="Stock" value="{{ old('stock_amount', $product->stock->last()->amount) }}">
             <br>
             <label for="platform">Platform:</label>
             <br>
             <div class="form-radio">
-                @foreach($platforms as $platform)
-                    @if($platform == $product->platform)
-                        <input type="radio" class="form-radio-input" name="platform_id" value="{{ $platform->id}}" id="{{$platform->id}}" checked>
-                    @else
-                        <input type="radio" class="form-radio-input" name="platform_id" value="{{ $platform->id}}" id="{{$platform->id}}">
-                    @endif
-                    <label for="{{$platform->name}}" class="form-radio-label">{{$platform->name}}</label>
+                @foreach ($platforms as $platform)
+                    <input type="radio" class="form-radio-input" name="platform_id" value="{{ $platform->id }}" id="{{ $platform->id }}"
+                        @if (old('platform_id', $product->platform->id) == $platform->id) checked @endif>
+                    <label for="{{ $platform->name }}" class="form-radio-label">{{ $platform->name}} </label>
                 @endforeach
             </div>
             <br>
@@ -45,12 +42,15 @@
             <br>
             <div class="form-radio">
                 @foreach($publishers as $publisher)
-                    @if($publisher == $product->publisher)
-                        <input type="radio" class="form-radio-input" name="publisher_id" value="{{$publisher->id}}" id="{{$publisher->id}}" checked>
+                    @if (empty($product->publisher->id ))
+                        <input type="radio" class="form-radio-input" name="publisher_id" id="{{ $publisher->id }}" value="{{ $publisher->id }}"
+                               @if (old('publisher_id') == $publisher->id) checked @endif>
                     @else
-                        <input type="radio" class="form-radio-input" name="publisher_id" value="{{$publisher->id}}" id="{{$publisher->id}}">
+                        <input type="radio" class="form-radio-input" name="publisher_id" id="{{ $publisher->id }}" value="{{ $publisher->id }}"
+                               @if (old('publisher_id', $product->publisher->id) == $publisher->id) checked @endif>
                     @endif
-                        <label for="{{$publisher->name}}" class="form-radio-label">{{$publisher->name}}</label>
+
+                    <label for="{{ $publisher->name }}" class="form-radio-label">{{ $publisher->name }}</label>
                 @endforeach
             </div>
 
@@ -58,19 +58,19 @@
             <label for="description">Description:</label>
             <br>
             <textarea type="text" name="description" id="description" class="form-control"
-                      placeholder="Product description">{{ $product->description }}</textarea>
+                      placeholder="Product description">{{ old('description', $product->description) }}</textarea>
             <br>
             <label for="release_date">Release Date:</label>
             <br>
-            <input type="date" name="release_date" class="form-control" value="{{ $product->release_date }}">
+            <input type="date" name="release_date" class="form-control" value="{{  old('release_date', $product->release_date) }}">
             <br>
             <label for="video">Video</label>
             <br>
-            <input type="text" name="video" class="form-control" value="{{$product->video }}">
+            <input type="text" name="video" class="form-control" value="{{ old('video', $product->video) }}">
             <br>
             <label for="pegi">Pegi</label>
             <br>
-            <input type="number" name="pegi" class="form-control" value="{{ $product->pegi }}">
+            <input type="number" name="pegi" class="form-control" value="{{ old('pegi', $product->pegi) }}">
             <br>
             <button type="submit" class="btn btn-secondary">Submit</button>
     </div>

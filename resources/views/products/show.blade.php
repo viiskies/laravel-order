@@ -5,10 +5,10 @@
 {{ $productSingle->ean }}
 <br>
 <label for="">Price:</label>
-{{ $productSingle->price->last()->amount }}
+{{ $productSingle->price_amount }}
 <br>
 <label for="">Stock:</label>
-{{ $productSingle->stock->last()->amount }}
+{{ $productSingle->stock_amount }}
 <br>
 <label for="">Platform:</label>
 {{ $productSingle->platform->name }}
@@ -19,6 +19,9 @@
 @else
     {{ $productSingle->publisher->name }}
 @endif
+<br>
+<label for="">Release date:</label>
+{{ $productSingle->release_date }}
 <br>
 <label for="">Pegi:</label>
 {{ $productSingle->pegi }}

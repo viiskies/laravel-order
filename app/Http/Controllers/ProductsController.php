@@ -52,8 +52,7 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $product->update(
-            [
+        $product->update([
                 'name' => $request->get('name'),
                 'ean' => $request->get('ean'),
                 'description' => $request->get('description'),
@@ -62,8 +61,8 @@ class ProductsController extends Controller
                 'video' => $request->get('video'),
                 'platform_id' => $request->get('platform_id'),
                 'publisher_id' => $request->get('publisher_id'),
-            ]
-        );
+        ]);
+
         if($product->stock->last()->amount !=  $request->get('stock_amount')) {
             $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         }
