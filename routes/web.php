@@ -11,22 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
-
 Route::resource('users', 'UsersController');
 
 Route::resource('categories', 'CategoriesController');
 
+Route::post('order/{id}', 'OrdersController@store')->name('orders.store');
+Route::get('basket', 'OrdersController@index')->name('order.index');

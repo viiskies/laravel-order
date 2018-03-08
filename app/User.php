@@ -37,4 +37,10 @@ class User extends Authenticatable
     public function client(){
         return $this->belongsTo(Client::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }
