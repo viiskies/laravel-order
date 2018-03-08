@@ -10,8 +10,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class UploadToDatabase
 {
-    public $error;
-
     public function upload($filename)
     {
         $games = Excel::load($filename)->noHeading()->skipRows(6)->all();
@@ -93,7 +91,7 @@ class UploadToDatabase
             );
 
             if ($validator->fails()) {
-                return $this->error = $validator->errors()->first();
+                return $validator->errors()->first();
             }
         }
     }
