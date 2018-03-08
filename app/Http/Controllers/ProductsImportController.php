@@ -9,6 +9,7 @@ use App\Services\UploadToDatabase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Messerli90\IGDB\Facades\IGDB;
 
 class ProductsImportController extends Controller
 {
@@ -21,6 +22,8 @@ class ProductsImportController extends Controller
 
     public function importForm()
     {
+
+
         return view('import.import');
     }
 

@@ -7,13 +7,13 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Messerli90\IGDB\Facades\IGDB;
 
 class UploadToDatabase
 {
     public function upload($filename)
     {
         $games = Excel::load($filename)->noHeading()->skipRows(6)->all();
-
         $this->importPlatforms($games);
         $this->importProductsStockPrices($games);
     }
@@ -52,7 +52,9 @@ class UploadToDatabase
             $products_eans= $products->pluck('ean');
 
             if ($products_eans->contains($game[0]) !== true) {
-                $product = $platform->products()->create(['ean' => $game[0], 'name' => $game[2]]);
+                $this->importFromApi($game);
+                $product = $platform->products()->create(['ean' => $game[0], 'name' => $game[2]]); //Name
+
                 $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
                 $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
             } else {
@@ -61,6 +63,27 @@ class UploadToDatabase
                 $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
             }
         }
+    }
+
+    public function importFromApi($game)
+    {
+        $game_name = explode(' ', $game[2], 2);
+        $name = $game_name[1];
+        $all_games = IGDB::searchGames($name);
+        $games = collect($all_games);
+        $game = $games->first();
+        //dd($game);
+        $summary = $game->summary;
+        $release_date = $game->release_dates;
+        $date = Carbon::parse($release_date[0]->human);
+        $pegi = $game->pegi->rating;
+        $publisher_id = $game->publishers[0];
+        $cover_image = $game->cover->url;
+        $screenshots1 = $game->screenshots[0]->url;
+        $screenshots2 = $game->screenshots[1]->url;
+        $screenshots3 = $game->screenshots[2]->url;
+        $video = $game->videos[0]->video_id;
+        dd($video);
     }
 
     public function validate($filename)
