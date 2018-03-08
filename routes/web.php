@@ -18,13 +18,16 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
-
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
-Route::resource('users', 'UsersController');
+Route::resource('products', 'ProductsController');
 
+Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
 
 Route::post('order/{id}', 'OrdersController@store')->name('orders.store');
 Route::get('basket', 'OrdersController@index')->name('order.index');
+
+Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');

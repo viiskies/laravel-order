@@ -34,8 +34,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function price()
+    {
+        return $this->hasMany(Price::class);
+    }
+    
     public function client(){
         return $this->belongsTo(Client::class);
+
     }
 
     public function orders()
