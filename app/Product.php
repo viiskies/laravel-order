@@ -68,5 +68,9 @@ class Product extends Model
         return $this->prices->last()->amount;
     }
 
+    public function getFeaturedImageIdAttribute()
+    {
+        return $this->images()->where('featured', 1)->value('id');
+    }
 
 }

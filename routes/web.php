@@ -26,4 +26,5 @@ Route::resource('platforms', 'PlatformController');
 Route::resource('products', 'ProductsController');
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
+Route::resource('images', 'ImagesController');
 

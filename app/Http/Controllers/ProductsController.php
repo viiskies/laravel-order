@@ -30,7 +30,9 @@ class ProductsController extends Controller
     {
         $product = Product::create($request->except('_token'));
         $product->stock()->create( ['amount' => $request->get('stock_amount')] );
-        $product->price()->create( ['amount' => $request->get('price_amount')] );
+        $product->prices()->create( ['amount' => $request->get('price_amount')] );
+        app('App\Http\Controllers\ImagesController')->store($request, $product->id);
+
         return redirect()->route('products.index');
     }
 
@@ -63,12 +65,17 @@ class ProductsController extends Controller
                 'publisher_id' => $request->get('publisher_id'),
         ]);
 
-        if($product->stock->last()->amount !=  $request->get('stock_amount')) {
+        if($product->stock_amount !=  $request->get('stock_amount'))
+        {
             $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         }
-        if($product->price->last()->amount !=  $request->get('price_amount')) {
-            $product->price()->create(['amount' => $request->get('price_amount')]);
+
+        if($product->price_amount !=  $request->get('price_amount'))
+        {
+            $product->prices()->create(['amount' => $request->get('price_amount')]);
         }
+
+        app('App\Http\Controllers\ImagesController')->update($request, $product->id);
 
         return redirect()->route('products.show', $id);
 
@@ -78,11 +85,12 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $prices_to_delete = $product->price->pluck('id')->toArray();
-        Price::destroy($prices_to_delete);
-
+        $prices_to_delete = $product->prices->pluck('id')->toArray();
         $stock_to_delete = $product->stock->pluck('id')->toArray();
+
+        Price::destroy($prices_to_delete);
         Stock::destroy($stock_to_delete);
+
         Product::destroy($id);
         return redirect()->route('products.index');
     }

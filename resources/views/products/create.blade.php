@@ -1,4 +1,4 @@
-<form action="{{ route('products.store') }}" method="post">
+<form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         @if ($errors->any())
@@ -74,6 +74,8 @@
         <br>
         <input type="number" name="pegi" class="form-control" value="{{ old('pegi') }}">
         <br>
+            <input type="file" name="image[]" id="photo" multiple>
+    <br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </div>
 </form>

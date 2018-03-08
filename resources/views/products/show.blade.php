@@ -33,7 +33,7 @@
 <label for="">Description:</label>
 {{ $productSingle->description }}
 <br>
-<a href="{{ route('products.edit',$productSingle->id) }}"><button>Edit</button></a>
+<a href="{{ route('products.edit', $productSingle->id) }}"><button>Edit</button></a>
 <form action="{{ route('products.destroy', ['id' => $productSingle->id])}}" method="post">
     @csrf
     <div class="form-group">
@@ -41,3 +41,12 @@
         <button type="submit" class="btn btn-secondary">Delete</button>
     </div>
 </form>
+
+<ul>
+    @foreach($productSingle->images as $image)
+        <li>
+            <a href="{{ route('images.show', [ 'id' => $image->id ]) }}">{{ $image->product->name }}</a>
+            <img src="{{ URL::to('/storage/images/games')}}/{{ $image->filename }}">
+        </li>
+    @endforeach
+</ul>
