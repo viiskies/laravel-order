@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     public $timestamps = false;
-    protected $fillable = [
-        'name',
-        'platform_id',
-        'publisher_id',
-        'ean',
-        'description',
-        'release_date',
-        'video',
-        'pegi'
-    ];
+    protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 
     public function platform()
     {
@@ -33,7 +34,7 @@ class Product extends Model
         return $this->hasMany(Stock::class);
     }
 
-    public function price()
+    public function prices()
     {
         return $this->hasMany(Price::class);
     }
