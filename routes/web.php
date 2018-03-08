@@ -19,9 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
-
-
+Route::resource('products', 'ProductsController');
 Route::resource('users', 'UsersController');
+
