@@ -34,19 +34,7 @@ class LoginController extends Controller
      *
      * @return void
      */
-
-    protected function attemptLogin(Request $request)
-    {
-        if(User::where('name', $request->name)->get()->first()->disabled == 1)
-        {
-            return $this->guard()->attempt($this->credentials($request), $request->filled('remember'));
-        }else{
-            return false;
-
-        };
-    }
-
-
+    
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
@@ -54,5 +42,18 @@ class LoginController extends Controller
     public function username()
     {
         return 'name';
+    }
+    protected function attemptLogin(Request $request)
+    {
+        $user = User::where('name', $request->name)->get()->first();
+
+        if($user !== null && $user->disabled == 0)
+        {
+            return $this->guard()->attempt($this->credentials($request), $request->filled('remember'));
+        }else{
+            return false;
+
+        }
+
     }
 }
