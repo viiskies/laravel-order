@@ -65,7 +65,7 @@ class Product extends Model
 
     public function getPriceAmountAttribute()
     {
-        return $this->price->last()->amount;
+        return $this->prices->last()->amount;
     }
 
 
