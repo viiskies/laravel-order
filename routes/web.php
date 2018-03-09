@@ -21,11 +21,11 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 Route::resource('products', 'ProductsController');
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
-
-Route::post('products/import', 'ProductsImportController@import')->name('products.import');
-Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
