@@ -18,11 +18,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('user_id');
             $table->smallInteger('status');
             $table->timestamp('date');
-        });
-
-        Schema::table('orders', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
+
+
     }
 
     /**

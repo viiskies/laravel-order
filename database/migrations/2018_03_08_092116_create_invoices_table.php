@@ -17,8 +17,6 @@ class CreateInvoicesTable extends Migration
             $table->increments('id');
             $table->string('filename');
             $table->unsignedInteger('order_id');
-        });
-        Schema::table('invoices', function (Blueprint $table) {
             $table->foreign('order_id')->references('id')->on('orders');
         });
     }

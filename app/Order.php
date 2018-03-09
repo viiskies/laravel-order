@@ -8,7 +8,8 @@ class Order extends Model
 {
     public $timestamps = false;
     protected $fillable = ['status'];
-    public function order()
+
+    public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class);
     }

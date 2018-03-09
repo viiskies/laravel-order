@@ -28,3 +28,5 @@ Route::resource('categories', 'CategoriesController');
 
 Route::post('order/{id}', 'OrdersController@store')->name('orders.store');
 Route::get('basket', 'OrdersController@index')->name('order.index');
+Route::post('update/{id}', 'OrdersController@update')->name('order.update');
+Route::delete('order/{id}', 'OrdersController@destroy')->name('order.product.delete');

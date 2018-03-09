@@ -15,16 +15,19 @@ class OrdersController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        $order = Order::where([['user_id', $user->id],['status', 0]])->get()->first();
-        $order_products = $order->order()->get();
-
+        $order = $user->orders()->where('status', 0)->get()->first();
+        if (!empty($order))
+        {
+            $order_products = $order->orderProducts()->get();
+        }else{
+            $order_products = '';
+        }
         return view('orders.single_basket', ['products' => $order_products]);
     }
-    public function store($product_id, Request $request)
+    public function store($product_id, StoreOrderRequest $request)
     {
         $user = Auth::user();
-        $user_order = Order::where('user_id', $user->id)->get()->first();
+        $user_order = $user->orders()->get()->first();
         if ($user_order == null)
         {
             $order = $user->orders()->create([
@@ -34,14 +37,28 @@ class OrdersController extends Controller
         }else{
             $order = $user_order;
         }
-
-        $order->order()->create($request->except('_token')+[
-                'product_id' => $product_id,
-            ]);
+        $product = OrderProduct::where('product_id', $product_id)->first();
+        if (empty($product))
+        {
+            $order->orderProducts()->create($request->except('_token')+[
+                    'product_id' => $product_id,
+                ]);
+        }else{
+            $amount = $product->quantity + $request->quantity;
+            $product->update(['quantity' => $amount]);
+        }
+        return redirect()->back();
     }
 
-    public function update(Request $request)
+    public function update($id, StoreOrderRequest $request)
     {
+        OrderProduct::where('id', $id)->update($request->except('_token'));
+        return $id;
+    }
 
+    public function destroy($id)
+    {
+        OrderProduct::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }

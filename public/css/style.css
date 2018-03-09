@@ -175,7 +175,7 @@ a:hover {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background: #000000 url('http://localhost/voldemaras/laravel-html/images/textura.png');
+    background: #000000 url('../image/textura.png');
     background-repeat: repeat;
 }
 
@@ -231,7 +231,7 @@ div#sidebar {
 }
 
 .sidebar-categories li:before {
-    content: url('http://localhost/voldemaras/laravel-front-end/front-end/images/cat.png');
+    content: url('../image/cat.png');
     height: 16px;
     margin:0 5px 0 -15px;
 }

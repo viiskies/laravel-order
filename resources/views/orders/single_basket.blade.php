@@ -2,9 +2,9 @@
 <html>
 <head>
     <title>Orders User</title>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" href= "../css/style.css">
+    <link rel="stylesheet" href= "{{ asset('css/style.css') }}">
 </head>
 <body>
 <div class="container">
@@ -26,6 +26,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if(!empty($products))
                 @foreach($products as $product)
                 <tr>
                     <td data-label="EAN:" class="align-middle">{{ $product->product->ean }}</td>
@@ -35,14 +36,20 @@
                     <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
                     <td data-label="Price:" class="align-middle">5</td>
                     <td data-label="Amount:" class="align-middle">
-                        <input class="input" type="number" placeholder="30" name="amount" value="{{ $product->quantity }}">
+                        <input onkeyup="update_quantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
+                        <br>
+                        <span style="display: none; color: green" id="update{{ $product->id }}" >updated</span>
                     </td>
                     <td class="align-middle">
-                        <div class="btn btn-dark btn-sm">Update</div>
-                        <div class="btn btn-danger btn-sm">Delete</div>
+                        <form action="{{route('order.product.delete', $product->id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -60,4 +67,24 @@
                 </div>
             </form>
         </div>
+        <script
+                src="https://code.jquery.com/jquery-3.3.1.js"
+                integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+                crossorigin="anonymous"></script>
+        <script>
+            function update_quantity(id,quantity)
+            {
+                var token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: "post",
+                    url: '{!! URL::to('update') !!}/' + id,
+                    data: {quantity: quantity,_token: token},
+                    dataType: "json",
+                    success:function (data)
+                    {
+                        document.getElementById('update' + data).style.display = 'block';
+                    }
+                });
+            }
+        </script>
 </body>
