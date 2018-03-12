@@ -351,6 +351,9 @@ MOBILE
     .karuseles-arrow {
         font-size: 25px;
     }
+    .total {
+        display: none;
+    }
 
 }
 

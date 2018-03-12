@@ -10,22 +10,27 @@
                         <th>Release date</th>
                         <th>Platform</th>
                         <th>Publisher</th>
+                        <th>Prices</th>
                         <th>Quantity</th>
                     </tr>
                     </thead>
                     <tbody>
+                    @if(!empty($errors->first()))
+                    {{ $errors->first() }}
+                    @endif
                     @foreach($products as $product)
                         <tr>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->release_date }}</td>
                             <td>{{ $product->platform->name }}</td>
                             <td>{{ $product->publisher->name }}</td>
-                            <td><form action="{{ route('orders.store', $product->id) }}" method="post">
-                                @csrf
-                                <input type="number" name="quantity">
-                                <button value="submit" type="submit" class="btn btn-success">Add to basket</button>
-                            </form>
+                            <td>{{ $product->PriceAmount }}</td>
+                            <td>
+                                <input class="input" type="number" id="value{{ $product->id }}" name="amount">
+                                <br>
+                                <span style="display: none; color: green" id="messenge{{ $product->id }}" ></span>
                             </td>
+                            <td><button class="btn btn-success" onclick="addIntoCart({{ $product->id }})">Add to basket</button></td>
                         </tr>
                     @endforeach
                     </tbody>

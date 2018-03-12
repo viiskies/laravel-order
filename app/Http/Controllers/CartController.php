@@ -10,25 +10,27 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class OrdersController extends Controller
+class CartController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->where('status', 0)->get()->first();
+        $order = $user->orders()->asCart()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
+            $order_id = $order->id;
         }else{
-            $order_products = '';
+                $order_products = [];
+                $order_id = [];
         }
-        return view('orders.single_basket', ['products' => $order_products]);
+        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
         $user = Auth::user();
-        $user_order = $user->orders()->get()->first();
-        if ($user_order == null)
+        $user_order = $user->orders()->asCart()->first();
+        if (empty($user_order))
         {
             $order = $user->orders()->create([
                 'status' => 0,
@@ -37,8 +39,8 @@ class OrdersController extends Controller
         }else{
             $order = $user_order;
         }
-        $product = OrderProduct::where('product_id', $product_id)->first();
-        if (empty($product))
+        $product = $order->orderProducts->where('product_id', $product_id)->first();
+        if ($product == null)
         {
             $order->orderProducts()->create($request->except('_token')+[
                     'product_id' => $product_id,
@@ -47,7 +49,8 @@ class OrdersController extends Controller
             $amount = $product->quantity + $request->quantity;
             $product->update(['quantity' => $amount]);
         }
-        return redirect()->back();
+
+        return $product_id;
     }
 
     public function update($id, StoreOrderRequest $request)
@@ -58,7 +61,17 @@ class OrdersController extends Controller
 
     public function destroy($id)
     {
-        OrderProduct::findOrFail($id)->delete();
+        $order_product = OrderProduct::findOrFail($id);
+        $order_product->delete();
+        $order_products = OrderProduct::where('order_id', $order_product->order_id)->get();
+        if (count($order_products) == 0){
+            Order::findOrFail($order_product->order_id)->delete();
+        }
+        return redirect()->back();
+    }
+    public function confirm($id)
+    {
+        Order::findOrFail($id)->update(['status' => 1]);
         return redirect()->back();
     }
 }

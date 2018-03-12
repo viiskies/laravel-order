@@ -24,7 +24,15 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|min:1|max:10000'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'quantity.integer' => 'Must be number',
+            'quantity.max' => 'Max quantity 10000',
+            'quantity.min' => 'Min quantity 1'
         ];
     }
 }

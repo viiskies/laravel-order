@@ -26,11 +26,12 @@ Route::resource('products', 'ProductsController');
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
 
-Route::post('order/{id}', 'OrdersController@store')->name('orders.store');
-Route::get('basket', 'OrdersController@index')->name('order.index');
+Route::post('order/{id}', 'CartController@store')->name('order.store');
+Route::get('basket', 'CartController@index')->name('order.index');
+Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
 
-Route::post('update/{id}', 'OrdersController@update')->name('order.update');
-Route::delete('order/{id}', 'OrdersController@destroy')->name('order.product.delete');
+Route::post('update/{id}', 'CartController@update')->name('order.update');
+Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
 
 
 Route::post('products/import', 'ProductsImportController@import')->name('products.import');
