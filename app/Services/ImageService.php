@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ImageService {
+    private $image_dir = 'public/image/';
+
+    private function getPath($filename) {
+        $path = $this->image_dir . $filename;
+        return $path;
+    }
 
     public function deleteProductImages($product)
     {
         foreach ($product->images as $image) {
-            $fullFileName = 'public/image/' . $image->filename;
+            $fullFileName = $this->getPath($image->filename);
             Storage::delete($fullFileName);
             $image->delete($image->id);
         }
@@ -21,7 +27,7 @@ class ImageService {
     {
 
         //selecting featured image
-        if (array_key_exists('featured',$request)) {
+        if (array_key_exists('featured', $request)) {
             foreach ($product->images as $image) {
                 $image->update(['featured' => 0]);
             }
@@ -33,7 +39,7 @@ class ImageService {
         if (array_key_exists('image_id', $request)) {
             foreach ($product->images as $image) {
                 if (in_array($image->id, $request['image_id'])) {
-                    $fullFileName = 'public/image/' . $image->filename;
+                    $fullFileName = $this->getPath($image->filename);
                     Storage::delete($fullFileName);
                     $image->delete($image->id);
                 }
@@ -42,18 +48,15 @@ class ImageService {
 
         //adding new images
         if (array_key_exists('image', $request)) {
-                $file = $request['image'];
-                $path = $file->storePublicly('public/image');
-                $filename = basename($path);
-                Image::create(['filename' => $filename, 'product_id' => $product->id, 'featured' => 0]);
-            }
-
-        //setting featured image if product has no featured image
-        if (!isset($product->featured_image_id)) {
+            $file = $request['image'];
+            $path = $file->storePublicly($this->image_dir);
+            $filename = basename($path);
             if ($product->images()->exists()) {
-                $firstImage = $product->images()->first();
-                $firstImage->update(['featured' => 1]);
+                $is_featured = 0;
+            } else {
+                $is_featured = 1;
             }
+            Image::create(['filename' => $filename, 'product_id' => $product->id, 'featured' => $is_featured]);
         }
     }
 
@@ -61,9 +64,8 @@ class ImageService {
     {
         $featured = 1;
         $file = $image;
-        $path = $file->storePublicly('public/image');
+        $path = $file->storePublicly($this->image_dir);
         $filename = basename($path);
         Image::create(['filename' => $filename, 'featured' => $featured, 'product_id' => $product->id]);
-
     }
 }

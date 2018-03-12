@@ -5,7 +5,7 @@
         <li>
             <a href="{{ route('products.show', [ 'id' => $product->id ]) }}">{{ $product->name }}</a>
             <br>
-            <img src="{{ URL::to('/storage/image') }}/{{ $product->featured_image_filename }}">
+            <img src="{{ $product->featured_image_url }}">
         </li>
     @endforeach
 </ul>

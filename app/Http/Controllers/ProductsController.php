@@ -40,7 +40,9 @@ class ProductsController extends Controller
         $product = Product::create($request->except('_token'));
         $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         $product->prices()->create( ['amount' => $request->get('price_amount')] );
-        $this->imageService->storeProductImages($product, $request->file('image'));
+        if ($request->file('image') != null) {
+            $this->imageService->storeProductImages($product, $request->file('image'));
+        }
 
         return redirect()->route('products.index');
     }
@@ -91,8 +93,8 @@ class ProductsController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $prices_to_delete = $product->prices->pluck('id')->toArray();
-        $stock_to_delete = $product->stock->pluck('id')->toArray();
+        $prices_to_delete = $product->prices->pluck('id');
+        $stock_to_delete = $product->stock->pluck('id');
 
         $this->imageService->deleteProductImages($product);
         Price::destroy($prices_to_delete);

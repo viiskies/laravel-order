@@ -5,7 +5,7 @@
             <div class="alert alert-danger" role="alert">
                 <ul>
                     @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
+                        <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -46,13 +46,13 @@
         <div class="form-radio">
             @foreach($publishers as $publisher)
                 @if ($publisher->id == old('publisher_id'))
-                    <input type="radio" class="form-radio-input" name="publisher_id" value="{{$publisher->id}}"
+                    <input type="radio" class="form-radio-input" name="publisher_id" value="{{ $publisher->id }}"
                            id="{{ $publisher->id }}" checked>
                 @else
-                    <input type="radio" class="form-radio-input" name="publisher_id" value="{{$publisher->id}}"
+                    <input type="radio" class="form-radio-input" name="publisher_id" value="{{ $publisher->id }}"
                            id="{{ $publisher->id }}">
                 @endif
-                <label for="{{$publisher->name}}" class="form-radio-label">{{$publisher->name}}</label>
+                <label for="{{ $publisher->name }}" class="form-radio-label">{{ $publisher->name }}</label>
             @endforeach
         </div>
 
