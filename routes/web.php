@@ -18,6 +18,9 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
@@ -32,7 +35,3 @@ Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
 
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
-
-
-Route::post('products/import', 'ProductsImportController@import')->name('products.import');
-Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
