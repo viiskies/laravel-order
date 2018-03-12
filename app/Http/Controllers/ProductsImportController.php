@@ -7,8 +7,11 @@ use App\Platform;
 use App\Product;
 use App\Services\UploadToDatabase;
 use Carbon\Carbon;
+use DOMDocument;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Messerli90\IGDB\Facades\IGDB;
 
 class ProductsImportController extends Controller
 {
