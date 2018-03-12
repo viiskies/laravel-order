@@ -9,6 +9,7 @@ class Product extends Model
     public $timestamps = false;
     protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
 
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -79,14 +80,10 @@ class Product extends Model
 
     public function getFeaturedImageUrlAttribute()
     {
-        if($this->getFeaturedImageAttribute() != null ) {
-            $path = 'storage/image/';
-            $path .= $this->getFeaturedImageAttribute()->filename;
-        } else {
-            $path = 'image/default_featured.png';
+        if($this->featured_image != null ) {
+            return $this->featured_image->url;
         }
+        $path = 'image/default_featured.png';
         return asset($path);
     }
-
-
 }

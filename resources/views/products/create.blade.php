@@ -45,7 +45,7 @@
         <br>
         <div class="form-radio">
             @foreach($publishers as $publisher)
-                @if ($publisher->id == old('publisher_id'))
+                @if ( $publisher->id == old('publisher_id') )
                     <input type="radio" class="form-radio-input" name="publisher_id" value="{{ $publisher->id }}"
                            id="{{ $publisher->id }}" checked>
                 @else

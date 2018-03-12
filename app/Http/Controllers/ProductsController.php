@@ -40,7 +40,7 @@ class ProductsController extends Controller
         $product = Product::create($request->except('_token'));
         $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         $product->prices()->create( ['amount' => $request->get('price_amount')] );
-        if ($request->file('image') != null) {
+        if ($request->has('image')) {
             $this->imageService->storeProductImages($product, $request->file('image'));
         }
 

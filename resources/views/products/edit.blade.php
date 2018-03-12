@@ -91,7 +91,7 @@
     <label for="image_id">Select images to remove:</label>
     <br>
     @foreach ($product->images as $image)
-        <img src="{{ $image->image_url}}">
+        <img src="{{ $image->url}}">
         <input class="form-check-input" name="image_id[]" type="checkbox" value="{{ $image->id }}"
                id="{{ $image->filename }}"
                @if ((is_array(old('image_id'))) && in_array($image->id, old('image_id'))) checked @endif>
@@ -101,7 +101,7 @@
     <label for="featured">Select featured image:</label>
     <br>
     @foreach ($product->images as $image)
-        <img src="{{ $image->image_url }}">
+        <img src="{{ $image->url }}">
         <input class="form-radio-input" name="featured" type="radio" value="{{ $image->id }}"
                id="{{ $image->filename }}"
                @if (old('featured', $product->featured_image->id) == $image->id) checked @endif>

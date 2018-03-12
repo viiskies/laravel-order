@@ -48,6 +48,6 @@
 <br>
 @foreach($productSingle->images as $image)
     @if($image->featured != 1)
-        <img src="{{ $image->image_url }}" alt="">
+        <img src="{{ $image->url }}" alt="">
     @endif
 @endforeach

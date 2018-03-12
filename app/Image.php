@@ -14,7 +14,7 @@ class Image extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function getImageUrlAttribute()
+    public function getUrlAttribute()
     {
         $path = 'storage/image/';
         $path .= $this->filename;
