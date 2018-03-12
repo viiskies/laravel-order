@@ -21,34 +21,36 @@
                     <th scope="col">Release date:</th>
                     <th scope="col">Publisher:</th>
                     <th scope="col">Price:</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">Price Total:</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 @if(!empty($products))
-                @foreach($products as $product)
-                <tr>
-                    <td data-label="EAN:" class="align-middle">{{ $product->product->ean }}</td>
-                    <td data-label="Platform:" class="align-middle">{{ $product->product->platform->name }}</td>
-                    <td data-label="Name:" class="align-middle">{{ $product->product->name }}</td>
-                    <td data-label="Release date:" class="align-middle">{{ $product->product->release_date }}</td>
-                    <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
-                    <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount }}</td>
-                    <td data-label="Amount:" class="align-middle">
-                        <input onkeyup="setquantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
-                        <br>
-                        <span style="display: none; color: green" id="update{{ $product->id }}" ></span>
-                    </td>
-                    <td class="align-middle">
-                        <form action="{{route('order.product.delete', $product->id)}}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                    @endforeach
+                    @foreach($products as $product)
+                        <tr>
+                            <td data-label="EAN:" class="align-middle">{{ $product->product->ean }}</td>
+                            <td data-label="Platform:" class="align-middle">{{ $product->product->platform->name }}</td>
+                            <td data-label="Name:" class="align-middle">{{ $product->product->name }}</td>
+                            <td data-label="Release date:" class="align-middle">{{ $product->product->release_date }}</td>
+                            <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
+                            <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount }}</td>
+                            <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount * $product->quantity }}</td>
+                            <td data-label="Amount:" class="align-middle">
+                                <input onkeyup="setquantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
+                                <br>
+                                <span style="display: none; color: green" id="update{{ $product->id }}" ></span>
+                            </td>
+                            <td class="align-middle">
+                                <form action="{{route('order.product.delete', $product->id)}}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
                     @else
                     <tr>
                         <td colspan="8" style="font-size: 50px;"><b>Cart is empty</b></td>
@@ -63,7 +65,7 @@
                     <td class="total"></td>
                     <td class="total"></td>
                     <td class="total" scope="Total"><b>Total</b></td>
-                    <td data-label="Total">1235,89</td>
+                    <td data-label="Total">{{}}</td>
                     <td data-label="Total quantity">1235</td>
                     <td class="total"></td>
                 </tr>
