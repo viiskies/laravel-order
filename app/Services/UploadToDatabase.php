@@ -18,22 +18,24 @@ class UploadToDatabase
 {
     protected $publisher;
 
-    public function upload($filename)
+    public function getFile($filename)
     {
-        set_time_limit(0);
         $games = Excel::load($filename)->noHeading()->skipRows(6)->all();
-        $this->importPlatforms($games);
-        $this->importProductsStockPrices($games);
+        return $games;
     }
 
-    public function importPlatforms($games)
+    public function upload($game)
+    {
+        $this->importPlatforms($game);
+        $this->importProductsStockPrices($game);
+    }
+
+    public function importPlatforms($game)
     {
         $names=[];
 
-        foreach ($games as $game) {
-            $name = explode('_', $game[1]);
-            $names[] = $name[0];
-        }
+        $name = explode('_', $game[1]);
+        $names[] = $name[0];
 
         $platform_names = array_unique($names);
 
@@ -51,36 +53,34 @@ class UploadToDatabase
         }
     }
 
-    public function importProductsStockPrices($games)
+    public function importProductsStockPrices($game)
     {
-        foreach ($games as $game) {
-            $name = explode('_', $game[1]);
-            $platform = Platform::where('name', $name)->first();
-            $products = Product::all('ean');
-            $products_eans= $products->pluck('ean');
+        $name = explode('_', $game[1]);
+        $platform = Platform::where('name', $name)->first();
+        $products = Product::all('ean');
+        $products_eans= $products->pluck('ean');
 
-            if ($products_eans->contains($game[0]) !== true) {
-                $name = explode(' ', $game[2], 2);
-                $data = $this->importFromApi($game);
+        if ($products_eans->contains($game[0]) !== true) {
+            $name = explode(' ', $game[2], 2);
+            $data = $this->importFromApi($game);
 //                $xml = $this->getDataFromXml($game);
 
-                $publisher = $this->getPublishers();
-                if ($publisher === null) {
-                    $publisher_id = null;
-                } else {
-                    $publisher_id = $publisher->id;
-                }
-                $product = $platform->products()->create(['ean' => $game[0], 'name' => $name[1], 'publisher_id' => $publisher_id] + $data); //Name
-                $this->importCovers($game, $product);
-                $this->importScreenshots($game, $product);
-
-                $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
-                $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
+            $publisher = $this->getPublishers();
+            if ($publisher === null) {
+                $publisher_id = null;
             } else {
-                $product=Product::where('ean', $game[0])->first();
-                $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
-                $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
+                $publisher_id = $publisher->id;
             }
+            $product = $platform->products()->create(['ean' => $game[0], 'name' => $name[1], 'publisher_id' => $publisher_id] + $data); //Name
+            $this->importCovers($game, $product);
+            $this->importScreenshots($game, $product);
+
+            $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
+            $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
+        } else {
+            $product=Product::where('ean', $game[0])->first();
+            $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
+            $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
         }
     }
 

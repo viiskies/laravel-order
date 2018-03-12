@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFileRequest;
+use App\Jobs\ProccessGame;
 use App\Platform;
 use App\Product;
 use App\Services\UploadToDatabase;
@@ -38,8 +39,14 @@ class ProductsImportController extends Controller
             return redirect()->back()->with('error', $error);
         }
 
-        $this->importer->upload($filename);
+        $games = $this->importer->getFile($filename);
+
+        foreach ($games as $game) {
+            ProccessGame::dispatch($game);
+        }
 
         return redirect()->back()->with('success', 'File uploaded successfully.');
     }
+
+
 }
