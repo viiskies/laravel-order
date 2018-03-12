@@ -25,6 +25,7 @@ Route::resource('products', 'ProductsController');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
+Route::resource('images', 'ImagesController');
 
 Route::post('order/{id}', 'CartController@store')->name('order.store');
 Route::get('basket', 'CartController@index')->name('order.index');
