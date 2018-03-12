@@ -24,8 +24,6 @@ class ProductsImportController extends Controller
 
     public function importForm()
     {
-        $all_games = IGDB::searchGames('Nacon Revolution Pro Controller Black');
-        $date = Carbon::createFromTimestamp($all_games[3]->first_release_date)->toDateTimeString();
         return view('import.import');
     }
 
