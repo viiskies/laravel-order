@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
     	$faker = Faker\Factory::create();
     	
-	for ($i=0;$i< 20;$i++) {
+	for ($i=0;$i< 1;$i++) {
 		$client = Client ::create( [
 			'vat_number'           => 'LT' . $faker -> ean13,
 			'registration_number'  => $faker -> isbn13,
@@ -28,12 +28,12 @@ class UserSeeder extends Seeder
 		] );
 		
 		User ::create( [
-			'name'         => $faker -> company,
+			'name'         => 'paulius',
 			'password'          => bcrypt('secret'),
 			'role'              => 'user',
 			'client_id'         => $client -> id,
 			'price_coefficient' => rand( 0, 50 ),
-			'disabled'           => 1
+			'disabled'           => 0
 		] );
 	}
     }
