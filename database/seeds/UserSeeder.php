@@ -33,8 +33,29 @@ class UserSeeder extends Seeder
 			'role'              => 'user',
 			'client_id'         => $client -> id,
 			'price_coefficient' => rand( 0, 50 ),
-			'disabled'           => 0
+			'disabled'          => 0
 		] );
 	}
+
+        $client = Client ::create( [
+            'vat_number'           => 'LT' . $faker -> ean13,
+            'registration_number'  => $faker -> isbn13,
+            'registration_address' => $faker -> address,
+            'shipping_address'      => $faker -> address,
+            'email'                => $faker -> email,
+            'contact_person'       => $faker -> name,
+            'phone'                => $faker -> phoneNumber,
+            'payment_terms'       => 15
+        ] );
+
+        User ::create( [
+            'name'         => 'code',
+            'password'          => bcrypt('secret'),
+            'role'              => 'admin',
+            'client_id'         => $client -> id,
+            'price_coefficient' => rand( 0, 50 ),
+            'disabled'          => 0
+        ] );
+
     }
 }

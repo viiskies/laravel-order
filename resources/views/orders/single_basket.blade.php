@@ -65,7 +65,7 @@
                     <td class="total"></td>
                     <td class="total"></td>
                     <td class="total" scope="Total"><b>Total</b></td>
-                    <td data-label="Total">{{}}</td>
+                    <td data-label="Total"></td>
                     <td data-label="Total quantity">1235</td>
                     <td class="total"></td>
                 </tr>
