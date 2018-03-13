@@ -16,8 +16,7 @@ class CartService
     public function getTotalCartPrice($order)
     {
          $totalCartPrice = 0;
-         $products = $order;
-         foreach ($products as $product)
+         foreach ($order->orderProducts as $product)
          {
              $totalCartPrice += $product->quantity * $product->product->PriceAmount;
          }
@@ -26,8 +25,7 @@ class CartService
     public function getTotalCartQuantity($order)
     {
         $totalCartQuantity = 0;
-        $products = $order;
-        foreach ($products as $product)
+        foreach ($order->orderProducts as $product)
         {
             $totalCartQuantity += $product->quantity;
         }

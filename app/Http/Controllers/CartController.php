@@ -65,9 +65,9 @@ class CartController extends Controller
         $price = OrderProduct::where('id', $id);
         $price->update($request->except('_token'));
         $data = ['id' => $id,
-            'totalQuantity' => $this->getTotal->getTotalCartQuantity($price->first()->order->orderProducts),
+            'totalQuantity' => $this->getTotal->getTotalCartQuantity($price->first()->order),
             'singleProductPrice' => $this->getTotal->getSingleProductPrice($price->first()),
-            'totalPrice' => $this->getTotal->getTotalCartPrice($price->first()->order->orderProducts),
+            'totalPrice' => $this->getTotal->getTotalCartPrice($price->first()->order),
             ];
 
         return $data;
