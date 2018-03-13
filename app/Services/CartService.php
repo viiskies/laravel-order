@@ -2,10 +2,7 @@
 
 namespace App\Services;
 
-use App\Order;
-use App\OrderProduct;
 use Auth;
-use App\User;
 
 class CartService
 {

@@ -9,6 +9,7 @@ class Product extends Model
     public $timestamps = false;
     protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
 
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -66,7 +67,24 @@ class Product extends Model
     public function getPriceAmountAttribute()
     {
         return $this->prices->last()->amount;
+
     }
 
+    public function getFeaturedImageAttribute()
+    {
+        if ($this->images()->where('featured', 1)->exists()) {
+            return $this->images()->where('featured', 1)->first();
+        } else {
+            return null;
+        }
+    }
 
+    public function getFeaturedImageUrlAttribute()
+    {
+        if($this->featured_image != null ) {
+            return $this->featured_image->url;
+        }
+        $path = 'image/default_featured.png';
+        return asset($path);
+    }
 }
