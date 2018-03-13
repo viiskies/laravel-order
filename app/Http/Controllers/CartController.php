@@ -9,13 +9,20 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
+    private $getTotal;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->getTotal = $cartService;
+    }
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->asCart()->first();
+        $order = $user->orders()->asCart(Order::CONFIRMED)->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
@@ -29,7 +36,7 @@ class CartController extends Controller
     public function store($product_id, StoreOrderRequest $request)
     {
         $user = Auth::user();
-        $user_order = $user->orders()->asCart()->first();
+        $user_order = $user->orders()->asCart(Order::CONFIRMED)->first();
         if (empty($user_order))
         {
             $order = $user->orders()->create([
@@ -55,8 +62,15 @@ class CartController extends Controller
 
     public function update($id, StoreOrderRequest $request)
     {
-        OrderProduct::where('id', $id)->update($request->except('_token'));
-        return $id;
+        $price = OrderProduct::where('id', $id);
+        $price->update($request->except('_token'));
+        $data = ['id' => $id,
+            'totalQuantity' => $this->getTotal->getTotalCartQuantity($price->first()->order->orderProducts),
+            'singleProductPrice' => $this->getTotal->getSingleProductPrice($price->first()),
+            'totalPrice' => $this->getTotal->getTotalCartPrice($price->first()->order->orderProducts),
+            ];
+
+        return $data;
     }
 
     public function destroy($id)

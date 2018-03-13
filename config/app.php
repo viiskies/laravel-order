@@ -212,6 +212,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'IGDB' => \Messerli90\IGDB\Facades\IGDB::class,
+        'CartService' => App\Services\CartService::class,
     ],
 
 ];
