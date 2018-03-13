@@ -72,8 +72,8 @@ class Product extends Model
 
     public function getFeaturedImageAttribute()
     {
-        if ($this->images()->where('featured', 1)->exists()) {
-            return $this->images()->where('featured', 1)->first();
+        if ($this->images->where('featured', 1)->first()) {
+            return $this->images->where('featured', 1)->first();
         } else {
             return null;
         }

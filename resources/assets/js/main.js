@@ -83,3 +83,26 @@ $('.slider-nav').slick({
 });
 
 $('#gll').slickLightbox();
+
+$('.add-into-cart').click(function(){ 
+    var id = $(this).parent().prev().find('span')[0]['id'];
+    var token = $('meta[name="csrf-token"]').attr('content');
+    var quantity = $(this).parent().prev().find('input').val();
+    $.ajax({
+        type: "post",
+        url: $(this).data('url'),
+        data: {quantity: quantity,_token: token},
+        dataType: "json",
+        success:function (data)
+        {
+            document.getElementById(id).innerHTML = 'Added to cart';
+            document.getElementById(id).style.display = 'block';
+        },
+        error:function (error)
+        {
+            document.getElementById(id).innerHTML = error['responseJSON']['errors']['quantity'][0];
+            document.getElementById(id).style.color = 'red';
+            document.getElementById(id).style.display = 'block';
+        }
+    });
+});

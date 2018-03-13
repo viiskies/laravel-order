@@ -167,7 +167,7 @@
                                 <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
                             </td>
                             <td class="align-middle text-right product-image-mobile-center">
-                                <button class="btn btn-dark btn-sm" onclick="addIntoCart({{ $product->id }})">To cart</button>
+                                <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
                             </td>
                             <td class="align-middle product-image-mobile-center">
                                 <img class="packshot" src="{{ $product->featured_image_url}}">
@@ -178,19 +178,7 @@
                 </table>
             </div>
             <div id="pagination" class="row justify-content-center">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                {{$products->links()}}
             </div>
         </div>
     </div>
