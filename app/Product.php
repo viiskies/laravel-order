@@ -67,6 +67,7 @@ class Product extends Model
     public function getPriceAmountAttribute()
     {
         return $this->prices->last()->amount;
+
     }
 
     public function getFeaturedImageAttribute()
