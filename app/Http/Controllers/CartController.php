@@ -31,7 +31,7 @@ class CartController extends Controller
                 $order_products = [];
                 $order_id = [];
         }
-        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id]);
+        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id, 'order' =>$order]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
@@ -62,12 +62,13 @@ class CartController extends Controller
 
     public function update($id, StoreOrderRequest $request)
     {
-        $price = OrderProduct::where('id', $id);
-        $price->update($request->except('_token'));
+        $product = OrderProduct::where('id', $id);
+        $product->update($request->except('_token'));
+        $singleProduct = $product->first();
         $data = ['id' => $id,
-            'totalQuantity' => $this->getTotal->getTotalCartQuantity($price->first()->order),
-            'singleProductPrice' => $this->getTotal->getSingleProductPrice($price->first()),
-            'totalPrice' => $this->getTotal->getTotalCartPrice($price->first()->order),
+            'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
+            'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
+            'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
             ];
 
         return $data;

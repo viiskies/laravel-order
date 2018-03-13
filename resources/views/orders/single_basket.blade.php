@@ -7,7 +7,7 @@
     <link rel="stylesheet" href= "{{ asset('css/style.css') }}">
 </head>
 <body>
-@inject('CartService', "App\Services\CartService")
+@inject('cartService', "App\Services\CartService")
 <div class="container">
 
     <!-- Order table -->
@@ -37,7 +37,7 @@
                             <td data-label="Release date:" class="align-middle">{{ $product->product->release_date }}</td>
                             <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
                             <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount }} €</td>
-                            <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle">{{ $CartService->getSingleProductPrice($product) }} €</td>
+                            <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle">{{ $cartService->getSingleProductPrice($product) }} €</td>
                             <td data-label="Amount:" class="align-middle">
                                 <input onkeyup="setquantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
                                 <br>
@@ -67,8 +67,8 @@
                     <td class="total"></td>
                     <td class="total"></td>
                     <td class="total" scope="Total"><b>Total</b></td>
-                    <td id="totalPrice" data-label="Total">{{ !empty($products) ? $CartService->getTotalCartPrice($products->first()->order) : ''}} €</td>
-                    <td id="totalQuantity" data-label="Total quantity">{{ !empty($products) ? $CartService->getTotalCartQuantity($products->first()->order) : '' }}</td>
+                    <td id="totalPrice" data-label="Total">{{ !empty($products) ? $cartService->getTotalCartPrice($order) : ''}} €</td>
+                    <td id="totalQuantity" data-label="Total quantity">{{ !empty($products) ? $cartService->getTotalCartQuantity($order) : '' }}</td>
                     <td class="total"></td>
                 </tr>
                 </tbody>
