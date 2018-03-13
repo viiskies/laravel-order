@@ -27,7 +27,7 @@ class UploadToDatabase
     public function upload($game)
     {
         $this->importPlatforms($game);
-        $this->importProductsStockPrices($game);
+        return $this->importProductsStockPrices($game);
     }
 
     public function importPlatforms($game)
@@ -63,7 +63,6 @@ class UploadToDatabase
         if ($products_eans->contains($game[0]) !== true) {
             $name = explode(' ', $game[2], 2);
             $data = $this->importFromApi($game);
-//                $xml = $this->getDataFromXml($game);
 
             $publisher = $this->getPublishers();
             if ($publisher === null) {
@@ -75,13 +74,14 @@ class UploadToDatabase
             $this->importCovers($game, $product);
             $this->importScreenshots($game, $product);
 
-            $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
-            $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
+            $product->stock()->create(['amount' => $game[4], 'date' => Carbon::now()]); // Stock
+            $product->prices()->create(['amount' => $game[3], 'date' => Carbon::now()]); //Price
         } else {
-            $product=Product::where('ean', $game[0])->first();
-            $product->stock()->create(['amount'=>$game[4], 'date'=>Carbon::now() ]); // Stock
-            $product->prices()->create(['amount'=>$game[3], 'date'=>Carbon::now() ]); //Price
+            $product = Product::where('ean', $game[0])->first();
+            $product->stock()->create(['amount' => $game[4], 'date' => Carbon::now()]); // Stock
+            $product->prices()->create(['amount' => $game[3], 'date' => Carbon::now()]); //Price
         }
+        return $product;
     }
 
     public function importFromApi($game)
@@ -132,13 +132,10 @@ class UploadToDatabase
         ];
     }
 
-    public function validate($filename)
+    public function validate($game)
     {
-        $games = Excel::load($filename)->noHeading()->skipRows(6)->all();
-
-        foreach ($games as $game) {
             $validator = Validator::make(
-                $game->toArray(),
+                $game,
                 [
                     0 => 'required|numeric',
                     1 => 'required',
@@ -159,9 +156,8 @@ class UploadToDatabase
                 ]
             );
 
-            if ($validator->fails()) {
-                return $validator->errors()->first();
-            }
+        if ($validator->fails()) {
+            return $validator->errors()->first();
         }
     }
 

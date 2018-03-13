@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\ImportItem;
 use App\Services\UploadToDatabase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -14,15 +15,18 @@ class ProccessGame implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $game;
+    protected $item;
+
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($game)
+    public function __construct($game, $item)
     {
         $this->game = $game;
+        $this->item = $item;
     }
 
     /**
@@ -32,6 +36,23 @@ class ProccessGame implements ShouldQueue
      */
     public function handle(UploadToDatabase $upload)
     {
-        $upload->upload($this->game);
+        $error = $upload->validate($this->game);
+        if ($error !== null) {
+            $this->item->update(['status' => ImportItem::FAIL, 'error_message' => $error]);
+            return;
+        }
+
+        $this->item->update(['status' => ImportItem::IN_PROGRESS]);
+        $game = $upload->upload($this->game);
+        if ($game !==null) {
+            $this->item->update(['status' => ImportItem::DONE, 'product_id' => $game->id, 'product_name' => $game->name]);
+        } else {
+            $this->item->update(['status' => ImportItem::FAIL]);
+        }
+    }
+
+    public function failed()
+    {
+        $this->item->update(['status' => ImportItem::FAIL]);
     }
 }

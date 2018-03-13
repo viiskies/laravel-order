@@ -20,6 +20,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('products/import', 'ProductsImportController@import')->name('products.import');
 Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
+Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
 
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');

@@ -33,5 +33,12 @@
                 </form>
             </div>
         </div>
+        <div class="row">
+            {{--@if(!$upl)--}}
+                {{--<h4>Imported {{ $uploaded_products }} of {{ $all_products }}</h4>--}}
+            {{--@else--}}
+                {{--<h4>Products are successfully imported.</h4>--}}
+            {{--@endif--}}
+        </div>
     </div>
 @endsection
