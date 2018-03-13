@@ -22,7 +22,7 @@ class CartController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->asCart(Order::CONFIRMED)->first();
+        $order = $user->orders()->asCart()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
@@ -36,7 +36,7 @@ class CartController extends Controller
     public function store($product_id, StoreOrderRequest $request)
     {
         $user = Auth::user();
-        $user_order = $user->orders()->asCart(Order::CONFIRMED)->first();
+        $user_order = $user->orders()->asCart()->first();
         if (empty($user_order))
         {
             $order = $user->orders()->create([

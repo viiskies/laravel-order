@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\OrderProduct;
 use App\Product;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
