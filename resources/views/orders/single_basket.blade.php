@@ -67,8 +67,10 @@
                     <td class="total"></td>
                     <td class="total"></td>
                     <td class="total" scope="Total"><b>Total</b></td>
+
                     <td id="totalPrice" data-label="Total">{{ !empty($products) ? $CartService->getTotalCartPrice($products) : ''}} €</td>
                     <td id="totalQuantity" data-label="Total quantity">{{ !empty($products) ? $CartService->getTotalCartQuantity($products) : '' }}</td>
+
                     <td class="total"></td>
                 </tr>
                 </tbody>
