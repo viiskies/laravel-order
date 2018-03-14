@@ -125,6 +125,9 @@ class ProductsSeed extends Seeder
                         'featured' => 0,
                     ]);
                 }
+
+                
+
             }
 
         }
