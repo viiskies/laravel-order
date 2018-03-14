@@ -10,6 +10,7 @@ use App\Services\ImageService;
 use App\Stock;
 use App\Image;
 use App\Price;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
+    
         return view('products.index', ['products' => $products]);
     }
 
@@ -32,7 +34,8 @@ class ProductsController extends Controller
     {
         $platforms = Platform::all();
         $publishers = Publisher::all();
-        return view('products.create',['platforms' => $platforms, 'publishers' => $publishers]);
+        $categories = Category::all();
+        return view('products.create',['platforms' => $platforms, 'publishers' => $publishers, 'categories' => $categories]);
     }
 
     public function store(StoreProductsRequest $request)

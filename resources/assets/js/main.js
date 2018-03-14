@@ -1,13 +1,15 @@
 var $ = require('jquery');
 require('slick-carousel');
 require('slick-lightbox');
+var autocomplete = require( "jquery-ui/ui/widgets/autocomplete" );
+
 
 $('.slider').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    dots: false,
-    arrows: false,
-    cssEase: 'linear'
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  dots: false,
+  arrows: false,
+  cssEase: 'linear'
 });
 
 $('.left').click(function(){
@@ -24,36 +26,36 @@ $('.karusele').slick({
   autoplay: true,
   dots: false,
   arrows: false,
-   responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: false
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
+  responsive: [
+  {
+    breakpoint: 1024,
+    settings: {
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      infinite: true,
+      dots: false
     }
+  },
+  {
+    breakpoint: 600,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 480,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+  }
     // You can unslick at a given breakpoint now by adding:
     // settings: "unslick"
     // instead of a settings object
-  ],
-  autoplaySpeed: 2000
-});
+    ],
+    autoplaySpeed: 2000
+  });
 
 $('.prev').click(function(){
   $('.karusele').slick('slickPrev');
@@ -64,7 +66,7 @@ $('.next').click(function(){
 })
 
 
-  $('.slider-for').slick({
+$('.slider-for').slick({
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
@@ -85,24 +87,49 @@ $('.slider-nav').slick({
 $('#gll').slickLightbox();
 
 $('.add-into-cart').click(function(){ 
-    var id = $(this).parent().prev().find('span')[0]['id'];
-    var token = $('meta[name="csrf-token"]').attr('content');
-    var quantity = $(this).parent().prev().find('input').val();
-    $.ajax({
-        type: "post",
-        url: $(this).data('url'),
-        data: {quantity: quantity,_token: token},
-        dataType: "json",
-        success:function (data)
-        {
-            document.getElementById(id).innerHTML = 'Added to cart';
-            document.getElementById(id).style.display = 'block';
-        },
-        error:function (error)
-        {
-            document.getElementById(id).innerHTML = error['responseJSON']['errors']['quantity'][0];
-            document.getElementById(id).style.color = 'red';
-            document.getElementById(id).style.display = 'block';
-        }
+  var id = $(this).parent().prev().find('span')[0]['id'];
+  var token = $('meta[name="csrf-token"]').attr('content');
+  var quantity = $(this).parent().prev().find('input').val();
+  $.ajax({
+    type: "post",
+    url: $(this).data('url'),
+    data: {quantity: quantity,_token: token},
+    dataType: "json",
+    success:function (data)
+    {
+      document.getElementById(id).innerHTML = 'Added to cart';
+      document.getElementById(id).style.display = 'block';
+    },
+    error:function (error)
+    {
+      document.getElementById(id).innerHTML = error['responseJSON']['errors']['quantity'][0];
+      document.getElementById(id).style.color = 'red';
+      document.getElementById(id).style.display = 'block';
+    }
+  });
+});
+
+
+$( function() {
+  var inputs = $('.autocomplete');
+
+  inputs.each(function(key, input) {
+    input = $(input);
+    var autocomplete = input.attr('data-autocomplete');
+
+    autocomplete = JSON.parse(autocomplete);
+
+    activeList = []
+
+    $.each( autocomplete, function( key, value ) {
+      activeList.push(value['name']);
     });
+
+    input.autocomplete({
+      source: activeList
+    });
+
+  });
+
+
 });
