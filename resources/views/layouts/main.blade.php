@@ -45,7 +45,7 @@
 									<a class="nav-link btn btn-danger" href="#">Profile</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link btn btn-danger" href="#">Contact</a>
+									<a class="nav-link btn btn-danger" href="{{ route('pages.contacts') }}">Contact</a>
 								</li>
 							</ul>
 						</div>

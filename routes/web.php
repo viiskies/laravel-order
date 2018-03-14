@@ -35,3 +35,5 @@ Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
 
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
+
+Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');
