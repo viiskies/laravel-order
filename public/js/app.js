@@ -35938,7 +35938,7 @@ $('.slider-nav').slick({
 
 $('#gll').slickLightbox();
 
-$('.add-into-cart').click(function (id) {
+$('.add-into-cart').click(function () {
   var id = $(this).parent().prev().find('span')[0]['id'];
   var token = $('meta[name="csrf-token"]').attr('content');
   var quantity = $(this).parent().prev().find('input').val();
