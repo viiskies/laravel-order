@@ -4,7 +4,14 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Blade;
+
+use Auth;
+
+
 class AppServiceProvider extends ServiceProvider
+
+
 {
     /**
      * Bootstrap any application services.
@@ -13,7 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Blade::if('admin', function () {
+            return Auth::check() && Auth::user()->role == 'admin';
+        });
     }
 
     /**

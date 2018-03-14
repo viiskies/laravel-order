@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Product;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -24,7 +23,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('platform','publisher', 'images')->paginate(20);
         return view('home', ['products' => $products]);
     }
+
+
 }

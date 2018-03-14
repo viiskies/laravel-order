@@ -9,9 +9,16 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
 
 class CartController extends Controller
 {
+    private $getTotal;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->getTotal = $cartService;
+    }
     public function index()
     {
         $user = Auth::user();
@@ -24,7 +31,7 @@ class CartController extends Controller
                 $order_products = [];
                 $order_id = [];
         }
-        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id]);
+        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id, 'order' =>$order]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
@@ -55,8 +62,16 @@ class CartController extends Controller
 
     public function update($id, StoreOrderRequest $request)
     {
-        OrderProduct::where('id', $id)->update($request->except('_token'));
-        return $id;
+        $product = OrderProduct::where('id', $id);
+        $product->update($request->except('_token'));
+        $singleProduct = $product->first();
+        $data = ['id' => $id,
+            'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
+            'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
+            'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
+            ];
+
+        return $data;
     }
 
     public function destroy($id)
