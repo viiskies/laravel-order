@@ -20,11 +20,10 @@ class UploadToDatabase
 
     public function getFile($filename)
     {
-        $games = Excel::load($filename)->noHeading()->skipRows(6)->all();
-        return $games;
+        return Excel::load($filename)->noHeading()->skipRows(6)->all();
     }
 
-    public function upload($game)
+    public function parseItem($game)
     {
         $this->importPlatforms($game);
         return $this->importProductsStockPrices($game);
@@ -73,14 +72,12 @@ class UploadToDatabase
             $product = $platform->products()->create(['ean' => $game[0], 'name' => $name[1], 'publisher_id' => $publisher_id] + $data); //Name
             $this->importCovers($game, $product);
             $this->importScreenshots($game, $product);
-
-            $product->stock()->create(['amount' => $game[4], 'date' => Carbon::now()]); // Stock
-            $product->prices()->create(['amount' => $game[3], 'date' => Carbon::now()]); //Price
         } else {
             $product = Product::where('ean', $game[0])->first();
-            $product->stock()->create(['amount' => $game[4], 'date' => Carbon::now()]); // Stock
-            $product->prices()->create(['amount' => $game[3], 'date' => Carbon::now()]); //Price
         }
+
+        $product->stock()->create(['amount' => $game[4], 'date' => Carbon::now()]); // Stock
+        $product->prices()->create(['amount' => $game[3], 'date' => Carbon::now()]); //Price
         return $product;
     }
 

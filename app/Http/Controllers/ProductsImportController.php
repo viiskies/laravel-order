@@ -27,20 +27,6 @@ class ProductsImportController extends Controller
 
     public function importForm()
     {
-//        $import = Import::orderBy('id', "desc")->first();
-//
-//        $all = $import->items()->get();
-//        $all_products = count($all);
-//
-//        $uploaded = $import->items()->where('status', 2)->get();
-//        $uploaded_products = count($uploaded);
-//
-//        if ($all_products == $uploaded_products) {
-//            $upl = true;
-//        } else {
-//            $upl = false;
-//        }
-
         return view('import.import', compact('all_products', 'uploaded_products', 'upl'));
     }
 
@@ -53,7 +39,7 @@ class ProductsImportController extends Controller
         $import = Import::create();
         foreach ($games as $game) {
             $item = $import->items()->create();
-            ProccessGame::dispatch($game->toArray(), $item, $filename);
+            ProccessGame::dispatch($game->toArray(), $item);
         }
 
         return redirect()->route('products.import.log');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImportItem extends Model
 {
+    const WAITING = 0;
     const IN_PROGRESS = 1;
     const DONE = 2;
     const FAIL = 3;
@@ -20,16 +21,16 @@ class ImportItem extends Model
     public function getImportStatusAttribute()
     {
         switch ($this->status) {
-            case 0:
+            case ImportItem::WAITING:
                 return 'Waiting';
                 break;
-            case 1:
+            case ImportItem::IN_PROGRESS:
                 return 'In progress';
                 break;
-            case 2:
+            case ImportItem::DONE:
                 return 'Success';
                 break;
-            case 3:
+            case ImportItem::FAIL:
                 return 'Fail';
                 break;
         }

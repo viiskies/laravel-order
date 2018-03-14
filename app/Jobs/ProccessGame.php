@@ -43,7 +43,7 @@ class ProccessGame implements ShouldQueue
         }
 
         $this->item->update(['status' => ImportItem::IN_PROGRESS]);
-        $game = $upload->upload($this->game);
+        $game = $upload->parseItem($this->game);
         if ($game !==null) {
             $this->item->update(['status' => ImportItem::DONE, 'product_id' => $game->id, 'product_name' => $game->name]);
         } else {

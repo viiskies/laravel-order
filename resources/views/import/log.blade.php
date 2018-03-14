@@ -4,13 +4,13 @@
     <div class="container">
         <div class="row">
             <form method="post" action="{{route('products.import.filter')}}">
-                {{csrf_field()}}
+                @csrf
                 <select name="status">
                     <option value="all">All</option>
-                    <option value="0">Waiting</option>
-                    <option value="1">In progress</option>
-                    <option value="2">Success</option>
-                    <option value="3">Fail</option>
+                    <option value="{{ \App\ImportItem::WAITING }}">Waiting</option>
+                    <option value="{{ \App\ImportItem::IN_PROGRESS }}">In progress</option>
+                    <option value="{{ \App\ImportItem::DONE }}">Success</option>
+                    <option value="{{ \App\ImportItem::FAIL }}">Fail</option>
                 </select>
                 <button type="submit">Filter</button>
             </form>
@@ -32,7 +32,7 @@
                             <td>{{$one_line->product_id}}</td>
                             <td>{{$one_line->product_name}}</td>
                             <td>
-                                @if ($one_line->import_status == 'Fail')
+                                @if ($one_line->status == \App\ImportItem::FAIL)
                                     <span class="text-danger">{{$one_line->import_status}}</span>
                                 @else
                                     {{$one_line->import_status}}
