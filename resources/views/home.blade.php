@@ -160,7 +160,7 @@
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
                             <td Data-label="Release date:" class="align-middle text-right">{{ $product->release_date }}</td>
                             <td Data-label="Publisher:" class="align-middle text-right">{{ $product->publisher->name }}</td>
-                            <td Data-label="Stock:" class="align-middle text-right">{{ $product->getPriceAmountAttribute() }}</td>
+                            <td Data-label="Stock:" class="align-middle text-right">{{ number_format($product->getPriceAmountAttribute(), 2, '.', '') }} €</td>
                             <td Data-label="Price:" class="align-middle text-right">{{ $product->getStockAmountAttribute() }}</td>
                             <td Data-label="Amount" class="align-middle text-right">
                                 <input class="input" type="number" id="value{{ $product->id }}" name="amount">
