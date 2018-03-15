@@ -13359,8 +13359,17 @@ div#radioboxes {
   padding: 10px;
 }
 
-img.packshot {
-  height: 55px;
+div.packshot {
+  width: 50%;
+  margin-left: 5px;
+  display: inline-block;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.packshot img {
+  width: 100%;
 }
 
 img.gallery {
