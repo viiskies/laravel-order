@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Chat extends Model
 {
@@ -30,5 +31,13 @@ class Chat extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function isActive()
+    {
+        if ($this->status == Chat::ACTIVE && ($this->admin_id === Auth::id() || $this->admin_id === null || $this->user_id === Auth::id())) {
+            return true;
+        }
+        return false;
     }
 }

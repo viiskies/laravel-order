@@ -18,7 +18,7 @@
                 </ul>
             </div>
         </div>
-        @if ($chat->status == \App\Chat::ACTIVE && ($chat->admin_id === Auth::id() || $chat->admin_id === null || $chat->user_id === Auth::id()))
+        @if ($chat->isActive())
             <div class="row">
                 <div class="col-sm-8 mx-auto">
                     <form method="post" action="{{ route('chat.store.message') }}">
@@ -39,7 +39,7 @@
 
         <div class="row">
             <div class="col-sm-8 mx-auto">
-                @if (Auth::user()->role == "admin" && $chat->status === 1)
+                @if (Auth::user()->role == "admin" && $chat->status === \App\Chat::ACTIVE)
                     <form method="post" action="{{ route('chat.disable') }}">
                         @csrf
                         {{method_field('PATCH')}}

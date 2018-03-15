@@ -19,7 +19,7 @@ class ChatsController extends Controller
         if (Auth::user()->role == "user") {
             return redirect()->route('chat.user');
         }
-        $chats = Chat::where('status', 1)->orderBy('id', 'DESC')->get();
+        $chats = Chat::where('status', Chat::ACTIVE)->orderBy('id', 'DESC')->get();
         return view('chat.index', compact('chats'));
     }
 
@@ -62,20 +62,19 @@ class ChatsController extends Controller
     public function disable(DisableChatRequest $request)
     {
         $chat = Chat::findOrFail($request->chat_id);
-        $chat->update(['status' => 0]);
+        $chat->update(['status' => Chat::INACTIVE]);
         return redirect()->back();
     }
 
     public function enable(EnableChatRequest $request)
     {
         $chat = Chat::findOrFail($request->chat_id);
-        $chat->update(['status' => 1]);
+        $chat->update(['status' => Chat::ACTIVE]);
         return redirect()->back();
     }
 
     public function getUserChats()
     {
-        $chats = Chat::where('user_id', Auth::id())->get();
-        dd($chats);
+        Chat::where('user_id', Auth::id())->get();
     }
 }
