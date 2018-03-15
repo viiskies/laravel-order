@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
+    const ACTIVE = 1;
+    const INACTIVE = 0;
+
     protected $fillable = [
         'topic',
         'user_id',

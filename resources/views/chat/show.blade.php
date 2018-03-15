@@ -5,7 +5,9 @@
         <div class="row">
             <div class="col-sm-8 mx-auto">
                 <h2>{{ $chat->topic }}</h2>
-                <h4>This topic is related to <a href="#">order nr. {{ $chat->order->id }}</a></h4>
+                @if($chat->order !== null)
+                    <h4>This topic is related to <a href="#">order nr. {{ $chat->order->id }}</a></h4>
+                @endif
                 <ul class="list-group">
                     @foreach($messages as $message)
                         <li class="list-group-item">
@@ -16,7 +18,7 @@
                 </ul>
             </div>
         </div>
-        @if ($chat->status == 1 && ($chat->admin_id === Auth::id() || $chat->admin_id === null || $chat->user_id === Auth::id()))
+        @if ($chat->status == \App\Chat::ACTIVE && ($chat->admin_id === Auth::id() || $chat->admin_id === null || $chat->user_id === Auth::id()))
             <div class="row">
                 <div class="col-sm-8 mx-auto">
                     <form method="post" action="{{ route('chat.store.message') }}">
@@ -44,7 +46,7 @@
                         <input type="hidden" name="chat_id" value="{{ $chat->id }}">
                         <button class="btn btn-danger mt-3" type="submit">Deactivate chat</button>
                     </form>
-                @elseif ($chat->status === 0)
+                @elseif ($chat->status === \App\Chat::INACTIVE)
                     <h3 class="text-danger">Chat is deactivated!</h3>
                     <form method="post" action="{{ route('chat.enable') }}">
                         @csrf
