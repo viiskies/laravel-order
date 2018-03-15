@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders User</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" href= "{{ asset('css/style.css') }}">
-</head>
-<body>
+@extends('layouts.main')
+@section('content')
 @inject('cartService', "App\Services\CartService")
 <div class="container">
 
@@ -35,13 +28,13 @@
                             <td data-label="Platform:" class="align-middle">{{ $product->product->platform->name }}</td>
                             <td data-label="Name:" class="align-middle">{{ $product->product->name }}</td>
                             <td data-label="Release date:" class="align-middle">{{ $product->product->release_date }}</td>
-                            <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
-                            <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount }} €</td>
-                            <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle">{{ $cartService->getSingleProductPrice($product) }} €</td>
+                            <td data-label="Publisher:" class="align-middle">{{ !empty($product->product->publisher) ? $product->product->publisher->name : '' }}</td>
+                            <td data-label="Price:" class="align-middle">{{ number_format($product->product->PriceAmount, 2, '.', '') }} €</td>
+                            <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle">{{ number_format($cartService->getSingleProductPrice($product), 2, '.', '') }} €</td>
                             <td data-label="Amount:" class="align-middle">
-                                <input onkeyup="setquantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
+                                <input data-url="{{ route('order.update',$product->id) }}" class="input setquantity" type="number" name="amount" value="{{ $product->quantity }}">
                                 <br>
-                                <span style="display: none; color: green" id="update{{ $product->id }}" ></span>
+                                <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
                             </td>
                             <td class="align-middle">
                                 <form action="{{route('order.product.delete', $product->id)}}" method="post">
@@ -93,38 +86,4 @@
     </div>
     @endif
 </div>
-        <script
-                src="https://code.jquery.com/jquery-3.3.1.js"
-                integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-                crossorigin="anonymous"></script>
-        <script>
-            var timer = null;
-            function setquantity(id,quantity) {
-                clearTimeout(timer);
-                timer = setTimeout(function() { update_quantity(id,quantity) }, 1000)
-            }
-            function update_quantity(id,quantity)
-            {
-                var token = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    type: "post",
-                    url: '{!! URL::to('update') !!}/' + id,
-                    data: {quantity: quantity,_token: token},
-                    dataType: "json",
-                    success:function (data)
-                    {
-                        document.getElementById('totalQuantity').innerHTML = data['totalQuantity'];
-                        document.getElementById('singlePrice' + id).innerHTML = data['singleProductPrice'] + ' €';
-                        document.getElementById('totalPrice').innerHTML = data['totalPrice'] + ' €';
-                        document.getElementById('update' + data['id']).innerHTML = 'updated';
-                        document.getElementById('update' + data['id']).style.display = 'block';
-                    },
-                    error:function (error)
-                    {
-                        document.getElementById('update' + id).innerHTML = error['responseJSON']['errors']['quantity'][0];
-                        document.getElementById('update' + id).style.display = 'block';
-                    }
-                });
-            }
-        </script>
-</body>
+@endsection
