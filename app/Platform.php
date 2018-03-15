@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use ScoutElastic\Searchable;
 
 class Platform extends Model
 {

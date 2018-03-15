@@ -25,6 +25,7 @@ Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
 Route::resource('products', 'ProductsController');
+Route::get('search/', 'SearchController@search')->name('products.search');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');

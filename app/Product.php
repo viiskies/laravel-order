@@ -3,12 +3,47 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use ScoutElastic\Searchable;
 
 class Product extends Model
 {
+    use Searchable;
+
+    protected $searchRules = [MySearchRule::class];
     public $timestamps = false;
     protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
+    protected $indexConfigurator = MyIndexConfigurator::class;
 
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'text',
+                "analyzer" => "simple",
+            ],
+            'ean' => ['type' => 'text'],
+        ]
+    ];
+
+    public function searchableAs()
+    {
+        return 'products_index';
+    }
+
+    public function toSearchableArray()
+    {
+        $array = [
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'ean'       => $this->ean,
+            'platform'  => $this->platform->name
+        ];
+
+        if(isset($this->publisher->name)) {
+            $array['publisher'] = $this->publisher->name;
+        }
+
+        return $array;
+    }
 
     public function categories()
     {
