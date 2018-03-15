@@ -162,7 +162,9 @@
                                 <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
                             </td>
                             <td class="align-middle product-image-mobile-center">
-                                <img class="packshot" src="{{ $product->featured_image_url}}">
+                                <div class="packshot">
+                                    <img src="{{ $product->featured_image_url}}">
+                                </div>
                             </td>
                         </tr>
                         @endforeach
