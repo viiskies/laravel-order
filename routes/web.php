@@ -23,7 +23,7 @@ Route::get('products/import', 'ProductsImportController@importForm')->name('prod
 Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
 Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
 
-Route::get('chat', 'ChatsController@index')->name('chat.index');
+Route::get('chat', 'ChatsController@index')->name('chat.index')->middleware('role:user');
 Route::get('chat/create', 'ChatsController@create')->name('chat.create');
 Route::post('chat/store', 'ChatsController@store')->name('chat.store');
 Route::get('chat/user', 'ChatsController@getUserChats')->name('chat.user');

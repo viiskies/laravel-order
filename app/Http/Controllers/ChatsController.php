@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Chat;
 use App\Http\Requests\DisableChatRequest;
 use App\Http\Requests\EnableChatRequest;
+use App\Http\Requests\ReadChatRequest;
 use App\Http\Requests\StoreChatRequest;
 use App\Http\Requests\StoreMessageRequest;
 use App\Order;
@@ -16,9 +17,6 @@ class ChatsController extends Controller
 
     public function index()
     {
-        if (Auth::user()->role == "user") {
-            return redirect()->route('chat.user');
-        }
         $chats = Chat::where('status', Chat::ACTIVE)->orderBy('id', 'DESC')->get();
         return view('chat.index', compact('chats'));
     }
@@ -37,12 +35,9 @@ class ChatsController extends Controller
         return redirect()->route('chat.show', $chat->id);
     }
 
-    public function show($id)
+    public function show(ReadChatRequest $request, $id)
     {
         $chat = Chat::findOrFail($id);
-        if (Auth::user()->role !== 'admin' && $chat->user_id !== Auth::id()) {
-            return redirect()->route('chat.user');
-        }
         $messages = $chat->messages()->get();
         return view('chat/show', compact('chat', 'messages'));
     }
