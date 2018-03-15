@@ -40,7 +40,7 @@ class CartController extends Controller
         if (empty($user_order))
         {
             $order = $user->orders()->create([
-                'status' => Order::UNCONFIRMED,
+                'status' => Order::PENDING,
                 'date' => Carbon::now(),
             ]);
         }else{
@@ -86,7 +86,7 @@ class CartController extends Controller
     }
     public function confirm($id)
     {
-        Order::findOrFail($id)->update(['status' => Order::CONFIRMED]);
+        Order::findOrFail($id)->update(['status' => Order::UNCONFIRMED]);
         return redirect()->back();
     }
 }

@@ -83,3 +83,35 @@ $('.slider-nav').slick({
 });
 
 $('#gll').slickLightbox();
+
+var timer = null;
+$('.updateQ_P').click(function() {
+    console.log(1);
+    // clearTimeout(timer);
+    // timer = setTimeout(function() { update_quantity(id,quantity) }, 1000)
+
+});
+
+function update_quantity(id,quantity)
+{
+    var token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        type: "post",
+        url: 'update' + id,
+        data: {quantity: quantity,_token: token},
+        dataType: "json",
+        success:function (data)
+        {
+            document.getElementById('totalQuantity').innerHTML = data['totalQuantity'];
+            document.getElementById('singlePrice' + id).innerHTML = data['singleProductPrice'] + ' €';
+            document.getElementById('totalPrice').innerHTML = data['totalPrice'] + ' €';
+            document.getElementById('update' + data['id']).innerHTML = 'updated';
+            document.getElementById('update' + data['id']).style.display = 'block';
+        },
+        error:function (error)
+        {
+            document.getElementById('update' + id).innerHTML = error['responseJSON']['errors']['quantity'][0];
+            document.getElementById('update' + id).style.display = 'block';
+        }
+    });
+}
