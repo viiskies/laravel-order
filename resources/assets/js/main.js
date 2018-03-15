@@ -116,3 +116,11 @@ $('#show_preorders').click(function () {
   $('.preorders').toggle();
   return;
 });
+
+$( ".table-tr" ).hover(
+  function() {
+    $( this ).css("background-color","white").css("opacity", "0.7").css("color", "red");
+  }, function() {
+    $( this ).css("background-color","").css("opacity", "1").css("color", "black");
+  }
+);
