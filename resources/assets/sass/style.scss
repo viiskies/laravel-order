@@ -451,7 +451,7 @@ Single product
 
 .single-price-block {
     height: 50px;
-    line-height:50px;
+    line-height:30px;
     border:1px solid black;
 }
 
@@ -751,4 +751,8 @@ table th {
 
 input.input {
     width:50px;
+}
+
+.create-product-error {
+    color:red;
 }

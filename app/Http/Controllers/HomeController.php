@@ -33,5 +33,10 @@ class HomeController extends Controller
         ]);
     }
 
+    public function contacts() 
+    {
+        return view('pages.contacts');
+    }
+
 
 }

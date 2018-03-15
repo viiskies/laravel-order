@@ -12,6 +12,7 @@
 */
 
 
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -48,3 +49,5 @@ Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
 
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
+
+Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');
