@@ -17,7 +17,7 @@ class CheckRole
     public function handle($request, Closure $next, $role)
     {
         if (Auth::user()->role == $role) {
-            return redirect()->route('chat.user');
+            abort(403, "Unauthorized action");
         }
         return $next($request);
     }
