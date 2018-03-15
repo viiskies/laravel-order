@@ -106,3 +106,8 @@ $('.add-into-cart').click(function(){
         }
     });
 });
+
+$('#show_packshots').click(function () {
+  $('.packshots').toggle();
+  return;
+});

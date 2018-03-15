@@ -3,28 +3,28 @@
 <!-- Sidebar -->
 <div class="row">
     <div id="sidebar" class="col-2">
-            {{-- @admin --}}
-            <div class="col-12 text-center">
-                <h4>Admin panel</h4>
-            </div>
-            <div class="sidebar-categories">
-                <ul class="list-group">
-                    <li>Orders</li>
-                    <ul>
-                        <li>Pre-Orders</li>
-                        <li>Back-Orders</li>
-                    </ul>
-                    <li>Users</li>
-                    <ul>
-                        <li>Add user</li>
-                    </ul>
-                    <li>Products</li>
-                    <ul>
-                        <li>Add product</li>
-                    </ul>
+        {{-- @admin --}}
+        <div class="col-12 text-center">
+            <h4>Admin panel</h4>
+        </div>
+        <div class="sidebar-categories">
+            <ul class="list-group">
+                <li>Orders</li>
+                <ul>
+                    <li>Pre-Orders</li>
+                    <li>Back-Orders</li>
                 </ul>
-            </div>
-            {{-- @endadmin --}}
+                <li>Users</li>
+                <ul>
+                    <li>Add user</li>
+                </ul>
+                <li>Products</li>
+                <ul>
+                    <li>Add product</li>
+                </ul>
+            </ul>
+        </div>
+        {{-- @endadmin --}}
         <div id="categories" class="row">
             <div class="col-12 text-center">
                 <h4>Categories</h4>
@@ -32,7 +32,7 @@
             <div class="sidebar-categories">
                 <ul class="list-group">
                     @foreach ($categories as $category)
-                        <li>{{$category->name}}</li>
+                    <li>{{$category->name}}</li>
                     @endforeach
                 </ul>
             </div>
@@ -103,28 +103,28 @@
     <div class="col-lg-10 col-md-12">
         <div id="radioboxes" class="row justify-content-around">
             <div class="col-12">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        Show Pre-orders
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                        Show Back-orders
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="show_packshots">
-                    <label class="form-check-label" for="show_packshots">
-                        Show Packshots
-                    </label>
-                </div>
+                <form method="get" accept-charset="utf-8">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" name="show_preorders" id="show_preorders">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Show Pre-orders
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" name="show_backorders" id="show_backorders">
+                        <label class="form-check-label" for="defaultCheck1">
+                            Show Back-orders
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="show_packshots">
+                        <label class="form-check-label" for="show_packshots">
+                            Show Packshots
+                        </label>
+                    </div>
+                </form>
             </div>
             <!-- Product table -->
-            
-            
             <div class="col-md-12 table-responsive">
                 <table class="table table-sm">
                     <thead class="thead-light">
@@ -138,7 +138,7 @@
                             <th scope="col">Price:</th>
                             <th scope="col">Amount</th>
                             <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th scope="col" class="packshots"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,7 +161,7 @@
                             <td class="align-middle text-right product-image-mobile-center">
                                 <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
                             </td>
-                            <td class="align-middle product-image-mobile-center">
+                            <td class="align-middle product-image-mobile-center packshots">
                                 <div class="packshot">
                                     <img src="{{ $product->featured_image_url}}">
                                 </div>
@@ -228,4 +228,5 @@
     </div>
 </div>
 </div>
+
 @endsection

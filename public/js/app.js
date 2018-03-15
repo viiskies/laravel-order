@@ -35959,6 +35959,11 @@ $('.add-into-cart').click(function () {
   });
 });
 
+$('#show_packshots').click(function () {
+  $('.packshots').toggle();
+  return;
+});
+
 /***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
