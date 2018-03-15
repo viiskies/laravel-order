@@ -31,17 +31,9 @@
             </div>
             <div class="sidebar-categories">
                 <ul class="list-group">
-                    <li>Cras justo odio</li>
-                    <li>Dapibus ac facilisis in</li>
-                    <li>Morbi leo risus</li>
-                    <li>Porta ac consectetur ac</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
+                    @foreach ($categories as $category)
+                        <li>{{$category->name}}</li>
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -124,8 +116,8 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
+                    <input class="form-check-input" type="checkbox" value="" id="show_packshots">
+                    <label class="form-check-label" for="show_packshots">
                         Show Packshots
                     </label>
                 </div>
