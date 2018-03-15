@@ -18,7 +18,7 @@
                 </ul>
             </div>
         </div>
-        @if ($chat->isActive())
+        @if ($chat->isActive() && ($chat->admin_id === Auth::id() || $chat->admin_id === null || $chat->user_id === Auth::id()))
             <div class="row">
                 <div class="col-sm-8 mx-auto">
                     <form method="post" action="{{ route('chat.store.message') }}">
@@ -39,14 +39,14 @@
 
         <div class="row">
             <div class="col-sm-8 mx-auto">
-                @if (Auth::user()->role == "admin" && $chat->status === \App\Chat::ACTIVE)
+                @if (Auth::user()->role == "admin" && $chat->isActive())
                     <form method="post" action="{{ route('chat.disable') }}">
                         @csrf
                         {{method_field('PATCH')}}
                         <input type="hidden" name="chat_id" value="{{ $chat->id }}">
                         <button class="btn btn-danger mt-3" type="submit">Deactivate chat</button>
                     </form>
-                @elseif ($chat->status === \App\Chat::INACTIVE)
+                @elseif (!$chat->isActive())
                     <h3 class="text-danger">Chat is deactivated!</h3>
                     <form method="post" action="{{ route('chat.enable') }}">
                         @csrf

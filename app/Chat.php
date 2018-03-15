@@ -35,7 +35,7 @@ class Chat extends Model
 
     public function isActive()
     {
-        if ($this->status == Chat::ACTIVE && ($this->admin_id === Auth::id() || $this->admin_id === null || $this->user_id === Auth::id())) {
+        if ($this->status == Chat::ACTIVE) {
             return true;
         }
         return false;
