@@ -102,27 +102,25 @@
     <!-- Table filters -->
     <div class="col-lg-10 col-md-12">
         <div id="radioboxes" class="row justify-content-around">
-            <div class="col-12">
-                <form method="get" accept-charset="utf-8">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="show_preorders" id="show_preorders">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Show Pre-orders
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" name="show_backorders" id="show_backorders">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Show Back-orders
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="show_packshots">
-                        <label class="form-check-label" for="show_packshots">
-                            Show Packshots
-                        </label>
-                    </div>
-                </form>
+            <div class="col-12 checkboxes">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="show_preorders">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Hide Pre-orders
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="show_backorders">
+                    <label class="form-check-label" for="defaultCheck1">
+                        Hide Back-orders
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="show_packshots">
+                    <label class="form-check-label" for="show_packshots">
+                        Show Packshots
+                    </label>
+                </div>
             </div>
             <!-- Product table -->
             <div class="col-md-12 table-responsive">
@@ -132,8 +130,9 @@
                             <th scope="col">EAN:</th>
                             <th scope="col">Title:</th>
                             <th scope="col">Platform:</th>
-                            <th scope="col">Release Date:</th>
-                            <th scope="col">Publisher:</th>
+                            <th scope="col" class="release">Release Date:</th>
+                            <th scope="col" class="preorders">Order deadline:</th>
+                            <th scope="col" class="publisher">Publisher:</th>
                             <th scope="col">Stock:</th>
                             <th scope="col">Price:</th>
                             <th scope="col">Amount</th>
@@ -150,10 +149,11 @@
                             <td Data-label="EAN:" class="align-middle text-right" >{{$product->ean}}</td>
                             <td Data-label="Title:" class="align-middle text-right">{{ $product->name }}</td>
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
-                            <td Data-label="Release date:" class="align-middle text-right">{{ $product->release_date }}</td>
-                            <td Data-label="Publisher:" class="align-middle text-right">{{ $product->publisher->name }}</td>
-                            <td Data-label="Stock:" class="align-middle text-right">123</td>
-                            <td Data-label="Price:" class="align-middle text-right">9,63</td>
+                            <td Data-label="Release date:" class="align-middle text-right release">{{ $product->release_date }}</td>
+                            <td Data-label="Order deadline:" class="align-middle text-right preorders">2018-03-15</td>
+                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ $product->publisher->name }}</td>
+                            <td Data-label="Stock:" class="align-middle text-right">{{$product->priceamount}}</td>
+                            <td Data-label="Price:" class="align-middle text-right">{{$product->stockamount}}</td>
                             <td Data-label="Amount" class="align-middle text-right">
                                 <input class="input" type="number" id="value{{ $product->id }}" name="amount">
                                 <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
@@ -228,5 +228,4 @@
     </div>
 </div>
 </div>
-
 @endsection
