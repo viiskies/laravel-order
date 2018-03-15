@@ -19,7 +19,6 @@
                     <div class="form-group">
                         <label>Choose order if necessary</label>
                         <select class="form-control" name="order_id">
-                            <option>Choose order</option>
                             @foreach($orders as $order)
                                 <option value="{{ $order->id }}">Order nr. {{ $order->id }}</option>
                             @endforeach

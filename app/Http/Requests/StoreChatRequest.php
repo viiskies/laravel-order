@@ -26,7 +26,7 @@ class StoreChatRequest extends FormRequest
         return [
             'topic' => 'required',
             'message' => 'required',
-            'order_id' => 'exists:orders,id'
+            'order_id' => 'nullable|exists:orders,id'
         ];
     }
 }
