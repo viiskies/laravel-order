@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 
+use App\Category;
+
 class HomeController extends Controller
 {
     /**
@@ -22,9 +24,13 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $products = Product::with('platform','publisher', 'images')->paginate(20);
-        return view('home', ['products' => $products]);
+    {   
+        $categories = Category::all();
+        $products = Product::with('platform','publisher', 'images')->paginate(25);
+        return view('home', [
+            'products' => $products,
+            'categories' => $categories
+        ]);
     }
 
 

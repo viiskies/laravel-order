@@ -106,3 +106,13 @@ $('.add-into-cart').click(function(){
         }
     });
 });
+
+$('#show_packshots').click(function () {
+  $('.packshots').toggle();
+  return;
+});
+
+$('#show_preorders').click(function () {
+  $('.preorders').toggle();
+  return;
+});

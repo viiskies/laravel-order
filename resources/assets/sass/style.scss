@@ -314,8 +314,19 @@
         padding: 10px;
     }
 
-    img.packshot {
-        height: 55px; 
+    div.packshot {
+        width: 50%;
+        margin-left: 5px; 
+        display: inline-block;
+        justify-content: center;
+    }
+
+    .packshot img {
+        width: 100%;
+    }
+
+    .packshots {
+        display: none;
     }
 
     img.gallery {
@@ -522,8 +533,27 @@ MOBILE
 
 }
 
+@media only screen and (max-width: 1200px) {
+    .publisher {
+        display: none;
+    }
+
+    .release {
+        display: none;
+    }
+
+}
 
 @media only screen and (max-width: 990px) {
+
+    .publisher {
+        display: block;
+    }
+
+    .release {
+        display: block;
+    }
+
     .top-bar ul {
         margin: 0;
         padding: 0;

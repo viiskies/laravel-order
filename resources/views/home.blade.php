@@ -3,45 +3,37 @@
 <!-- Sidebar -->
 <div class="row">
     <div id="sidebar" class="col-2">
-            {{-- @admin --}}
-            <div class="col-12 text-center">
-                <h4>Admin panel</h4>
-            </div>
-            <div class="sidebar-categories">
-                <ul class="list-group">
-                    <li>Orders</li>
-                    <ul>
-                        <li>Pre-Orders</li>
-                        <li>Back-Orders</li>
-                    </ul>
-                    <li>Users</li>
-                    <ul>
-                        <li>Add user</li>
-                    </ul>
-                    <li>Products</li>
-                    <ul>
-                        <li>Add product</li>
-                    </ul>
+        {{-- @admin --}}
+        <div class="col-12 text-center">
+            <h4>Admin panel</h4>
+        </div>
+        <div class="sidebar-categories">
+            <ul class="list-group">
+                <li>Orders</li>
+                <ul>
+                    <li>Pre-Orders</li>
+                    <li>Back-Orders</li>
                 </ul>
-            </div>
-            {{-- @endadmin --}}
+                <li>Users</li>
+                <ul>
+                    <li>Add user</li>
+                </ul>
+                <li>Products</li>
+                <ul>
+                    <li>Add product</li>
+                </ul>
+            </ul>
+        </div>
+        {{-- @endadmin --}}
         <div id="categories" class="row">
             <div class="col-12 text-center">
                 <h4>Categories</h4>
             </div>
             <div class="sidebar-categories">
                 <ul class="list-group">
-                    <li>Cras justo odio</li>
-                    <li>Dapibus ac facilisis in</li>
-                    <li>Morbi leo risus</li>
-                    <li>Porta ac consectetur ac</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
-                    <li>Vestibulum at eros</li>
+                    @foreach ($categories as $category)
+                    <li>{{$category->name}}</li>
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -110,29 +102,27 @@
     <!-- Table filters -->
     <div class="col-lg-10 col-md-12">
         <div id="radioboxes" class="row justify-content-around">
-            <div class="col-12">
+            <div class="col-12 checkboxes">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <input class="form-check-input" type="checkbox" value="" id="show_preorders">
                     <label class="form-check-label" for="defaultCheck1">
-                        Show Pre-orders
+                        Hide Pre-orders
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                    <input class="form-check-input" type="checkbox" value="" id="show_backorders">
                     <label class="form-check-label" for="defaultCheck1">
-                        Show Back-orders
+                        Hide Back-orders
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
+                    <input class="form-check-input" type="checkbox" value="" id="show_packshots">
+                    <label class="form-check-label" for="show_packshots">
                         Show Packshots
                     </label>
                 </div>
             </div>
             <!-- Product table -->
-            
-            
             <div class="col-md-12 table-responsive">
                 <table class="table table-sm">
                     <thead class="thead-light">
@@ -140,13 +130,14 @@
                             <th scope="col">EAN:</th>
                             <th scope="col">Title:</th>
                             <th scope="col">Platform:</th>
-                            <th scope="col">Release Date:</th>
-                            <th scope="col">Publisher:</th>
+                            <th scope="col" class="release">Release Date:</th>
+                            <th scope="col" class="preorders">Order deadline:</th>
+                            <th scope="col" class="publisher">Publisher:</th>
                             <th scope="col">Stock:</th>
                             <th scope="col">Price:</th>
                             <th scope="col">Amount</th>
                             <th scope="col"></th>
-                            <th scope="col"></th>
+                            <th scope="col" class="packshots"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,10 +149,11 @@
                             <td Data-label="EAN:" class="align-middle text-right" >{{$product->ean}}</td>
                             <td Data-label="Title:" class="align-middle text-right">{{ $product->name }}</td>
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
-                            <td Data-label="Release date:" class="align-middle text-right">{{ $product->release_date }}</td>
-                            <td Data-label="Publisher:" class="align-middle text-right">{{ $product->publisher->name }}</td>
-                            <td Data-label="Stock:" class="align-middle text-right">{{ number_format($product->getPriceAmountAttribute(), 2, '.', '') }} €</td>
-                            <td Data-label="Price:" class="align-middle text-right">{{ $product->getStockAmountAttribute() }}</td>
+                            <td Data-label="Release date:" class="align-middle text-right release">{{ $product->release_date }}</td>
+                            <td Data-label="Order deadline:" class="align-middle text-right preorders">2018-03-15</td>
+                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ $product->publisher->name }}</td>
+                            <td Data-label="Stock:" class="align-middle text-right">{{$product->priceamount}}</td>
+                            <td Data-label="Price:" class="align-middle text-right">{{$product->stockamount}}</td>
                             <td Data-label="Amount" class="align-middle text-right">
                                 <input class="input" type="number" id="value{{ $product->id }}" name="amount">
                                 <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
@@ -169,8 +161,10 @@
                             <td class="align-middle text-right product-image-mobile-center">
                                 <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
                             </td>
-                            <td class="align-middle product-image-mobile-center">
-                                <img class="packshot" src="{{ $product->featured_image_url}}">
+                            <td class="align-middle product-image-mobile-center packshots">
+                                <div class="packshot">
+                                    <img src="{{ $product->featured_image_url}}">
+                                </div>
                             </td>
                         </tr>
                         @endforeach

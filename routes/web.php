@@ -14,17 +14,30 @@
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('products/import', 'ProductsImportController@import')->name('products.import');
 Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
+Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
+
+Route::get('chat', 'ChatsController@index')->name('chat.index')->middleware('role:user');
+Route::get('chat/create', 'ChatsController@create')->name('chat.create');
+Route::post('chat/store', 'ChatsController@store')->name('chat.store');
+Route::get('chat/user', 'ChatsController@getUserChats')->name('chat.user');
+Route::get('chat/{chat}', 'ChatsController@show')->name('chat.show');
+Route::post('chat/store_message', 'ChatsController@storeMessage')->name('chat.store.message');
+Route::patch('chat/disable', 'ChatsController@disable')->name('chat.disable');
+Route::patch('chat/enable', 'ChatsController@enable')->name('chat.enable');
+
 
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
 Route::resource('products', 'ProductsController');
+Route::get('search/', 'SearchController@search')->name('products.search');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
