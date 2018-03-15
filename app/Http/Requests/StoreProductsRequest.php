@@ -27,7 +27,6 @@ class StoreProductsRequest extends FormRequest
         return [
             'name'  => 'required',
             'ean'   => 'required|numeric|unique:products,ean,' . $this->route('product') . ',id|max:9999999999999|min:1000000000000',
-            'platform_id' => 'required',
             'stock_amount' => 'required|integer|min:0',
             'price_amount' => ["required", 'numeric', new PositivePrice()],
             'pegi' => 'numeric|nullable',

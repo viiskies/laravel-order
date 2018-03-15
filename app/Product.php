@@ -47,8 +47,8 @@ class Product extends Model
                 $this->video, $match)) {
                 $video_id = $match[1];
                 $result = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $video_id . '"
-                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
-                    </iframe>';
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+                </iframe>';
             } else {
                 $result = "Link is corrupted";
             }
@@ -61,13 +61,20 @@ class Product extends Model
 
     public function getStockAmountAttribute()
     {
-        return $this->stock->last()->amount;
+        if (isset($this->stock->last()->amount)) {
+            return $this->stock->last()->amount;
+        } else {
+            return 0;
+        }
     }
 
     public function getPriceAmountAttribute()
     {
-        return $this->prices->last()->amount;
-
+        if (isset($this->prices->last()->amount)) {
+            return $this->prices->last()->amount;
+        } else {
+            return 0;
+        }
     }
 
     public function getFeaturedImageAttribute()

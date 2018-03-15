@@ -26,7 +26,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
-    
+
         return view('products.index', ['products' => $products]);
     }
 
@@ -40,7 +40,29 @@ class ProductsController extends Controller
 
     public function store(StoreProductsRequest $request)
     {
-        $product = Product::create($request->except('_token'));
+
+        $category = Category::where('name', $request->get('category_name'))->first();
+        $platform = Platform::where('name', $request->get('platform_name'))->first();
+        $publisher = Publisher::where('name', $request->get('publisher_name'))->first();
+
+
+        if ($platform == null) {
+            $platform = Platform::create( ['name' => $request->get('platform_name')] );
+        } 
+
+        if ($category == null) {
+            $category = Category::create( ['name' => $request->get('category_name')] );
+
+        } 
+
+        if ($publisher == null) {
+            $publisher = Publisher::create( ['name' => $request->get('publisher_name')] );
+        } 
+
+
+
+        $product = Product::create($request->except('_token') + ['platform_id' => $platform->id, 'publisher_id' => $publisher->id]);
+        $product->categories()->attach($category->id);
         $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         $product->prices()->create( ['amount' => $request->get('price_amount')] );
         if ($request->has('image')) {
@@ -53,7 +75,13 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.show', ['productSingle' => $product]);
+        $product_cats = $product->categories->pluck('id');
+
+        $products = Product::whereHas('categories', function ($query) use ($product_cats) {
+            $query->whereIn('id', $product_cats);
+        })->take(4)->get();
+        
+        return view('products.show', ['productSingle' => $product, 'products' => $products]);
     }
 
     public function edit($id)
@@ -69,14 +97,14 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
 
         $product->update([
-                'name' => $request->get('name'),
-                'ean' => $request->get('ean'),
-                'description' => $request->get('description'),
-                'release_date' => $request->get('release_date'),
-                'pegi' => $request->get('pegi'),
-                'video' => $request->get('video'),
-                'platform_id' => $request->get('platform_id'),
-                'publisher_id' => $request->get('publisher_id'),
+            'name' => $request->get('name'),
+            'ean' => $request->get('ean'),
+            'description' => $request->get('description'),
+            'release_date' => $request->get('release_date'),
+            'pegi' => $request->get('pegi'),
+            'video' => $request->get('video'),
+            'platform_id' => $request->get('platform_id'),
+            'publisher_id' => $request->get('publisher_id'),
         ]);
 
         if($product->stock_amount !=  $request->get('stock_amount')) {

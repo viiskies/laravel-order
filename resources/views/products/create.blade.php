@@ -63,7 +63,7 @@
                     <label class="col control-label">Select a platform</label>
                     <div class="col selectContainer">
                         <div class="input-group">
-                            <input data-autocomplete="{{ $platforms }}" class="form-control autocomplete" type="text" name="platform_id">
+                            <input data-autocomplete="{{ $platforms }}" class="form-control autocomplete" type="text" name="platform_name" value="{{ old('platform_name') }}">
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                     <label class="col control-label">Select a category</label>
                     <div class="col selectContainer">
                         <div class="input-group">
-                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_id">
+                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name" value="{{ old('category_name') }}">
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                     <label class="col control-label">Select a publisher</label>
                     <div class="col selectContainer">
                         <div class="input-group">
-                            <input data-autocomplete="{{ $publishers }}" class="form-control autocomplete" type="text" name="category_id">
+                            <input data-autocomplete="{{ $publishers }}" class="form-control autocomplete" type="text" name="publisher_name" value="{{ old('publisher_name') }}">
                         </div>
                     </div>
                 </div>
