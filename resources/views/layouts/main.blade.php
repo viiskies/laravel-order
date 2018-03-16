@@ -36,7 +36,7 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link btn btn-outline-danger" href="#">Home <span class="sr-only">(current)</span></a>
+								<a class="nav-link btn btn-outline-danger" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link btn btn-danger" href="#">Order</a>
@@ -89,9 +89,102 @@
 				</form>
 			</div>
 		</div>
-		
+		<!-- Sidebar -->
+		<div class="row">
+			<div id="sidebar" class="col-2">
+				{{-- @admin --}}
+				<div class="col-12 text-center">
+					<h4>Admin panel</h4>
+				</div>
+				<div class="sidebar-categories">
+					<ul class="list-group">
+						<li>Orders</li>
+						<ul>
+							<li>Pre-Orders</li>
+							<li>Back-Orders</li>
+						</ul>
+						<li>Users</li>
+						<ul>
+							<li>Add user</li>
+						</ul>
+						<li>Products</li>
+						<ul>
+							<li>Add product</li>
+						</ul>
+					</ul>
+				</div>
+				{{-- @endadmin --}}
+				<div id="categories" class="row">
+					<div class="col-12 text-center">
+						<h4>Categories</h4>
+					</div>
+					<div class="sidebar-categories">
+						<ul class="list-group">
+							@foreach ($cats as $category)
+							<li><a href="{{ route('products.cat', array('id'=>$category->id)) }}">{{$category->name}}</a></li>
+							@endforeach
+						</ul>
+					</div>
+				</div>
+				<!-- Most popular -->
+				<hr>
+				<div id="popular" class="row">
+					<div class="col-12 text-center">
+						<h4>Most Popular</h4>
+					</div>
+					<div class="col-12">
+						@for ($x = 0; $x < 3; $x++)
+						<div class="most-popular-prod-sidebar text-center">
+							<img id="popular" src="{{ $products_latest[$x]->featured_image_url }}"class="img-thumbnail">
+							<h6 class="mt-2">{{ $products_latest[$x]->name }}</h6>
+							<p>{{ str_limit($products_latest[$x]->description, 100) }}</p>
+							<div class="row">
+								<div class="input-group mb-3 d-flex justify-content-center">
+									<input class="counter-inputas" type="number" name="amount">
+									<div class="input-group-append">
+										<a class="btn btn-dark" href="#">Add to Cart</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						@endfor
+					</div>
+				</div>
+			</div>
+			
 
-		@yield('content')
+			@yield('content')
+
+			<!-- New arrivals -->
+			<hr>
+			<div class="row">
+				<div class="col-12 text-center">
+					<h4>New arrivals</h4>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+					<div class="karuseles-arrow prev"><i class="fa fa-caret-left"></i>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<div class="karusele">
+
+						@foreach ($products_latest as $product_latest)
+						<div class="karuseles-img">
+							<img class="gallery" src="{{ $product_latest->featured_image_url }}">
+							<h5>{{ $product_latest->name }}</h5>
+						</div>
+						@endforeach
+					</div>
+				</div>
+				<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+					<div class="karuseles-arrow next"><i class="fa fa-caret-right"></i></div>
+				</div>
+			</div>
+		</div>
 
 		<div class="container-fluid">
 			<div class="row">
@@ -101,7 +194,7 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-		
+
 	</body>
 
 	</html>
