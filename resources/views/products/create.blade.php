@@ -42,11 +42,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col control-label">Title</label>
+                    <label class="col control-label">Name</label>
                     <div class="col inputGroupContainer">
                         <div class="input-group">
-                            <input  name="name" placeholder="Title" class="form-control"  type="text" value="{{ old('name') }}">
+                            <input id="name" name="name" placeholder="Product name" class="form-control"  type="text" value="{{ old('name') }}">
                         </div>
+                        @if ($errors->has('name'))
+                        <span class="create-product-error">
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -56,6 +61,11 @@
                         <div class="input-group">
                             <input type="number"  name="ean" placeholder="EAN" class="form-control"  type="text" value="{{ old('ean') }}">
                         </div>
+                        @if ($errors->has('ean'))
+                        <span class="create-product-error">
+                            <strong>{{ $errors->first('ean') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -65,6 +75,11 @@
                         <div class="input-group">
                             <input data-autocomplete="{{ $platforms }}" class="form-control autocomplete" type="text" name="platform_name" value="{{ old('platform_name') }}">
                         </div>
+                        @if ($errors->has('platform_name'))
+                        <span class="create-product-error">
+                            <strong>{{ $errors->first('platform_name') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -129,6 +144,11 @@
                         <div class="input-group">
                             <input  name="price_amount" placeholder="Price" class="form-control"  type="text" value="{{ old('price_amount') }}">
                         </div>
+                        @if ($errors->has('price_amount'))
+                        <span class="create-product-error">
+                            <strong>{{ $errors->first('price_amount') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -138,6 +158,11 @@
                         <div class="input-group">
                             <input  name="stock_amount" placeholder="Stock" class="form-control"  type="text" value="{{ old('stock_amount') }}">
                         </div>
+                        @if ($errors->has('stock_amount'))
+                        <span class="create-product-error">
+                            <strong>{{ $errors->first('stock_amount') }}</strong>
+                        </span>
+                        @endif
                     </div>
                 </div>
 
@@ -152,12 +177,12 @@
             </div>
         </div>
         <div class="row">
-        <div class="col-12 form-group">
-            <div class="col">
-                <button type="submit" class="btn btn-danger btn-block" >Create</button>
+            <div class="col-12 form-group">
+                <div class="col">
+                    <button type="submit" class="btn btn-danger btn-block" >Create</button>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </form>
 </div>

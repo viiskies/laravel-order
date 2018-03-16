@@ -45,7 +45,6 @@ class ProductsController extends Controller
         $platform = Platform::where('name', $request->get('platform_name'))->first();
         $publisher = Publisher::where('name', $request->get('publisher_name'))->first();
 
-
         if ($platform == null) {
             $platform = Platform::create( ['name' => $request->get('platform_name')] );
         } 
@@ -58,8 +57,6 @@ class ProductsController extends Controller
         if ($publisher == null) {
             $publisher = Publisher::create( ['name' => $request->get('publisher_name')] );
         } 
-
-
 
         $product = Product::create($request->except('_token') + ['platform_id' => $platform->id, 'publisher_id' => $publisher->id]);
         $product->categories()->attach($category->id);

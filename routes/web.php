@@ -11,7 +11,7 @@
 |
 */
 
-Route::resource('products', 'ProductsController');
+
 
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
@@ -25,12 +25,7 @@ Route::get('products/import', 'ProductsImportController@importForm')->name('prod
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
 
-// Route::get('products', 'ProductsController@index')->name('products.index');
-// Route::get('products/create', 'ProductsController@create')->name('products.create');
-// Route::get('products/{product}', 'ProductsController@show')->name('products.show');
-// Route::post('products', 'ProductsController@store')->name('products.store');
-
-
+Route::resource('products', 'ProductsController');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');

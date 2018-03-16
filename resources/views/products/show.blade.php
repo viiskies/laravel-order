@@ -113,10 +113,14 @@
                 </div>
                 <div class="row">
                     <div class="col-10 mt-5 pl-5 single-info">
-                        <p>Category: {{ $productSingle->categories[0]->name }}</p>
+                        @foreach ($productSingle->categories as $cat)
+                        <p>Category: {{ $cat->name }}</p>
+                        @endforeach
                         <p>EAN: {{ $productSingle->ean }}</p>
                         <p>Platform: {{ $productSingle->platform->name }}</p>
+                        @if (isset($productSingle->publisher->name))
                         <p>Publisher: {{ $productSingle->publisher->name }}</p>
+                        @endif
                         <p>Pegi Rating: {{ $productSingle->pegi }}</p>
                         <p>Release date: {{ $productSingle->release_date }}</p>
                     </div>

@@ -15469,3 +15469,7 @@ input.input {
   width: 50px;
 }
 
+.create-product-error {
+  color: red;
+}
+
