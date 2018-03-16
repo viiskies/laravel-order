@@ -32,7 +32,7 @@
             <div class="sidebar-categories">
                 <ul class="list-group">
                     @foreach ($categories as $category)
-                    <li>{{$category->name}}</li>
+                        <li>{{$category->name}}</li>
                     @endforeach
                 </ul>
             </div>
@@ -127,13 +127,39 @@
                 <table class="table table-sm">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col" class="ean">EAN:<i class="fa fa-sort-down"></i></th>
-                            <th scope="col" class="title">Title:<i class="fa fa-sort-down title"></i></th>
-                            <th scope="col" class="platform">Platform:</th>
-                            <th scope="col" class="release">Release:<i class="fa fa-sort-down"></i></th>
+                            <th scope="col" class="ean">EAN:
+                                <a href="{{ route('home.sort', ['name' => 'ean']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
+                            <th scope="col" class="title">
+                                Title:
+                                <a href="{{ route('home.sort', ['name' => 'title']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
+                            <th scope="col" class="platform">Platform:
+                                <a href="{{ route('home.sort', ['name' => 'plat']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
+                            <th scope="col" class="release">Release:
+                                <a href="{{ route('home.sort', ['name' => 'release']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
                             <th scope="col" class="preorders">Order deadline:<i class="fa fa-sort-down"></i></th>
-                            <th scope="col" class="publisher">Publisher:<i class="fa fa-sort-down"></i></th>
-                            <th scope="col" class="stock">Stock:<i class="fa fa-sort-down"></i></th>
+                            <th scope="col" class="publisher">
+                                Publisher:
+                                <a href="{{ route('home.sort', ['name' => 'pub']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
+                            <th scope="col" class="stock">Stock:
+                                <a href="{{ route('home.sort', ['name' => 'stock']) }}">
+                                    <i class="fa fa-sort-down"></i>
+                                </a>
+                            </th>
                             <th scope="col" class="price">Price:<i class="fa fa-sort-down"></i></th>
                             <th scope="col">Amount<i class="fa fa-sort-down"></i></th>
                             <th scope="col"></th>
@@ -146,12 +172,12 @@
                         @endif
                         @foreach($products as $product)
                         <tr>
-                            <td Data-label="EAN:" class="align-middle text-right" >{{$product->ean}}</td>
+                            <td Data-label="EAN:" class="align-middle text-right" >{{ $product->ean }}</td>
                             <td Data-label="Title:" class="align-middle text-right">{{ $product->name }}</td>
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
-                            <td Data-label="Release date:" class="align-middle text-right release">{{ $product->release_date }}</td>
+                            <td Data-label="Release date:" class="align-middle text-right release">{{ isset($product->release_date) ?  $product->release_date : '-'}}</td>
                             <td Data-label="Order deadline:" class="align-middle text-right preorders">2018-03-15</td>
-                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ $product->publisher->name }}</td>
+                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ isset($product->publisher->name) ? $product->publisher->name : '-' }}</td>
                             <td Data-label="Stock:" class="align-middle text-right">{{$product->stockamount}}</td>
                             <td Data-label="Price:" class="align-middle text-right">{{number_format($product->priceamount, 2, '.', '')}} €</td>
                             <td Data-label="Amount" class="align-middle text-right">
@@ -172,7 +198,7 @@
                 </table>
             </div>
             <div id="pagination" class="row justify-content-center">
-                {{$products->links()}}
+                {{ $products->links() }}
             </div>
         </div>
     </div>
