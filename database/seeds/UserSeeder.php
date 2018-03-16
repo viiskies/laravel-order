@@ -35,6 +35,24 @@ class UserSeeder extends Seeder
 			'price_coefficient' => rand( 0, 50 ),
 			'disabled'          => 0
 		] );
+
+        User ::create( [
+            'name'         => 'useris',
+            'password'          => bcrypt('secret'),
+            'role'              => 'user',
+            'client_id'         => $client -> id,
+            'price_coefficient' => rand( 0, 50 ),
+            'disabled'          => 0
+        ] );
+
+        User ::create( [
+            'name'         => 'vartotojas',
+            'password'          => bcrypt('secret'),
+            'role'              => 'user',
+            'client_id'         => $client -> id,
+            'price_coefficient' => rand( 0, 50 ),
+            'disabled'          => 0
+        ] );
 	}
 
         $client = Client ::create( [
@@ -50,6 +68,15 @@ class UserSeeder extends Seeder
 
         User ::create( [
             'name'         => 'code',
+            'password'          => bcrypt('secret'),
+            'role'              => 'admin',
+            'client_id'         => $client -> id,
+            'price_coefficient' => rand( 0, 50 ),
+            'disabled'          => 0
+        ] );
+
+        User ::create( [
+            'name'         => 'adminas',
             'password'          => bcrypt('secret'),
             'role'              => 'admin',
             'client_id'         => $client -> id,

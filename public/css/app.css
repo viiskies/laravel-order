@@ -15065,8 +15065,21 @@ div#radioboxes {
   padding: 10px;
 }
 
-img.packshot {
-  height: 55px;
+div.packshot {
+  width: 50%;
+  margin-left: 5px;
+  display: inline-block;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.packshot img {
+  width: 100%;
+}
+
+.packshots {
+  display: none;
 }
 
 img.gallery {
@@ -15285,7 +15298,25 @@ MOBILE
   }
 }
 
+@media only screen and (max-width: 1200px) {
+  .publisher {
+    display: none;
+  }
+
+  .release {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 990px) {
+  .publisher {
+    display: block;
+  }
+
+  .release {
+    display: block;
+  }
+
   .top-bar ul {
     margin: 0;
     padding: 0;
@@ -15408,14 +15439,35 @@ table tr {
   padding: .35em;
 }
 
+.stock {
+  width: 50px;
+}
+
+.price {
+  width: 50px;
+}
+
+.title {
+  width: 270px;
+  word-wrap: break-word;
+}
+
+.platform {
+  width: 50px;
+}
+
+.ean {
+  width: 80px;
+}
+
 table th,
 table td {
-  padding: .625em;
-  text-align: center;
+  text-align: right;
+  padding: .35em;
 }
 
 table th {
-  font-size: .85em;
+  font-size: .80em;
   letter-spacing: .1em;
   text-transform: uppercase;
 }

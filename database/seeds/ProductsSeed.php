@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Messerli90\IGDB\Facades\IGDB;
 use App\Category;
@@ -99,7 +100,15 @@ class ProductsSeed extends Seeder
 
                 $product->categories()->attach($categories_array);
 
+                $product->stock()->create([
+                     'amount' => 1,
+                    'date' => Carbon::now(),
+                ]);
 
+                $product->prices()->create([
+                    'amount' => 1,
+                    'date' => Carbon::now()
+                ]);
 
                 $url = $game_data->cover->url;
 
