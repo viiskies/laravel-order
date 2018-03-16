@@ -151,9 +151,9 @@
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
                             <td Data-label="Release date:" class="align-middle text-right release">{{ $product->release_date }}</td>
                             <td Data-label="Order deadline:" class="align-middle text-right preorders">2018-03-15</td>
-                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ $product->publisher->name }}</td>
+                            <td Data-label="Publisher:" class="align-middle text-right publisher">{{ !empty($product->publisher) ? $product->publisher->name : '' }}</td>
                             <td Data-label="Stock:" class="align-middle text-right">{{$product->stockamount}}</td>
-                            <td Data-label="Price:" class="align-middle text-right">{{number_format($product->priceamount, 2, '.', '')}} €</td>
+                            <td Data-label="Price:" class="align-middle text-right">{{ number_format($product->priceamount, 2, '.', '')}}</td>
                             <td Data-label="Amount" class="align-middle text-right">
                                 <input class="input" type="number" id="value{{ $product->id }}" name="amount">
                                 <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
