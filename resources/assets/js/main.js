@@ -1,13 +1,15 @@
 var $ = require('jquery');
 require('slick-carousel');
 require('slick-lightbox');
+var autocomplete = require( "jquery-ui/ui/widgets/autocomplete" );
+
 
 $('.slider').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    dots: false,
-    arrows: false,
-    cssEase: 'linear'
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  dots: false,
+  arrows: false,
+  cssEase: 'linear'
 });
 
 $('.left').click(function(){
@@ -24,36 +26,36 @@ $('.karusele').slick({
   autoplay: true,
   dots: false,
   arrows: false,
-   responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        infinite: true,
-        dots: false
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1
-      }
+  responsive: [
+  {
+    breakpoint: 1024,
+    settings: {
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      infinite: true,
+      dots: false
     }
+  },
+  {
+    breakpoint: 600,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 480,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+  }
     // You can unslick at a given breakpoint now by adding:
     // settings: "unslick"
     // instead of a settings object
-  ],
-  autoplaySpeed: 2000
-});
+    ],
+    autoplaySpeed: 2000
+  });
 
 $('.prev').click(function(){
   $('.karusele').slick('slickPrev');
@@ -64,7 +66,7 @@ $('.next').click(function(){
 })
 
 
-  $('.slider-for').slick({
+$('.slider-for').slick({
   slidesToShow: 1,
   slidesToScroll: 1,
   arrows: false,
@@ -83,6 +85,30 @@ $('.slider-nav').slick({
 });
 
 $('#gll').slickLightbox();
+
+$( function() {
+  var inputs = $('.autocomplete');
+
+  inputs.each(function(key, input) {
+    input = $(input);
+    var autocomplete = input.attr('data-autocomplete');
+
+    autocomplete = JSON.parse(autocomplete);
+
+    activeList = []
+
+    $.each( autocomplete, function( key, value ) {
+      activeList.push(value['name']);
+    });
+
+    input.autocomplete({
+      source: activeList
+    });
+
+  });
+
+
+});
 
 $('.add-into-cart').click(function(){
     var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
@@ -103,8 +129,8 @@ $('.add-into-cart').click(function(){
             element.html(error['responseJSON']['errors']['quantity'][0]);
             element.css({'color':'red','display':'block'});
         }
-    });
-});
+        })
+  });
 
 $('#show_packshots').click(function () {
   $('.packshots').toggle();
