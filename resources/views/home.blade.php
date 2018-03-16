@@ -124,7 +124,7 @@
             </div>
             <!-- Product table -->
             <div class="col-md-12 table-responsive">
-                <table class="table table-sm">
+                <table class="table table-sm table_container">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col" class="ean">EAN:<i class="fa fa-sort-down"></i></th>
@@ -145,9 +145,9 @@
                         {{ $errors->first() }}
                         @endif
                         @foreach($products as $product)
-                        <tr>
+                        <tr class="table-tr">
                             <td Data-label="EAN:" class="align-middle text-right" >{{$product->ean}}</td>
-                            <td Data-label="Title:" class="align-middle text-right">{{ $product->name }}</td>
+                            <td Data-label="Title:" class="align-middle text-right"><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></td>
                             <td Data-label="Platform:" class="align-middle text-right">{{ $product->platform->name }}</td>
                             <td Data-label="Release date:" class="align-middle text-right release">{{ $product->release_date }}</td>
                             <td Data-label="Order deadline:" class="align-middle text-right preorders">2018-03-15</td>
