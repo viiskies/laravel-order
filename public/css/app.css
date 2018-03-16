@@ -13733,14 +13733,35 @@ table tr {
   padding: .35em;
 }
 
+.stock {
+  width: 50px;
+}
+
+.price {
+  width: 50px;
+}
+
+.title {
+  width: 270px;
+  word-wrap: break-word;
+}
+
+.platform {
+  width: 50px;
+}
+
+.ean {
+  width: 80px;
+}
+
 table th,
 table td {
-  padding: .625em;
-  text-align: center;
+  text-align: right;
+  padding: .35em;
 }
 
 table th {
-  font-size: .85em;
+  font-size: .80em;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
