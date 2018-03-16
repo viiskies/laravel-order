@@ -11,6 +11,8 @@
 <input class="form-control" value="{{old('price_coefficient', $price_coefficient)}}" type="number" step="0.01" name="price_coefficient" placeholder="price_coefficient">
 @include('users.partials.error', ['name' => 'price_coefficient'])
 <label>Client</label>
+<input class="form-control" value="{{old('client_name', $client_name)}}" type="text" name="client_name" placeholder="client_name">
+@include('users.partials.error', ['name' => 'client_name'])
 <input class="form-control" value="{{old('vat_number', $vat_number)}}" type="text" name="vat_number" placeholder="vat_number">
 @include('users.partials.error', ['name' => 'vat_number'])
 <input class="form-control" value="{{old('registration_number', $registration_number)}}" type="text" name="registration_number" placeholder="registration_number">

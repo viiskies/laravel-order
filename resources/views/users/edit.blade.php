@@ -10,6 +10,7 @@
                         @include('users.partials.form', [
                         'name' => $user->name,
                         'price_coefficient' => $user->price_coefficient,
+                        'client_name' => $client->name,
                         'vat_number' => $client->vat_number,
                         'registration_number' => $client->registration_number,
                         'registration_address' => $client->registration_address,
@@ -23,6 +24,7 @@
                         @include('users.partials.form', [
                         'name' => $user->name,
                         'price_coefficient' => $user->price_coefficient,
+                        'client_name' => '',
                         'vat_number' => '',
                         'registration_number' => '',
                         'registration_address' => '',

@@ -7,15 +7,16 @@
                     {{csrf_field()}}
                     @include('users.partials.form', [
                             'name' => "",
-                        'price_coefficient' => "",
-                        'vat_number' => "",
-                        'registration_number' => "",
-                        'registration_address' => "",
-                        'shipping_address' => "",
-                        'email' => "",
-                        'contact_person' => "",
-                        'payment_terms' => "",
-                        'phone' =>"",
+                            'price_coefficient' => "",
+                            'client_name' => "",
+                            'vat_number' => "",
+                            'registration_number' => "",
+                            'registration_address' => "",
+                            'shipping_address' => "",
+                            'email' => "",
+                            'contact_person' => "",
+                            'payment_terms' => "",
+                            'phone' =>"",
                         ])
                     <button class="btn btn-primary" type="submit">Create</button>
                 </form>
