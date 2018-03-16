@@ -72,6 +72,7 @@
             </div>
         </div>
         <div class="row">
+            {{-- @admin --}}
             <div class="col-12 d-flex justify-content-center">
                 <a href="{{ route('products.edit', $productSingle->id) }}"><button class="btn btn-secondary">Edit</button></a>
                 <form action="{{ route('products.destroy', ['id' => $productSingle->id ])}}" method="post">
@@ -82,13 +83,14 @@
                     </div>
                 </form>
             </div>
+            {{-- @endadmin --}}
         </div>
         <div class="row slider-mobile-margin">
             <div class="col-lg-5 col-md-12">
                 <div class="row">
                     <div class="col-12">
                         <div id="gll" class="slider-for">
-                            <div class="single-product-image d-flex justify-content-center"><a href="images/packshots/1.jpg"><img src="{{ $productSingle->featured_image_url }}"></a></div>
+                            <div class="single-product-image d-flex justify-content-center"><a href="{{ $productSingle->featured_image_url }}"><img src="{{ $productSingle->featured_image_url }}"></a></div>
                             @foreach($productSingle->images as $image)
                             @if($image->featured != 1)
                             <div class="single-product-image d-flex justify-content-center"><a href="{{ $image->url }}"><img src="{{ $image->url }}"></a></div>
