@@ -1,4 +1,10 @@
-<form action="{{ route('publishers.update', ['id' => $publisherEdit->id])}}" method="post">
+
+
+
+@extends('layouts.page')
+@section('content')
+<div class="col-10 mt-5">
+    <form action="{{ route('publishers.update', ['id' => $publisherEdit->id])}}" method="post">
     @csrf
     <div class="form-group">
         @if ($errors->get('name'))
@@ -13,6 +19,10 @@
         <br>
         <input type="text" name="name" class="form-control" placeholder="Publisher name" value="{{ $publisherEdit->name }}">
         <br>
-        <button type="submit" class="btn btn-secondary">Submit</button>
+        <button type="submit" class="btn btn-danger">Edit</button>
     </div>
 </form>
+</div>
+</div>
+@endsection
+

@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Messerli90\IGDB\Facades\IGDB;
 use App\Category;
@@ -7,7 +8,7 @@ use App\Publisher;
 use App\Product;
 use App\Platform;
 use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
+
 class ProductsSeed extends Seeder
 {
     /**
@@ -98,19 +99,17 @@ class ProductsSeed extends Seeder
                 ]);
 
                 $product->categories()->attach($categories_array);
-                
-                $product->stock()->create([
-                	'amount'=>1,
-	                'date'=>Carbon::now(),
-                ]);
-                
-                $product->prices()->create([
-                	'amount'=>1,
-	                'date'=>Carbon::now(),
-	                'user_id'=>1,
-                ]);
-                
 
+                $product->stock()->create([
+                     'amount' => 1,
+                    'date' => Carbon::now(),
+                ]);
+
+                $product->prices()->create([
+                    'amount' => 1,
+                    'date' => Carbon::now()
+                ]);
+                
                 $url = $game_data->cover->url;
 
                 $filename = basename($url);
