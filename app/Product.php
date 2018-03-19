@@ -35,13 +35,12 @@ class Product extends Model
             'id'        => $this->id,
             'name'      => $this->name,
             'ean'       => $this->ean,
-            'platform'  => $this->platform->name
+            'platform'  => $this->platform->name,
         ];
 
         if(isset($this->publisher->name)) {
             $array['publisher'] = $this->publisher->name;
         }
-
         return $array;
     }
 

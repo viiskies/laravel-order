@@ -16,7 +16,10 @@ class SearchController extends Controller
         } else {
             $products = Product::search('*' . $request->get('query') . '*')->paginate(config('pagination.value'));
         }
-        return view('home', ['products' => $products, 'categories' => $categories, 'query' => $request->get('query')]);
-
+        return view('home', ['products' => $products,
+            'categories' => $categories,
+            'sortName' => '',
+            'direction'=> '',
+            'query' => $request->get('query')]);
     }
 }
