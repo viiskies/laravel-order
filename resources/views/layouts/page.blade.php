@@ -103,16 +103,16 @@
 							<li>Pre-Orders</li>
 							<li>Back-Orders</li>
 						</ul>
-						<li>Users</li>
+						<li><a href="{{ route('users.index') }}">Users</li>
 						<ul>
-							<li>Add user</li>
+							<li><a href="{{ route('users.create') }}">Add user</a></li>
 						</ul>
-						<li>Products</li>
+						<li><a href="{{ route('home') }}">Products</a></li>
 						<ul>
-							<li>Add product</li>
+							<li><a href="{{ route('products.create') }}">Add product</li>
+							</ul>
 						</ul>
-					</ul>
-				</div>
+					</div>
 				{{-- @endadmin --}}
 				<div id="categories" class="row">
 					<div class="col-12 text-center">

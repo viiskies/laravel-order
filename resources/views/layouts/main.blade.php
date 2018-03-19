@@ -103,98 +103,90 @@
 							<li>Pre-Orders</li>
 							<li>Back-Orders</li>
 						</ul>
-						<li>Users</li>
+						<li><a href="{{ route('users.index') }}">Users</li>
 						<ul>
-							<li>Add user</li>
+							<li><a href="{{ route('users.create') }}">Add user</a></li>
 						</ul>
-						<li>Products</li>
+						<li><a href="{{ route('home') }}">Products</a></li>
 						<ul>
-							<li>Add product</li>
-						</ul>
-					</ul>
-				</div>
-				{{-- @endadmin --}}
-				<div id="categories" class="row">
-					<div class="col-12 text-center">
-						<h4>Categories</h4>
-					</div>
-					<div class="sidebar-categories">
-						<ul class="list-group">
-							@foreach ($cats as $category)
-							<li><a href="{{ route('products.cat', array('id'=>$category->id)) }}">{{$category->name}}</a></li>
-							@endforeach
+							<li><a href="{{ route('products.create') }}">Add product</li>
+							</ul>
 						</ul>
 					</div>
-				</div>
-				<!-- Most popular -->
-				<hr>
-				<div id="popular" class="row">
-					<div class="col-12 text-center">
-						<h4>Most Popular</h4>
+					{{-- @endadmin --}}
+					<div id="categories" class="row">
+						<div class="col-12 text-center">
+							<h4>Categories</h4>
+						</div>
+						<div class="sidebar-categories">
+							<ul class="list-group">
+								@foreach ($cats as $category)
+								<li><a href="{{ route('products.cat', array('id'=>$category->id)) }}">{{$category->name}}</a></li>
+								@endforeach
+							</ul>
+						</div>
 					</div>
-					<div class="col-12">
-						@for ($x = 0; $x < 3; $x++)
-						<div class="most-popular-prod-sidebar text-center">
-							<img id="popular" src="{{ $products_latest[$x]->featured_image_url }}"class="img-thumbnail">
-							<h6 class="mt-2">{{ $products_latest[$x]->name }}</h6>
-							<p>{{ str_limit($products_latest[$x]->description, 100) }}</p>
-							<div class="row">
-								<div class="input-group mb-3 d-flex justify-content-center">
-									<input class="counter-inputas" type="number" name="amount">
-									<div class="input-group-append">
-										<a class="btn btn-dark add-into-cart" data-url="{{ route('order.store', $products_latest[$x]->id) }}">Add to Cart</a>
-									</div>
-								</div>
+					<!-- Most popular -->
+					<hr>
+					<div id="popular" class="row">
+						<div class="col-12 text-center">
+							<h4>Most Popular</h4>
+						</div>
+						<div class="col-12">
+							@for ($x = 0; $x < 3; $x++)
+							<div class="most-popular-prod-sidebar text-center">
+								<a href="{{ route('products.show', array('id'=>$products_latest[$x]->id)) }}"><img id="popular" src="{{ $products_latest[$x]->featured_image_url }}" class="img-thumbnail"></a>
+								<a href="{{ route('products.show', array('id'=>$products_latest[$x]->id)) }}"><h6 class="mt-2">{{ $products_latest[$x]->name }}</h6></a>
+								<p>{{ str_limit($products_latest[$x]->description, 100) }}</p>
 							</div>
+							@endfor
 						</div>
-						@endfor
+					</div>
+				</div>
+
+
+				@yield('content')
+
+				<!-- New arrivals -->
+				<hr>
+				<div class="row">
+					<div class="col-12 text-center">
+						<h4>New arrivals</h4>
 					</div>
 				</div>
 			</div>
-			
-
-			@yield('content')
-
-			<!-- New arrivals -->
-			<hr>
-			<div class="row">
-				<div class="col-12 text-center">
-					<h4>New arrivals</h4>
-				</div>
-			</div>
-		</div>
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
-					<div class="karuseles-arrow prev"><i class="fa fa-caret-left"></i>
-					</div>
-				</div>
-				<div class="col-sm-8">
-					<div class="karusele">
-
-						@foreach ($products_latest as $product_latest)
-						<div class="karuseles-img">
-							<img class="gallery" src="{{ $product_latest->featured_image_url }}">
-							<h5>{{ $product_latest->name }}</h5>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+						<div class="karuseles-arrow prev"><i class="fa fa-caret-left"></i>
 						</div>
-						@endforeach
+					</div>
+					<div class="col-sm-8">
+						<div class="karusele">
+
+							@foreach ($products_latest as $product_latest)
+							<div class="karuseles-img">
+								<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><img class="gallery" src="{{ $product_latest->featured_image_url }}"></a>
+								<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><h5>{{ $product_latest->name }}</h5></a>
+							</div>
+							@endforeach
+						</div>
+					</div>
+					<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+						<div class="karuseles-arrow next"><i class="fa fa-caret-right"></i></div>
 					</div>
 				</div>
-				<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
-					<div class="karuseles-arrow next"><i class="fa fa-caret-right"></i></div>
+			</div>
+
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 mt-5 text-center footer">
+						<p>Copyright © GameStar 2018</p>
+					</div>
 				</div>
 			</div>
-		</div>
+			<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-12 mt-5 text-center footer">
-					<p>Copyright © GameStar 2018</p>
-				</div>
-			</div>
-		</div>
-		<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+		</body>
 
-	</body>
-
-	</html>
+		</html>
