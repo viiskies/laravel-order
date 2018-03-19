@@ -85,33 +85,59 @@ $('.slider-nav').slick({
 $('#gll').slickLightbox();
 
 var timer = null;
-$('.updateQ_P').click(function() {
-    console.log(1);
-    // clearTimeout(timer);
-    // timer = setTimeout(function() { update_quantity(id,quantity) }, 1000)
+$('.updateQ').keyup(function() {
+    var url = $(this).data('url');
+    var quantity = $(this).val();
+    var messageId = $(this).parent().find('span')[0]['id'];
+    $(this).parent().prev().html('<span class="loader"></span>');
+    clearTimeout(timer);
+    timer = setTimeout(function() {
 
-});
-
-function update_quantity(id,quantity)
-{
     var token = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
         type: "post",
-        url: 'update' + id,
+        url: url,
         data: {quantity: quantity,_token: token},
         dataType: "json",
         success:function (data)
         {
-            document.getElementById('totalQuantity').innerHTML = data['totalQuantity'];
-            document.getElementById('singlePrice' + id).innerHTML = data['singleProductPrice'] + ' €';
-            document.getElementById('totalPrice').innerHTML = data['totalPrice'] + ' €';
-            document.getElementById('update' + data['id']).innerHTML = 'updated';
-            document.getElementById('update' + data['id']).style.display = 'block';
+            $('#totalQuantity').html(data['totalQuantity']);
+            $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
+            $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
         },
         error:function (error)
         {
-            document.getElementById('update' + id).innerHTML = error['responseJSON']['errors']['quantity'][0];
-            document.getElementById('update' + id).style.display = 'block';
+            $('#' + messageId).html(error['responseJSON']['errors']['quantity'][0]);
+            $('#' + messageId).css({'color':'red', 'display':'block'});
         }
     });
-}
+}, 1000)
+});
+
+$('.updateP').keyup(function() {
+    var url = $(this).data('url');
+    var price = $(this).val();
+    var messageId = $(this).parent().find('span')[0]['id'];
+    $(this).parent().next().html('<span class="loader"></span>');
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+
+        var token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {price: price,_token: token},
+            dataType: "json",
+            success:function (data)
+            {
+                $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
+                $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+            },
+            error:function (error)
+            {
+                $('#' + messageId).html(error['responseJSON']['errors']['price'][0]);
+                $('#' + messageId).css({'color':'red', 'display':'block'});
+            }
+        });
+    }, 1000)
+});
