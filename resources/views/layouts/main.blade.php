@@ -25,11 +25,11 @@
 				</div>
 				<div class="cart-menu-mobile">
 					<span class="cart-menu-icon-mobile">
-						<i class="fa fa-cart-arrow-down"></i>
+						<a href="{{ route('order.index') }}"><i class="fa fa-cart-arrow-down"></i></a>
 					</span>
 				</div>
 				<div class="nav d-flex justify-content-end ">
-					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<nav class="navbar navbar-expand-lg navbar-light">
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 						</button>
@@ -52,13 +52,13 @@
 					</nav>
 				</div>
 				<div class="cart-menu">
-					<span class="cart-menu-inside">
+					<a href="{{ route('order.index') }}"><span class="cart-menu-inside">
 						<span class="cart-menu-icon">
 							<i class="fa fa-cart-arrow-down"></i>
 						</span>
 						<span class="cart-menu-price">Items: 0</span>
 						<span class="cart-menu-price">€200</span>
-					</span>
+					</span></a>
 				</div>
 			</div>
 			<!-- Slider -->

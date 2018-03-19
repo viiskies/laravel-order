@@ -172,7 +172,7 @@ $('.setquantity').keyup(function() {
                 message.css({'color':'red','display':'block'});
             }
         });
-    }, 10000)
+    }, 100)
 });
 
 $( ".table-tr" ).hover(
