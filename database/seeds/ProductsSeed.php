@@ -7,7 +7,7 @@ use App\Publisher;
 use App\Product;
 use App\Platform;
 use Illuminate\Support\Facades\Storage;
-
+use Carbon\Carbon;
 class ProductsSeed extends Seeder
 {
     /**
@@ -98,8 +98,18 @@ class ProductsSeed extends Seeder
                 ]);
 
                 $product->categories()->attach($categories_array);
-
-
+                
+                $product->stock()->create([
+                	'amount'=>1,
+	                'date'=>Carbon::now(),
+                ]);
+                
+                $product->prices()->create([
+                	'amount'=>1,
+	                'date'=>Carbon::now(),
+	                'user_id'=>1,
+                ]);
+                
 
                 $url = $game_data->cover->url;
 

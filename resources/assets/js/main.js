@@ -96,6 +96,7 @@ $('.add-into-cart').click(function(){
         success:function (data)
         {
             document.getElementById(id).innerHTML = 'Added to cart';
+	        document.getElementById(id).style.color = 'green';
             document.getElementById(id).style.display = 'block';
         },
         error:function (error)
