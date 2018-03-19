@@ -132,7 +132,7 @@
                 </div>
                 <!-- Product table -->
                 <div class="col-md-12 table-responsive">
-                    <table class="table table-sm">
+                    <table class="table table-sm table_container">
                         <thead class="thead-light">
                         <tr>
                             <th scope="col" class="ean">
@@ -198,7 +198,7 @@
                                 @if ($sortName == 'stock' && $direction == 'asc')
                                     <a href="{{ route('home.sort', ['name' => 'stock', 'direction' => 'desc']) }}">
                                         Stock:<i class="fa fa-sort-up"></i>
-                                     </a>
+                                    </a>
                                 @else
                                     <a href="{{ route('home.sort', ['name' => 'stock', 'direction' => 'asc']) }}">
                                         Stock:<i class="fa fa-sort-down"></i>

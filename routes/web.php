@@ -12,6 +12,7 @@
 */
 
 
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
@@ -23,6 +24,7 @@ Route::post('products/import', 'ProductsImportController@import')->name('product
 Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
 Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
 Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
+Route::get('cat/{id}', 'CategoriesController@show')->name('products.cat');
 
 Route::get('chat', 'ChatsController@index')->name('chat.index')->middleware('role:user');
 Route::get('chat/create', 'ChatsController@create')->name('chat.create');
@@ -49,3 +51,5 @@ Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
 
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
+
+Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');

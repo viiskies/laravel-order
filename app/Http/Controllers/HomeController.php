@@ -18,6 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
@@ -85,6 +86,11 @@ class HomeController extends Controller
             'sortName' =>  $request->get('name'),
             'direction' => $direction
         ]);
+    }
+
+    public function contacts() 
+    {
+        return view('pages.contacts');
     }
 
 
