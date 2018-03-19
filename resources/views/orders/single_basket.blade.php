@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-    @extends('layouts.main')
-    @section('content')
-    @inject('cartService', "App\Services\CartService")
-=======
 @extends('layouts.main')
 @section('content')
 @inject('cartService', "App\Services\CartService")
 <div class="col-10 mt-5">
-
->>>>>>> 3ae36dc3d45b4eb358ec2c7d83225016c6a6c556
     <!-- Order table -->
     <div class="row">
         <table class="table table-sm">
@@ -79,7 +72,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-danger btn-lg btn-block" >Confirm your order</button>
                 </div>
-        </div>
+            </div>
         </form>
     </div>
     @endif
