@@ -37400,9 +37400,9 @@ $('.setquantity').keyup(function () {
 });
 
 $(".table-tr").hover(function () {
-  $(this).css("background-color", "white").css("opacity", "0.7").css("color", "red");
+  $(this).css("background-color", "white").css("opacity", "0.7");
 }, function () {
-  $(this).css("background-color", "").css("opacity", "1").css("color", "black");
+  $(this).css("background-color", "").css("opacity", "1");
 });
 
 /***/ }),

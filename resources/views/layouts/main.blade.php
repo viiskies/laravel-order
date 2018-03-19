@@ -21,7 +21,7 @@
 			<!-- Header -->
 			<div class="row">
 				<div class="logo">
-					<img src="{{asset('images/logo2.png')}}">
+					<a href="{{ route('home') }}"><img src="{{asset('images/logo2.png')}}"></a>
 				</div>
 				<div class="cart-menu-mobile">
 					<span class="cart-menu-icon-mobile">
@@ -29,7 +29,7 @@
 					</span>
 				</div>
 				<div class="nav d-flex justify-content-end ">
-					<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<nav class="navbar navbar-expand-lg navbar-light">
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 						</button>
@@ -106,6 +106,10 @@
 							<li>Users</li>
 							<ul>
 								<li>Add user</li>
+							</ul>
+							<li><a href="{{ route('publishers.index') }}">Publishers</a></li>
+							<ul>
+								<li><a href="{{ route('publishers.create') }}">Add publsiher</a></li>
 							</ul>
 							<li><a href="{{ route('home') }}">Products</a></li>
 							<ul>
