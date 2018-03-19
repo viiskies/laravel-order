@@ -16,6 +16,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('layouts.main', SidebarComposer::class);
+        View::composer('layouts.page', SidebarComposer::class);
     }
 
     /**

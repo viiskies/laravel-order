@@ -133,13 +133,4 @@ class ProductsController extends Controller
 
         return redirect()->route('products.index');
     }
-
-    public function cat($id) 
-    {   
-
-        $cat = Category::findOrFail($id);
-        $products = $cat->products()->paginate(25);
-
-        return view('home', ['products' => $products]);
-    }
 }
