@@ -1,3 +1,7 @@
+@extends('layouts.main')
+@section('content')
+<div class="col-10 mt-5">
+
 <a href="{{route('publishers.create')}}">Create a publisher</a>
 
 <ul>
@@ -7,3 +11,7 @@
         </li>
     @endforeach
 </ul>
+
+</div>
+</div>
+@endsection

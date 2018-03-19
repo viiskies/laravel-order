@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 
-<div class="container">
+<div class="col-10 mt-5">
     <!-- Filters -->
     <div class="row">
         <div class="btn-group">

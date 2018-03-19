@@ -31,9 +31,9 @@ class OrdersController extends Controller
         $user=Auth::user();
         if($user->role == 'admin')
         {
-            $orders = Order::paginate(2);
+            $orders = Order::paginate(20);
         }else{
-            $orders =$user->orders()->paginate(2);
+            $orders =$user->orders()->paginate(20);
         }
 
         return view('orders.orders', [

@@ -55,4 +55,9 @@ class Order extends Model
             return "Rejected";
         }
     }
+
+    public function chat()
+    {
+        return $this->hasOne(Chat::class);
+    }
 }

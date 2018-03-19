@@ -112,7 +112,7 @@
     }
 
     .navbar-light .navbar-nav .nav-link {
-        color:white;
+        color:black;
         text-decoration: none;
     }
 
@@ -132,6 +132,10 @@
         text-align: center;
         width:20%;
 
+    }
+
+    .btn-dark {
+    color:white !important;
     }
 
     .cart-menu-inside {
@@ -314,8 +318,19 @@
         padding: 10px;
     }
 
-    img.packshot {
-        height: 55px; 
+    div.packshot {
+        width: 50%;
+        margin-left: 5px; 
+        display: inline-block;
+        justify-content: center;
+    }
+
+    .packshot img {
+        width: 100%;
+    }
+
+    .packshots {
+        display: none;
     }
 
     img.gallery {
@@ -338,7 +353,6 @@
 
     div#popular {
         margin-top: 30px;
-
     }
 
     .img-thumbnail, .gallery {
@@ -349,6 +363,8 @@
     img#popular {
         width: 80%;
         margin-top: 10px;
+        max-height:180px;
+        object-fit:cover;
     }
 
     div#categories {
@@ -440,7 +456,7 @@ Single product
 
 .single-price-block {
     height: 50px;
-    line-height:50px;
+    line-height:30px;
     border:1px solid black;
 }
 
@@ -522,8 +538,27 @@ MOBILE
 
 }
 
+@media only screen and (max-width: 1200px) {
+    .publisher {
+        display: none;
+    }
+
+    .release {
+        display: none;
+    }
+
+}
 
 @media only screen and (max-width: 990px) {
+
+    .publisher {
+        display: block;
+    }
+
+    .release {
+        display: block;
+    }
+
     .top-bar ul {
         margin: 0;
         padding: 0;
@@ -645,13 +680,38 @@ table tr {
     border: 1px solid #ddd;
     padding: .35em;
 }
+
+.stock {
+    width: 50px;
+}
+
+.price {
+    width: 50px;
+}
+
+.title {
+    width: 270px;
+    word-wrap: break-word;
+}
+
+.platform {
+    width: 50px;
+}
+
+.ean {
+    width: 80px;
+}
+
+
 table th,
 table td {
-    padding: .625em;
     text-align: center;
+    padding: .35em;
 }
+
+
 table th {
-    font-size: .85em;
+    font-size: .80em;
     letter-spacing: .1em;
     text-transform: uppercase;
 }
@@ -709,8 +769,23 @@ input.input {
     margin: 0 auto;
 }
 
-
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.create-product-error {
+    color:red;
+}
+
+.zoom {
+   cursor: zoom-in;
+}
+
+#message {
+    display: none;
+    color: green;
 }

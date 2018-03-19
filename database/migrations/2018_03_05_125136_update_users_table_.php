@@ -14,6 +14,7 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->dropUnique(['email']);
             $table->dropColumn('email');
             $table->dropRememberToken();
             $table->dropTimestamps();
@@ -32,7 +33,7 @@ class UpdateUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique();
+            $table->string('email');
             $table->rememberToken();
             $table->timestamps();
             $table->string('password')->change();
