@@ -28,25 +28,88 @@
             <div class="col-md-12 table-responsive">
                 <table class="table table-sm table_container">
                     <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="ean">EAN:</th>
-                            <th scope="col" class="title">Title:</th>
-                            <th scope="col" class="platform">Platform:</th>
-                            <th scope="col" class="release">Release:</th>
-                            <th scope="col" class="preorders">Order deadline:</th>
-                            <th scope="col" class="publisher">Publisher:</th>
-                            <th scope="col" class="stock">Stock:</th>
-                            <th scope="col" class="price">Price:</th>
-                            <th scope="col">Amount:</th>
-                            <th scope="col"></th>
-                            <th scope="col" class="packshots"></th>
-                        </tr>
+                    <tr>
+                        <th scope="col" class="ean">
+                            @if ($sortName == 'ean' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'ean', 'direction' => 'desc']) }}">
+                                    EAN: <i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'ean', 'direction' => 'asc']) }}">
+                                    EAN: <i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+                        </th>
+                        <th scope="col" class="title">
+                            @if ($sortName == 'title' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'title', 'direction' => 'desc']) }}">
+                                    Title: <i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'title', 'direction' => 'asc']) }}">
+                                    Title: <i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+                        </th>
+                        <th scope="col" class="platform">
+                            @if ($sortName == 'plat' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'plat', 'direction' => 'desc']) }}">
+                                    Platform: <i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'plat', 'direction' => 'asc']) }}">
+                                    Platform: <i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+
+                        </th>
+                        <th scope="col" class="release">
+                            @if ($sortName == 'release' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'release', 'direction' => 'desc']) }}">
+                                    Release: <i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'release', 'direction' => 'asc']) }}">
+                                    Release: <i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+                        </th>
+                        <th scope="col" class="preorders">Order deadline:
+                            <i class="fa fa-sort-down"></i>
+                        </th>
+                        <th scope="col" class="publisher">
+                            @if ($sortName == 'pub' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'pub', 'direction' => 'desc']) }}">
+                                    Publisher: <i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'pub', 'direction' => 'asc']) }}">
+                                    Publisher: <i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+                        </th>
+                        <th scope="col" class="stock">
+                            @if ($sortName == 'stock' && $direction == 'asc')
+                                <a href="{{ route('home.sort', ['name' => 'stock', 'direction' => 'desc']) }}">
+                                    Stock:<i class="fa fa-sort-up"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('home.sort', ['name' => 'stock', 'direction' => 'asc']) }}">
+                                    Stock:<i class="fa fa-sort-down"></i>
+                                </a>
+                            @endif
+                        </th>
+                        <th scope="col" class="price">Price:<i class="fa fa-sort-down"></i></th>
+                        <th scope="col">Amount</th>
+                        <th scope="col"></th>
+                        <th scope="col" class="packshots"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @if(!empty($errors->first()))
+                    @if(!empty($errors->first()))
                         {{ $errors->first() }}
-                        @endif
-                        @foreach($products as $product)
+                    @endif
+                    @foreach($products as $product)
                         <tr class="table-tr">
                             <td Data-label="EAN:" class="align-middle text-right" >{{$product->ean}}</td>
                             <td Data-label="Title:" class="align-middle text-right"><ins><a href="{{ route('products.show', $product->id) }}">{{ $product->name }}</a></ins></td>
@@ -69,7 +132,7 @@
                                 </div>
                             </td>
                         </tr>
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -78,5 +141,5 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 @endsection
