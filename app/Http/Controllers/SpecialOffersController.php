@@ -22,8 +22,9 @@ class SpecialOffersController extends Controller
     public function index()
     {
         $user = User::findOrFail(1);
-        $product = Product::findOrFail(7);
-        dd($this->price->getPrice($user, $product));
+        $product = Product::findOrFail(6);
+        $price = $this->price->getPrice($user, $product);
+        dd($price);
         $clients = Client::all();
         $products = Product::all();
         $publishers = Publisher::all();
@@ -33,11 +34,22 @@ class SpecialOffersController extends Controller
 
     public function store(Request $request)
     {
+//        dd($request);
+        $clients = $request->get('client_id');
+//        dd($clients);
+        $special_offer = SpecialOffer::create($request->only('expiration_date'));
+//        dd($special_offer);
+        foreach ($clients as $client_id) {
+            $client = Client::findOrFail($client_id);
+            $special_offer->users()->attach($client->user->id);
+        }
+
         $games = $request->get('games');
-        $special_offer = SpecialOffer::create($request->only('expiration_date', 'client_id'));
+
         foreach ($games as $game) {
             $special_offer->prices()->create(['amount' => $request->get('price'), 'product_id' => $game]);
         }
+
         return redirect()->back()->with('Success', 'Special offer created');
     }
 

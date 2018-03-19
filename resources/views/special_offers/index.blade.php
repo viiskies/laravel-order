@@ -57,8 +57,12 @@
                 @if($products !== null)
                     <form action="{{ route('special.store') }}" method="post">
                         @csrf
+                        <div class="form-group">
+                            <input class="form-check-input"  type="checkbox" id="check-all">
+                            <label class="form-check-label">Select all</label>
+                        </div>
                         <label>Clients</label>
-                        <select class="form-control" name="client_id">
+                        <select class="form-control clients_select" name="client_id[]" multiple="multiple">
                             @foreach($clients as $client)
                                 <option value="{{$client->id}}">{{$client->name}}</option>
                             @endforeach

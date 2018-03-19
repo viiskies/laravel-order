@@ -3,25 +3,34 @@
 namespace App\Services;
 
 use App\Price;
+use App\SpecialOffer;
+use App\User;
 use Illuminate\Http\Request;
 
 class PricingService
 {
-    private function countPriceWithCoef($price, $coef, $special_offer_id, $user_id)
+    private function countPriceWithCoef($user, $product)
     {
-        if ($special_offer_id ===null && $user_id === null) {
-            $price = $price * $coef;
-        }
+        $new_product = $product->prices()->where('special_offer_id', null)->where('user_id', null)->orderBy('date', 'DESC')->first();
+        $new_price = $new_product->amount;
+        $coef = $user->price_coefficient;
+        $price = $new_price * $coef;
+        return $price;
     }
 
-    private function countPriceWithSpecialOffer()
+    private function countPriceWithSpecialOffer($user, $product)
     {
-        if ($special_offer_id !== null) {
+        dd($user->specialOffers);
+        $offers = $product->prices()->where('special_offer_id', '!=', null)->where('user_id', null)->get();
+        dd($offers);
+        dd($offers->pluck('amount'));
+        $price = min($offers->toArray());
+        dd($price);
 
-        }
+//        return $price;
     }
 
-    private function countIndividualPrice()
+    private function countIndividualPrice($user, $product)
     {
         if($user_id !== null) {
 
@@ -30,6 +39,8 @@ class PricingService
 
     public function getPrice($user, $product)
     {
-        return "dfsdg";
+        $this->countPriceWithSpecialOffer($user, $product);
+        $this->countPriceWithCoef($user, $product);
+
     }
 }
