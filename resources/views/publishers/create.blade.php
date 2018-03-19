@@ -11,11 +11,20 @@
             </div>
             @endforeach
             @endif
-            <label for="name">Name:</label>
-            <br>
-            <input type="text" name="name" class="form-control" placeholder="Platform name" value="{{ old('name') }}">
-            <br>
-            <button type="submit" class="btn btn-danger">Submit</button>
+            <div class="form-group no-gutters">
+                <label class="col control-label">Publisher name</label>
+                <div class="col inputGroupContainer">
+                    <div class="input-group">
+                        <input  name="name" placeholder="Publisher name" value="{{ old('name') }}" class="form-control"  type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Create</button>
+            </div>
         </div>
     </form>
-    @endsection
+</div>
+</div>
+@endsection
+

@@ -109,7 +109,7 @@
 							</ul>
 							<li><a href="{{ route('publishers.index') }}">Publishers</a></li>
 							<ul>
-								<li><a href="{{ route('publishers.create') }}">Add publsiher</a></li>
+								<li><a href="{{ route('publishers.create') }}">Add publishers</a></li>
 							</ul>
 							<li><a href="{{ route('home') }}">Products</a></li>
 							<ul>
