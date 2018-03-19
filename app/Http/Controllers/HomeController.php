@@ -28,7 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with('platform','publisher', 'images')->paginate(5);
+        $products = Product::with('platform','publisher', 'images')->paginate(env('PAGINATE', 25));
 
         return view('home', [
             'products' => $products,
@@ -77,7 +77,7 @@ class HomeController extends Controller
                 break;
 
         }
-        $products = $products->paginate(5);
+        $products = $products->paginate(env('PAGINATE', 25));
         $categories = Category::all();
         return view('home', [
             'products' => $products->appends(Input::except('page')),
