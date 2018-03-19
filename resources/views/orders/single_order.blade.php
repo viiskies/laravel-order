@@ -17,9 +17,9 @@
                     <th scope="col">Price:</th>
                     <th scope="col">Price Total:</th>
                     <th scope="col">Amount</th>
-                    @if(Auth::user()->role === 'admin')
+                    @admin
                     <th scope="col"></th>
-                    @endif
+                    @endadmin
                 </tr>
                 </thead>
                 <tbody>
@@ -29,29 +29,29 @@
                         <td data-label="Platform:" class="align-middle">{{$product->product->platform->name}}</td>
                         <td data-label="Name:" class="align-middle">{{$product->product->name}}</td>
                         <td data-label="Release date:" class="align-middle">{{$product->product->release_date}}</td>
-                        <td data-label="Publisher:" class="align-middle">{{ $product->product->has('publisher') ? $product->product->publisher->name : ''}}t</td>
+                        <td data-label="Publisher:" class="align-middle">{{ $product->product->has('publisher') ? $product->product->publisher->name : '-'}}</td>
 
                         <td data-label="Price:" class="align-middle">
-                            @if(Auth::user()->role === 'admin')
+                            @admin
                                 <input data-url="{{ route('order.update', $product->id) }}" class="input updateP" type="number" value="{{ $product->price }}" name="amount"> €
                                 <br>
                                 <span style="display: none; color: green" id="Pmessage{{ $product->id }}"></span>
                             @else
                                 <p>{{ number_format($product->product->priceamount, 2, '.', '')}} €</p>
-                            @endif
+                            @endadmin
                         </td>
                         <td data-label="Price Total:" class="align-middle" id="singlePrice{{ $product->id }}">{{ number_format($cartService->getSingleProductPrice($product), 2, '.', '')}} €</td>
                         <td data-label="Amount:" class="align-middle">
-                            @if(Auth::user()->role === 'admin')
+                            @admin
                                 <input data-url="{{ route('order.update', $product->id) }}" class="input updateQ" type="number" value="{{$product->quantity}}" name="amount">
                                 <br>
                                 <span style="display: none; color: red" id="Qmessage{{ $product->id }}"></span>
 
                             @else
                                 <p>{{ $product->quantity}}</p>
-                            @endif
+                            @endadmin
                         </td>
-                        @if(Auth::user()->role === 'admin')
+                        @admin
                         <td class="align-middle">
                             <form action="{{route('order.product.delete', $product->id)}}" method="post">
                                 @csrf
@@ -59,7 +59,7 @@
                                 <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                             </form>
                         </td>
-                        @endif
+                        @endadmin
                     </tr>
                 @endforeach
                 <tr>
@@ -71,16 +71,16 @@
                     <td class="total" scope="Total"><b>Total</b></td>
                     <td data-label="Total" id="totalPrice">{{!empty($products)?number_format($cartService->getTotalCartPrice($order), 2,'.',''):""}} €</td>
                     <td data-label="Total quantity" id="totalQuantity">{{!empty($products)?$cartService->getTotalCartQuantity($order):""}}</td>
-                    @if(Auth::user()->role === 'admin')
+                    @admin
                     <td class="total"></td>
-                    @endif
+                    @endadmin
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
     <!-- Comments and attachments -->
-    @if(Auth::user()->role === 'admin')
+    @admin
     <form method="post" action="{{route('order.action', $order->id)}}" enctype="multipart/form-data">
     <div class="row">
 
@@ -105,6 +105,6 @@
 
     </div>
     </form>
-    @endif
+    @endadmin
 </div>
 @endsection

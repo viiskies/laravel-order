@@ -59,11 +59,8 @@ class OrdersController extends Controller
         $file=$request->file('invoice');
         if (isset($file))
         {
-            $filenameWithExt = $request->file('invoice')->getClientOriginalName();
-            $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            $extension = $request->file('invoice')->getClientOriginalExtension();
 
-            $filenameWithExt = $this->checkInvoice->checkInvoiceFile($fileName, $extension, $filenameWithExt);
+            $filenameWithExt = $this->checkInvoice->generateName($file);
 
             Invoice::create($request->except('_token') + [
                     'filename' => $filenameWithExt,

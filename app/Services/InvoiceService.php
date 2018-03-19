@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\Storage;
 
 class InvoiceService
 {
-    public function checkInvoiceFile($fileName, $extension, $filenameWithExt)
+
+    public function generateName($file)
     {
+        $filenameWithExt = $file->getClientOriginalName();
+        $fileName = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
         $a = 1;
         while (Storage::exists('public/invoices/' . $filenameWithExt) || Invoice::where('filename', $filenameWithExt)->first())
         {

@@ -65,10 +65,9 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $product = OrderProduct::where('id', $id);
-        $singleProduct = $product->first();
             if ($user->role === 'admin' && !empty($request->price))
             {
-                $singleProduct = $product->update([
+                $product->update([
                     'price' => $request->price,
                     ]);
                 $product = OrderProduct::where('id', $id);
