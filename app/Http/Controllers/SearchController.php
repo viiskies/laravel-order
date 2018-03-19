@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 class SearchController extends Controller
 {
     public function search(Request $request)
-    {	
+    {
     	$categories = Category::all();
         if ($request->get('query') == null) {
-            $products = Product::paginate(25);
+            $products = Product::paginate(config('pagination.value'));
         } else {
-            $products = Product::search('*' . $request->get('query') . '*')->paginate(25);
+            $products = Product::search('*' . $request->get('query') . '*')->paginate(config('pagination.value'));
         }
         return view('home', ['products' => $products, 'categories' => $categories, 'query' => $request->get('query')]);
 

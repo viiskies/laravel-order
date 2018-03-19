@@ -155,10 +155,10 @@
 						</div>
 					</div>
 				</div>
-				
-				
+
+
 				@yield('content')
-				
+
 				<!-- New arrivals -->
 				<hr>
 				<div class="row">
@@ -175,7 +175,7 @@
 					</div>
 					<div class="col-sm-8">
 						<div class="karusele">
-							
+
 							@foreach ($products_latest as $product_latest)
 							<div class="karuseles-img">
 								<img class="gallery" src="{{ $product_latest->featured_image_url }}">
@@ -189,7 +189,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 mt-5 text-center footer">
