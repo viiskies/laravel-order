@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::with('platform','publisher', 'images')->paginate(env('PAGINATE', 25));
+        $products = Product::with('platform','publisher', 'images')->paginate(config('pagination.value'));
 
         return view('home', [
             'products' => $products,
@@ -41,7 +41,9 @@ class HomeController extends Controller
 
     public function sort(Request $request)
     {
-        if($request->get('direction') == 'asc') {
+        $products = Product::with('platform','publisher', 'images');
+
+        if ($request->get('direction') == 'asc') {
             $direction = 'asc';
         } else {
             $direction = 'desc';
@@ -57,16 +59,13 @@ class HomeController extends Controller
                     ->orderBy('plat.name', $direction);
                 break;
             case 'title':
-                $products = Product::with('platform','publisher', 'images')
-                    ->orderBy('name', $direction);
+                $products = $products->orderBy('name', $direction);
                 break;
             case 'ean':
-                $products = Product::with('platform','publisher', 'images')
-                    ->orderBy('ean', $direction);
+                $products = $products->orderBy('ean', $direction);
                 break;
             case 'release':
-                $products = Product::with('platform','publisher', 'images')
-                    ->orderBy('release_date', $direction);
+                $products = $products->orderBy('release_date', $direction);
                 break;
             case 'stock':
                 $products = Product::select('products.*',
@@ -74,12 +73,13 @@ class HomeController extends Controller
                     ->orderBy('amount', $direction);
                 break;
             default:
-                $products = Product::with('platform','publisher', 'images')->orderBy('name', $direction);
+                $products = $products->orderBy('name', $direction);
                 break;
-
         }
-        $products = $products->paginate(env('PAGINATE', 25));
+
+        $products = $products->paginate(config('pagination.value'));
         $categories = Category::all();
+
         return view('home', [
             'products' => $products->appends(Input::except('page')),
             'categories' => $categories,
