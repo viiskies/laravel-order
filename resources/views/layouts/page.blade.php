@@ -17,16 +17,6 @@
 					<li><i class="fa fa-envelope"></i>  <a href="#">info@gamestar.eu</a></li>
 				</ul>
 			</div>
-<<<<<<< HEAD
-			<!-- Header -->
-			<div class="row">
-				<div class="logo">
-					<a href="{{ route('home') }}"><img src="{{asset('images/logo2.png')}}"></a>
-				</div>
-				<div class="cart-menu-mobile">
-					<span class="cart-menu-icon-mobile">
-						<a href="{{ route('order.index') }}"><i class="fa fa-cart-arrow-down"></i></a>
-=======
 		</div>
 		<!-- Header -->
 		<div class="row">
@@ -46,7 +36,7 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item active">
-								<a class="nav-link btn btn-outline-danger" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
+								<a class="nav-link btn btn-danger" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link btn btn-danger" href="#">Order</a>
@@ -55,7 +45,7 @@
 								<a class="nav-link btn btn-danger" href="#">Profile</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link btn btn-danger" href="{{ route('pages.contacts') }}">Contact</a>
+								<a class="nav-link btn btn-outline-danger" href="{{ route('pages.contacts') }}">Contact</a>
 							</li>
 						</ul>
 					</div>
@@ -65,7 +55,6 @@
 				<span class="cart-menu-inside">
 					<span class="cart-menu-icon">
 						<i class="fa fa-cart-arrow-down"></i>
->>>>>>> 3ae36dc3d45b4eb358ec2c7d83225016c6a6c556
 					</span>
 					<span class="cart-menu-price">Items: 0</span>
 					<span class="cart-menu-price">€200</span>
@@ -78,39 +67,6 @@
 				<div>
 					<img src="{{asset('images/slides/1.jpg')}}" />
 				</div>
-<<<<<<< HEAD
-				<div class="nav d-flex justify-content-end ">
-					<nav class="navbar navbar-expand-lg navbar-light">
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-						</button>
-						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item active">
-									<a class="nav-link btn btn-outline-danger" href="#">Home <span class="sr-only">(current)</span></a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link btn btn-danger" href="#">Order</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link btn btn-danger" href="#">Profile</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link btn btn-danger" href="#">Contact</a>
-								</li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-				<div class="cart-menu">
-					<a href="{{ route('order.index') }}"><span class="cart-menu-inside">
-						<span class="cart-menu-icon">
-							<i class="fa fa-cart-arrow-down"></i>
-						</span>
-						<span class="cart-menu-price">Items: 0</span>
-						<span class="cart-menu-price">€200</span>
-					</span></a>
-=======
 				<div>
 					<img src="{{asset('images/slides/2.jpg')}}" />
 				</div>
@@ -119,7 +75,6 @@
 				</div>
 				<div>
 					<img src="{{asset('images/slides/4.jpg')}}" />
->>>>>>> 3ae36dc3d45b4eb358ec2c7d83225016c6a6c556
 				</div>
 			</div>
 			<div class="slider-arrows-left left"><i class="fa fa-arrow-circle-left"></i></div>
@@ -169,30 +124,6 @@
 							<li><a href="{{ route('products.cat', array('id'=>$category->id)) }}">{{$category->name}}</a></li>
 							@endforeach
 						</ul>
-					</div>
-				</div>
-				<!-- Most popular -->
-				<hr>
-				<div id="popular" class="row">
-					<div class="col-12 text-center">
-						<h4>Most Popular</h4>
-					</div>
-					<div class="col-12">
-						@for ($x = 0; $x < 3; $x++)
-						<div class="most-popular-prod-sidebar text-center">
-							<img id="popular" src="{{ $products_latest[$x]->featured_image_url }}"class="img-thumbnail">
-							<h6 class="mt-2">{{ $products_latest[$x]->name }}</h6>
-							<p>{{ str_limit($products_latest[$x]->description, 100) }}</p>
-							<div class="row">
-								<div class="input-group mb-3 d-flex justify-content-center">
-									<input class="counter-inputas" type="number" name="amount">
-									<div class="input-group-append">
-										<a class="btn btn-dark add-into-cart" data-url="{{ route('order.store', $products_latest[$x]->id) }}">Add to Cart</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						@endfor
 					</div>
 				</div>
 			</div>
