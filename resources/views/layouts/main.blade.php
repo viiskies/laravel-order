@@ -1,3 +1,4 @@
+@inject('cartService', "App\Services\CartService")
 <!DOCTYPE html>
 <html>
 	<head>
@@ -56,8 +57,8 @@
 						<span class="cart-menu-icon">
 							<i class="fa fa-cart-arrow-down"></i>
 						</span>
-						<span class="cart-menu-price">Items: 0</span>
-						<span class="cart-menu-price">€200</span>
+						<span class="cart-menu-price totalQuantityTop">Items: {{ !empty(Auth::user()->orders->where('status',0)->first()) ? $cartService->getTotalCartQuantity(Auth::user()->orders->where('status', 0)->first()) : ' 0 ' }}</span>
+						<span class="cart-menu-price totalPriceTop">  € {{ !empty(Auth::user()->orders->where('status',0)->first()) ? $cartService->getTotalCartPrice(Auth::user()->orders->where('status', 0)->first()) : ' 0.00' }}</span>
 					</span></a>
 				</div>
 			</div>

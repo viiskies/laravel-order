@@ -13805,7 +13805,11 @@ $('.add-into-cart').click(function () {
     url: $(this).data('url'),
     data: { quantity: quantity, _token: token },
     dataType: "json",
-    success: function success() {
+    success: function success(data) {
+
+      console.log(data);
+      $('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
+      $('.totalPriceTop').html('  € ' + data['totalPrice']);
       element.html('Added to cart');
       element.css({ 'color': 'green', 'display': 'block' });
     },
@@ -13842,9 +13846,11 @@ $('.setquantity').keyup(function () {
       dataType: "json",
       success: function success(data) {
         var element = $('#message' + data['id']);
-        $('#totalQuantity').html(data['totalQuantity']);
+        $('.totalQuantityTop').html('Item: ' + data['totalQuantity']);
+        $('.totalQuantity').html(data['totalQuantity']);
         $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-        $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+        $('.totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+        $('.totalPriceTop').html('  € ' + data['totalPrice']);
         element.html('updated');
         element.css({ 'color': 'green', 'display': 'block' });
       },
@@ -13854,7 +13860,7 @@ $('.setquantity').keyup(function () {
         message.css({ 'color': 'red', 'display': 'block' });
       }
     });
-  }, 100);
+  }, 300);
 });
 
 $(".table-tr").hover(function () {

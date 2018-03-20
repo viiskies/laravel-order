@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    const UNCONFIRMED = 0;
-    const CONFIRMED = 1;
+    const PENDING = 0;
+    const UNCONFIRMED = 1;
+    const CONFIRMED = 2;
     public $timestamps = false;
     protected $fillable = ['status'];
 
@@ -24,6 +25,11 @@ class Order extends Model
     {
         return $query->where('status', Order::UNCONFIRMED);
     }
+	
+	public function scopeInCart($query)
+	{
+		return $query->where('status', Order::PENDING);
+	}
 
     public function chat()
     {

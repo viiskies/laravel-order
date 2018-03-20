@@ -56,8 +56,14 @@ class CartController extends Controller
             $amount = $product->quantity + $request->quantity;
             $product->update(['quantity' => $amount]);
         }
+        
+        $data = [
+        	'product_id'=>$product_id,
+	        'totalQuantity' => $this->getTotal->getTotalCartQuantity($user_order),
+	        'totalPrice' => $this->getTotal->getTotalCartPrice($user_order),
+        ];
 
-        return $product_id;
+        return $data;
     }
 
     public function update($id, StoreOrderRequest $request)
