@@ -24,7 +24,8 @@ class UserSeeder extends Seeder
 			'email'                => $faker -> email,
 			'contact_person'       => $faker -> name,
 			'phone'                => $faker -> phoneNumber,
-			'payment_terms'       => 15
+			'payment_terms'       => 15,
+            'name' => $faker->company
 		] );
 		
 		User ::create( [
@@ -63,7 +64,8 @@ class UserSeeder extends Seeder
             'email'                => $faker -> email,
             'contact_person'       => $faker -> name,
             'phone'                => $faker -> phoneNumber,
-            'payment_terms'       => 15
+            'payment_terms'       => 15,
+            'name'                 => $faker->company
         ] );
 
         User ::create( [

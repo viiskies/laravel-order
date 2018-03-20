@@ -39,9 +39,9 @@ class User extends Authenticatable
         return $this->hasMany(Price::class);
     }
 
-    public function client(){
+    public function client()
+    {
         return $this->belongsTo(Client::class);
-
     }
 
     public function orders()
@@ -49,4 +49,8 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function specialOffers()
+    {
+        return $this->belongsToMany(SpecialOffer::class, 'special_offer_user');
+    }
 }
