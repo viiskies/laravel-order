@@ -22,6 +22,12 @@
 							<ul>
 								<li><a href="{{ route('products.create') }}">Add product</li>
 							</ul>
+							<ul>
+								<li><a href="{{ route('products.import.form') }}">Import products</li>
+							</ul>
+							<ul>
+								<li><a href="{{ route('products.import.log') }}">Products log</li>
+							</ul>
 						</ul>
 					</div>
 					{{-- @endadmin --}}
