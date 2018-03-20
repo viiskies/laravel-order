@@ -8,54 +8,54 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
 </head>
 <body>
-	<div class="container">
-		<!-- Header -->
-			@include('layouts.partials.header')
-			<!-- Sidebar -->
-			<div class="row">
-				@include('layouts.partials.sidebar')
-			</div>
-			
-				@yield('content')
+<div class="container">
+	<!-- Header -->
+@include('layouts.partials.header')
+<!-- Sidebar -->
+	<div class="row">
+		@include('layouts.partials.sidebar')
+	</div>
 
-				<!-- New arrivals -->
-				<hr>
-				<div class="row">
-					<div class="col-12 text-center">
-						<h4>New arrivals</h4>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
-						<div class="karuseles-arrow prev"><i class="fa fa-caret-left"></i>
-						</div>
-					</div>
-					<div class="col-sm-8">
-						<div class="karusele">
+@yield('content')
 
-							@foreach ($products_latest as $product_latest)
-							<div class="karuseles-img">
-								<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><img class="gallery" src="{{ $product_latest->featured_image_url }}"></a>
-								<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><h5>{{ $product_latest->name }}</h5></a>
-							</div>
-							@endforeach
-						</div>
-					</div>
-					<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
-						<div class="karuseles-arrow next"><i class="fa fa-caret-right"></i></div>
-					</div>
-				</div>
+<!-- New arrivals -->
+	<hr>
+	<div class="row">
+		<div class="col-12 text-center">
+			<h4>New arrivals</h4>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+			<div class="karuseles-arrow prev"><i class="fa fa-caret-left"></i>
 			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="karusele">
 
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12 mt-5 text-center footer">
-						<p>Copyright © GameStar 2018</p>
+				@foreach ($products_latest as $product_latest)
+					<div class="karuseles-img">
+						<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><img class="gallery" src="{{ $product_latest->featured_image_url }}"></a>
+						<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><h5>{{ $product_latest->name }}</h5></a>
 					</div>
-				</div>
+				@endforeach
 			</div>
-			<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
-	</body>
+		</div>
+		<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">
+			<div class="karuseles-arrow next"><i class="fa fa-caret-right"></i></div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12 mt-5 text-center footer">
+			<p>Copyright © GameStar 2018</p>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+</body>
 </html>
