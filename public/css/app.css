@@ -15484,7 +15484,7 @@ table tr {
 
 table th,
 table td {
-  text-align: right;
+  text-align: center;
   padding: .35em;
 }
 
@@ -15545,5 +15545,15 @@ input.input {
 
 .create-product-error {
   color: red;
+}
+
+.zoom {
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}
+
+#message {
+  display: none;
+  color: green;
 }
 
