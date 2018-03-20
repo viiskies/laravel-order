@@ -44,4 +44,13 @@ class CategoriesController extends Controller {
 		
 		return redirect() -> route( 'categories.index' );
 	}
+
+	    public function show($id)
+    {
+
+        $cat = Category::findOrFail($id);
+        $products = $cat->products()->paginate(config('pagination.value'));
+
+        return view('home', ['products' => $products]);
+    }
 }

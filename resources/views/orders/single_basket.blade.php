@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Orders User</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" href= "{{ asset('css/style.css') }}">
-</head>
-<body>
+@extends('layouts.main')
+@section('content')
 @inject('cartService', "App\Services\CartService")
-<div class="container">
-
+<div class="col-10 mt-5">
     <!-- Order table -->
     <div class="row">
-        <div class="col-md-12">
-            <table class="table table-sm">
-                <thead class="thead-light">
+        <table class="table table-sm">
+            <thead class="thead-light">
                 <tr>
                     <th scope="col">EAN:</th>
                     <th scope="col">Platform:</th>
@@ -26,60 +17,53 @@
                     <th scope="col">Quantity</th>
                     <th scope="col"></th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 @if(!empty($products))
-                    @foreach($products as $product)
-                        <tr>
-                            <td data-label="EAN:" class="align-middle">{{ $product->product->ean }}</td>
-                            <td data-label="Platform:" class="align-middle">{{ $product->product->platform->name }}</td>
-                            <td data-label="Name:" class="align-middle">{{ $product->product->name }}</td>
-                            <td data-label="Release date:" class="align-middle">{{ $product->product->release_date }}</td>
-                            <td data-label="Publisher:" class="align-middle">{{  $product->product->publisher->name }}</td>
-                            <td data-label="Price:" class="align-middle">{{ $product->product->PriceAmount }} €</td>
-                            <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle">{{ $cartService->getSingleProductPrice($product) }} €</td>
-                            <td data-label="Amount:" class="align-middle">
-                                <input onkeyup="setquantity({{ $product->id }},this.value)" class="input" type="number" name="amount" value="{{ $product->quantity }}">
-                                <br>
-                                <span style="display: none; color: green" id="update{{ $product->id }}" ></span>
-                            </td>
-                            <td class="align-middle">
-                                <form action="{{route('order.product.delete', $product->id)}}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="9" style="font-size: 50px;"><b>Cart is empty</b></td>
-                        </tr>
-                        <tr>
-                            <td colspan="9"><a class="btn btn-success" href="{{ route('home') }}">Back to Shop</a></td>
-                        </tr>
-                    @endif
+                @foreach($products as $product)
                 <tr>
-                    <td class="total"></td>
-                    <td class="total"></td>
-                    <td class="total"></td>
-                    <td class="total"></td>
-                    <td class="total"></td>
-                    <td class="total" scope="Total"><b>Total</b></td>
-                    <td id="totalPrice" data-label="Total">{{ !empty($products) ? $cartService->getTotalCartPrice($order) : ''}} €</td>
-                    <td id="totalQuantity" data-label="Total quantity">{{ !empty($products) ? $cartService->getTotalCartQuantity($order) : '' }}</td>
-                    <td class="total"></td>
+                    <td data-label="EAN:" class="align-middle text-right">{{ $product->product->ean }}</td>
+                    <td data-label="Platform:" class="align-middle text-right">{{ $product->product->platform->name }}</td>
+                    <td data-label="Name:" class="align-middle text-right">{{ $product->product->name }}</td>
+                    <td data-label="Release date:" class="align-middle text-right">{{ $product->product->release_date }}</td>
+                    <td data-label="Publisher:" class="align-middle text-right">{{ !empty($product->product->publisher) ? $product->product->publisher->name : '' }}</td>
+                    <td data-label="Price:" class="align-middle text-right">{{ number_format($product->product->PriceAmount, 2, '.', '') }} €</td>
+                    <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle text-right">{{ number_format($cartService->getSingleProductPrice($product), 2, '.', '') }} €</td>
+                    <td data-label="Amount:" class="align-middle text-right">
+                        <input data-url="{{ route('order.update',$product->id) }}" class="input setquantity" type="number" name="amount" value="{{ $product->quantity }}">
+                        <br>
+                        <span id="message{{ $product->id }}" ></span>
+                    </td>
+                    <td class="align-middle text-right">
+                        <form action="{{route('order.product.delete', $product->id)}}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+                <tr>
+                    <td scope="total" colspan="7" class="text-right"><b>Total</b></td>
+                    <td class="align-middle text-right" id="totalPrice" rowspan="6" data-label="Total">{{ !empty($products) ? $cartService->getTotalCartPrice($order) : ''}} €</td>
+                    <td class="align-middle text-right" id="totalQuantity" data-label="Total quantity">{{ !empty($products) ? $cartService->getTotalCartQuantity($order) : '' }}</td>
+                </tr>
+                @else
+                <tr>
+                    <td colspan="9" class="text-center"><b>Your cart is empty</b></td>
+                </tr>
+                <tr>
+                    <td colspan="9"><a class="btn btn-dark" href="{{ route('home') }}">Back to Shop</a></td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
     </div>
     <!-- Comments and attachments -->
     @if(!empty($products))
     <div class="row">
         <div class="col-12">
-            <form action="{{ route('order.confirm', $order_id) }}" method="post">
+            <form action="{{ route('cart.confirm', $order_id) }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1"><h4>Comments</h4></label>
@@ -88,43 +72,10 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-danger btn-lg btn-block" >Confirm your order</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     @endif
 </div>
-        <script
-                src="https://code.jquery.com/jquery-3.3.1.js"
-                integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-                crossorigin="anonymous"></script>
-        <script>
-            var timer = null;
-            function setquantity(id,quantity) {
-                clearTimeout(timer);
-                timer = setTimeout(function() { update_quantity(id,quantity) }, 1000)
-            }
-            function update_quantity(id,quantity)
-            {
-                var token = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    type: "post",
-                    url: '{!! URL::to('update') !!}/' + id,
-                    data: {quantity: quantity,_token: token},
-                    dataType: "json",
-                    success:function (data)
-                    {
-                        document.getElementById('totalQuantity').innerHTML = data['totalQuantity'];
-                        document.getElementById('singlePrice' + id).innerHTML = data['singleProductPrice'] + ' €';
-                        document.getElementById('totalPrice').innerHTML = data['totalPrice'] + ' €';
-                        document.getElementById('update' + data['id']).innerHTML = 'updated';
-                        document.getElementById('update' + data['id']).style.display = 'block';
-                    },
-                    error:function (error)
-                    {
-                        document.getElementById('update' + id).innerHTML = error['responseJSON']['errors']['quantity'][0];
-                        document.getElementById('update' + id).style.display = 'block';
-                    }
-                });
-            }
-        </script>
-</body>
+
+@endsection
