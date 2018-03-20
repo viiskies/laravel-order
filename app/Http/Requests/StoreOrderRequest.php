@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -28,15 +29,10 @@ class StoreOrderRequest extends FormRequest
             return [
                 'quantity' => 'required|integer|min:1|max:10000',
             ];
-        }else{
-            if (Auth::user()->role === "admin") {
-                return [
-                    'price' => 'required|integer|min:1|max:10000',
-                ];
-            } else {
-                return redirect()->back();
-            }
-
+        }elseif(Auth::user()->role === 'admin'){
+            return [
+                'price' => 'required|integer|min:1|max:10000',
+            ];
         }
     }
     public function messages()

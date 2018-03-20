@@ -43,6 +43,7 @@ class CartController extends Controller
             $order = $user->orders()->create([
                 'status' => Order::PENDING,
                 'date' => Carbon::now(),
+                'type' => 0,
             ]);
         }else{
             $order = $user_order;
@@ -50,8 +51,10 @@ class CartController extends Controller
         $product = $order->orderProducts->where('product_id', $product_id)->first();
         if ($product == null)
         {
+            $product = Product::findOrFail($product_id);
             $order->orderProducts()->create($request->except('_token')+[
                     'product_id' => $product_id,
+                    'price' => $product->PriceAmount,
                 ]);
         }else{
             $amount = $product->quantity + $request->quantity;
