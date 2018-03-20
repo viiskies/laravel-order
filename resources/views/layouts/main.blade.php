@@ -15,7 +15,6 @@
 	<div class="row">
 		@include('layouts.partials.sidebar')
 	</div>
-
 @yield('content')
 
 <!-- New arrivals -->

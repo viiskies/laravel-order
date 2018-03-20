@@ -41,6 +41,7 @@ Route::resource('platforms', 'PlatformController');
 
 Route::resource('products', 'ProductsController');
 Route::get('search/', 'SearchController@search')->name('products.search');
+Route::get('suggest/', 'SuggestionController@suggest')->name('products.suggest');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');

@@ -15,7 +15,7 @@
 			<div class="row">
 				@include('layouts.partials.sidebar_no_pop')
 			</div>
-			
+
 				@yield('content')
 
 				<!-- New arrivals -->
