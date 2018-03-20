@@ -55,4 +55,10 @@ Route::put('order/{id}/action', 'OrdersController@action')->name('order.action')
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
 
+Route::get('special', 'SpecialOffersController@index')->name('special.index');
+Route::post('special/store', 'SpecialOffersController@store')->name('special.store');
+Route::post('special/platform', 'SpecialOffersController@getByPlatform')->name('special.filter.platform');
+Route::post('special/publisher', 'SpecialOffersController@getByPublisher')->name('special.filter.publisher');
+Route::post('special/search', 'SpecialOffersController@search')->name('special.search');
+
 Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');
