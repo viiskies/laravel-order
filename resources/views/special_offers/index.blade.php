@@ -10,7 +10,6 @@
         <div class="row">
             <div class="col-sm-3 mx-auto">
                 <h6>Filter by platform</h6>
-                 {{--filtras pagal platforma--}}
                 <form action="{{ route('special.filter.platform') }}" method="post" class="form-inline">
                     @csrf
                     <div class="form-group">
@@ -24,7 +23,6 @@
                 </form>
             </div>
             <div class="col-sm-5 mx-auto">
-                 {{--filtras pagal publisher--}}
                 <h6>Filter by publisher</h6>
                 <form action="{{ route('special.filter.publisher') }}" method="post" class="form-inline">
                     @csrf
@@ -39,7 +37,6 @@
                 </form>
             </div>
             <div class="col-sm-4 mx-auto">
-                 {{--search--}}
                 <h6>Search</h6>
                 <form action="{{ route('special.search') }}" method="post" class="form-inline">
                     @csrf
@@ -53,7 +50,6 @@
         <div class="row">
             <div class="col-sm-12"><br><hr>
                 <h4>Make special offer</h4>
-                {{-- special offers --}}
                 @if($products !== null)
                     <form action="{{ route('special.store') }}" method="post">
                         @csrf

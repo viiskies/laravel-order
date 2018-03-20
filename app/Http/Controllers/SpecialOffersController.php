@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 class SpecialOffersController extends Controller
 {
     protected $price;
+
     public function __construct(PricingService $price)
     {
         $this->price = $price;
@@ -21,10 +22,6 @@ class SpecialOffersController extends Controller
 
     public function index()
     {
-        $user = User::findOrFail(1);
-        $product = Product::findOrFail(6);
-        $price = $this->price->getPrice($user, $product);
-        dd($price);
         $clients = Client::all();
         $products = Product::all();
         $publishers = Publisher::all();
@@ -34,11 +31,8 @@ class SpecialOffersController extends Controller
 
     public function store(Request $request)
     {
-//        dd($request);
         $clients = $request->get('client_id');
-//        dd($clients);
         $special_offer = SpecialOffer::create($request->only('expiration_date'));
-//        dd($special_offer);
         foreach ($clients as $client_id) {
             $client = Client::findOrFail($client_id);
             $special_offer->users()->attach($client->user->id);
