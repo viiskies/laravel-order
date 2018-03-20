@@ -37315,6 +37315,36 @@ $('.slider-nav').slick({
   focusOnSelect: true
 });
 
+//// Suggestion Autocomplete
+$(function () {
+  // function log( message ) {
+  //     $( "<div>" ).text( message ).prependTo( "#log" );
+  //     $( "#log" ).scrollTop( 0 );
+  // }
+
+  $("#productsSearch").autocomplete({
+    source: function source(request, response) {
+      $.ajax({
+        url: '/suggest',
+        dataType: "json",
+        data: {
+          term: request.term
+        },
+        success: function success(data) {
+          response(data);
+        },
+        error: function error(err) {
+          console.log('klaida');
+        }
+      });
+    },
+    minLength: 2
+
+  });
+});
+// End of Suggestion Autocomplete
+
+
 $('#gll').slickLightbox();
 
 $(function () {

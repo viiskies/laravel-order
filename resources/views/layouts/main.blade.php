@@ -85,9 +85,9 @@
 				<div class="col-12 d-flex justify-content-center pt-3 pb-3 search-bar-back">
 					<form class="form-inline justify-content-center" action="{{ route('products.search') }}" method="GET">
 						@if (isset($query))
-							<input name="query" class="form-control mr-sm-2 search-inputas" type="search" placeholder="Search" aria-label="Search" value="{{ old('name', $query) }}" >
+							<input name="query" id="productsSearch" class="form-control mr-sm-2 search-inputas" type="search" placeholder="Search" aria-label="Search" value="{{ old('name', $query) }}" >
 						@else
-							<input name="query" class="form-control mr-sm-2 search-inputas" type="search" placeholder="Search" aria-label="Search" value="{{ old('name') }}" >
+							<input name="query" id="productsSearch" class="form-control mr-sm-2 search-inputas" type="search" placeholder="Search" aria-label="Search" value="{{ old('name') }}" >
 						@endif
 						<button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
 					</form>

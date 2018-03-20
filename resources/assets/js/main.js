@@ -3,7 +3,6 @@ require('slick-carousel');
 require('slick-lightbox');
 var autocomplete = require( "jquery-ui/ui/widgets/autocomplete" );
 
-
 $('.slider').slick({
   slidesToShow: 1,
   slidesToScroll: 1,
@@ -84,6 +83,33 @@ $('.slider-nav').slick({
   focusOnSelect: true
 });
 
+//// Suggestion Autocomplete
+$( function() {
+
+    $( "#productsSearch" ).autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: '/suggest',
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function( data ) {
+                    response(data );
+                },
+                error: function (err) {
+                    console.log('klaida')
+                }
+            } );
+        },
+        minLength: 2,
+
+    } );
+} );
+// End of Suggestion Autocomplete
+
+
+
 $('#gll').slickLightbox();
 
 $( function() {
@@ -104,10 +130,7 @@ $( function() {
     input.autocomplete({
       source: activeList
     });
-
   });
-
-
 });
 
 $('.add-into-cart').click(function(){

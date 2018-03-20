@@ -1,16 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
-
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
-    	$categories = Category::all();
+        $categories = Category::all();
         if ($request->get('query') == null) {
             $products = Product::paginate(config('pagination.value'));
         } else {

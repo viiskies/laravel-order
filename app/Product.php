@@ -16,6 +16,9 @@ class Product extends Model
 
     protected $mapping = [
         'properties' => [
+            "suggest" => [
+                "type" => "completion"
+            ],
             'name' => [
                 'type' => 'text',
                 "analyzer" => "simple",
@@ -31,16 +34,31 @@ class Product extends Model
 
     public function toSearchableArray()
     {
+        $suggestArray[] = $this->name;
+        $suggestArray[] = $this->platform->name;
+        if(isset($this->publisher->name)){
+            $suggestArray[] = $this->publisher->name;
+        }
+        $splittingName = $this->name;
+        while (strpos($splittingName, ' ') !== false) {
+            $suggestionSplit = explode(' ', $splittingName, 2);
+            $splittingName = $suggestionSplit[1];
+            $suggestArray[] = $splittingName;
+        }
         $array = [
             'id'        => $this->id,
             'name'      => $this->name,
             'ean'       => $this->ean,
             'platform'  => $this->platform->name,
+            'suggest' => [
+                'input' => $suggestArray,
+            ]
         ];
 
         if(isset($this->publisher->name)) {
             $array['publisher'] = $this->publisher->name;
         }
+
         return $array;
     }
 
