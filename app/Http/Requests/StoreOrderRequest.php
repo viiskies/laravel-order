@@ -29,9 +29,14 @@ class StoreOrderRequest extends FormRequest
                 'quantity' => 'required|integer|min:1|max:10000',
             ];
         }else{
-            return [
-                'price' => 'required|integer|min:1|max:10000',
-            ];
+            if (Auth::user()->role === "admin") {
+                return [
+                    'price' => 'required|integer|min:1|max:10000',
+                ];
+            } else {
+                return redirect()->back();
+            }
+
         }
     }
     public function messages()
