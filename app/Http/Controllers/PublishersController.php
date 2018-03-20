@@ -45,7 +45,7 @@ class PublishersController extends Controller
     public function update(StorePublisherRequest $request, $id)
     {
         Publisher::findOrFail($id)->update(['name' => $request->get('name')]);
-        return redirect()->route('publishers.show', $id);
+        return redirect()->route('publishers.index', $id);
     }
 
 

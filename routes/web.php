@@ -48,9 +48,18 @@ Route::resource('categories', 'CategoriesController');
 
 Route::post('order/{id}', 'CartController@store')->name('order.store');
 Route::get('basket', 'CartController@index')->name('order.index');
-Route::post('cart/{id}', 'CartController@confirm')->name('order.confirm');
+Route::post('cart/{id}', 'CartController@confirm')->name('cart.confirm');
+Route::get('orders', 'OrdersController@index')->name('order.orders');
+Route::get('order/{id}', 'OrdersController@show')->name('order.products');
+Route::put('order/{id}/action', 'OrdersController@action')->name('order.action');
 
 Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
+
+Route::get('special', 'SpecialOffersController@index')->name('special.index');
+Route::post('special/store', 'SpecialOffersController@store')->name('special.store');
+Route::post('special/platform', 'SpecialOffersController@getByPlatform')->name('special.filter.platform');
+Route::post('special/publisher', 'SpecialOffersController@getByPublisher')->name('special.filter.publisher');
+Route::post('special/search', 'SpecialOffersController@search')->name('special.search');
 
 Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');

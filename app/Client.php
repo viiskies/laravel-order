@@ -8,6 +8,7 @@ class Client extends Model
 {
     protected $fillable = [
         'vat_number',
+        'name',
         'registration_number',
         'registration_address',
         'shipping_address',
