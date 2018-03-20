@@ -28,4 +28,9 @@ class CartService
         }
         return $totalCartQuantity;
     }
+
+    public function getStoreOrder($product)
+    {
+
+    }
 }

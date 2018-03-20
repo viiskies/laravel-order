@@ -24,6 +24,7 @@ class CartController extends Controller
     {
         $user = Auth::user();
         $order = $user->orders()->asCart()->first();
+        $backorder =$user->orders()->asCartBackOrder()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
@@ -32,36 +33,85 @@ class CartController extends Controller
                 $order_products = [];
                 $order_id = [];
         }
-        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id, 'order' =>$order]);
+        if (!empty($backorder))
+        {
+            $backorders = $backorder->orderProducts()->get();
+        }else{
+            $backorders = [];
+        }
+//        dd($backorder->orderProducts()->get());
+        return view('orders.single_basket', [
+            'products' => $order_products,
+            'order_id' => $order_id,
+            'order' =>$order,
+            'backorders' => $backorders]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
         $user = Auth::user();
         $user_order = $user->orders()->asCart()->first();
-        if (empty($user_order))
-        {
-            $order = $user->orders()->create([
-                'status' => Order::PENDING,
-                'date' => Carbon::now(),
-                'type' => 0,
-            ]);
-        }else{
-            $order = $user_order;
-        }
-        $product = $order->orderProducts->where('product_id', $product_id)->first();
-        if ($product == null)
-        {
-            $product = Product::findOrFail($product_id);
-            $order->orderProducts()->create($request->except('_token')+[
-                    'product_id' => $product_id,
-                    'price' => $product->PriceAmount,
-                ]);
-        }else{
-            $amount = $product->quantity + $request->quantity;
-            $product->update(['quantity' => $amount]);
-        }
+        $get_product = Product::findOrfail($product_id);
 
-        return $product_id;
+        if($get_product->stock()->first()->amount < $request->quantity) {
+            $unavailable_quantity =$request->quantity - $get_product->stock()->first()->amount;
+            $cart_backorder = $user->orders()->asCartBackOrder()->first();
+
+            if (empty($cart_backorder)) {
+                $backorder=$user->orders()->create([
+                    'status' => Order::PENDING,
+                    'date' => Carbon::now(),
+                    'type' => Order::BACKORDER
+                ]);
+            } else {
+                $backorder= $cart_backorder;
+            }
+            if(empty($user_order)) {
+                $order = $user->orders()->create([
+                    'status' => Order::PENDING,
+                    'date' => Carbon::now(),
+                    'type' => Order::ORDER
+                ]);
+            }else{
+                $order = $user_order;
+            }
+            $product = $backorder->orderProducts->where('product_id', $product_id)->first();
+
+            if ($product == null)
+            {
+                $product = Product::findOrFail($product_id);
+                $backorder->orderProducts()->create($request->except('_token')+[
+                        'product_id' => $product_id,
+                        'price' => $product->PriceAmount,
+                        'quantity' => $unavailable_quantity
+                    ]);
+            }else{
+                $amount = $product->quantity + $request->quantity;
+                $product->update(['quantity' => $amount]);
+            }
+        }else {
+
+            if (empty($user_order)) {
+                $order = $user->orders()->create([
+                    'status' => Order::PENDING,
+                    'date' => Carbon::now(),
+                    'type' => Order::ORDER
+                ]);
+            } else {
+                $order = $user_order;
+            }
+            $product = $order->orderProducts->where('product_id', $product_id)->first();
+            if ($product == null) {
+                $product = Product::findOrFail($product_id);
+                $order->orderProducts()->create($request->except('_token') + [
+                        'product_id' => $product_id,
+                        'price' => $product->PriceAmount,
+                    ]);
+            } else {
+                $amount = $product->quantity + $request->quantity;
+                $product->update(['quantity' => $amount]);
+            }
+        }
+       return $product_id;
     }
 
     public function update($id, StoreOrderRequest $request)

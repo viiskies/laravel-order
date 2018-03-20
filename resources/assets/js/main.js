@@ -119,8 +119,9 @@ $('.add-into-cart').click(function(){
         url: $(this).data('url'),
         data: {quantity: quantity,_token: token},
         dataType: "json",
-        success:function ()
+        success:function (data)
         {
+            console.log(data);
             element.html('Added to cart');
             element.css({'color':'green','display':'block'})
         },

@@ -16,7 +16,7 @@ class Order extends Model
     const BACKORDER = 2;
 
     public $timestamps = false;
-    protected $fillable = ['status'];
+    protected $fillable = ['status','type'];
 
     public function orderProducts()
     {
@@ -29,7 +29,7 @@ class Order extends Model
     }
     public function scopeAsCart($query)
     {
-        return $query->where('status', Order::PENDING   );
+        return $query->where('status', Order::PENDING)->where('type', Order::ORDER);
     }
 
     public function getOrderTypeAttribute()
@@ -59,5 +59,10 @@ class Order extends Model
     public function chat()
     {
         return $this->hasOne(Chat::class);
+    }
+
+    public function scopeAsCartBackOrder($query)
+    {
+        return $query->where('type', Order::BACKORDER)->where('status', Order::PENDING);
     }
 }
