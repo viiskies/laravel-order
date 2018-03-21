@@ -261,7 +261,7 @@
     }
 
     .form-inline {
-        width: 50% !important;
+        width: 100% !important;
     }
 
     div#sidebar {
@@ -517,6 +517,42 @@ IMPORT PRODUCTS
 
 
 /*
+SPECIAL OFFERS
+*/
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: solid #ced4da 1px !important;
+    outline: 0;
+}
+
+.select2-container--default .select2-selection--multiple {
+    background-color: white;
+    border: solid #ced4da 1px !important;
+    border-radius: 4px;
+    cursor: text;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+}
+
+.special-offers-clients-select .input-group-text {
+    padding: .0.75rem;
+}
+
+.special-offers-clients-select .input-group-text input[type="checkbox"] {
+    margin-top: 0px;
+}
+
+.special-offers-clients-select .input-group-text .form-group {
+    margin-bottom: 0;
+}
+
+.special-offers-clients-select-all {
+ font-size: 12px;
+ margin-bottom: 0;   
+ margin-right:10px;
+}
+
+/*
 MOBILE
 */
 
@@ -525,6 +561,10 @@ MOBILE
     .cart-menu {
         display:none;
     }
+
+    .single-price-block {
+    height: auto;
+}
 
     .cart-menu-mobile {
         display: block;
