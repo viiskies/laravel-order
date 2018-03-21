@@ -10,7 +10,15 @@
 </ul>
 <li><a href="{{ route('publishers.index') }}">Publishers</a></li>
 <ul>
-<li><a href="{{ route('publishers.create') }}">Add publishers</a></li>
+<li><a href="{{ route('publishers.create') }}">Add publisher</a></li>
+</ul>
+<li><a href="{{ route('platforms.index') }}">Platforms</a></li>
+<ul>
+<li><a href="{{ route('platforms.create') }}">Add platform</a></li>
+</ul>
+<li><a href="{{ route('categories.index') }}">Categories</a></li>
+<ul>
+<li><a href="{{ route('categories.create') }}">Add category</a></li>
 </ul>
 <li><a href="{{ route('home') }}">Products</a></li>
 <ul>

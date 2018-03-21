@@ -20,7 +20,7 @@ class CategoriesController extends Controller {
 	
 	public function store( StoreCategoryRequest $request ) {
 		Category ::create( $request -> except( '_token' ) );
-		session() -> flash( 'status', 'Category created successfully' );
+		session() -> flash( 'success', 'Category created successfully' );
 		
 		return redirect() -> route( 'categories.index' );
 	}
@@ -34,13 +34,20 @@ class CategoriesController extends Controller {
 	public function update( $id, UpdateCategoryRequest $request ) {
 		$category = Category ::findOrFail( $id );
 		$category -> update( $request -> except( '_token' ) );
-		session() -> flash( 'status', 'Category update successfully' );
+		session() -> flash( 'success', 'Category update successfully' );
 		
 		return redirect() -> route( 'categories.index' );
 	}
 	
 	public function destroy( $id ) {
-		Category ::findOrFail( $id ) -> delete();
+		$category = Category ::findOrFail( $id );
+		if ($category->products()->count() > 0)
+		{
+			session() -> flash( 'failure', 'Cannot delete, there are products in this category' );	
+		} else {
+			$category -> delete();
+			session() -> flash( 'success', 'Category deleted successfully' );
+		}
 		
 		return redirect() -> route( 'categories.index' );
 	}
