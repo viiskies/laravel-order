@@ -1,18 +1,20 @@
+@inject('cartService', "App\Services\CartService")
 <!-- Top Bar -->
-<div class="row">
-    <div class="top-bar">
-        <ul>
-            <li><i class="fa fa-phone-volume"></i> <a href="#">+370 644 54348</a></li>
-            <li><i class="fa fa-envelope"></i> <a href="#">info@gamestar.eu</a></li>
-        </ul>
-    </div>
-</div>
-<!-- Header -->
-<div class="row">
-    <div class="logo">
-        <a href="{{ route('home') }}"><img src="{{asset('images/logo2.png')}}"></a>
-    </div>
-    <div class="cart-menu-mobile">
+		<div class="row">
+			<div class="top-bar">
+				<ul>
+					<li><i class="fa fa-phone-volume"></i>  <a href="#">+370 644 54348</a></li>
+					<li><i class="fa fa-envelope"></i>  <a href="#">info@gamestar.eu</a></li>
+				</ul>
+			</div>
+		</div>
+			<!-- Header -->
+			<div class="row">
+				<div class="logo">
+					<a href="{{ route('home') }}"><img src="{{asset('images/logo2.png')}}"></a>
+				</div>
+				<div class="cart-menu-mobile">
+
 					<span class="cart-menu-icon-mobile">
 						<a href="{{ route('order.index') }}"><i class="fa fa-cart-arrow-down"></i></a>
 					</span>
@@ -47,8 +49,8 @@
 						<span class="cart-menu-icon">
 							<i class="fa fa-cart-arrow-down"></i>
 						</span>
-						<span class="cart-menu-price">Items: 0</span>
-						<span class="cart-menu-price">€200</span>
+						<span class="cart-menu-price totalQuantityTop">Items: {{ $cartService->getUserOrderTotalQuantity()}}</span>
+						<span class="cart-menu-price totalPriceTop">  € {{ $cartService->getUserOrderTotalPrice() }}</span>
 					</span></a>
     </div>
 </div>

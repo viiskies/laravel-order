@@ -6,6 +6,7 @@ use App\Product;
 use DB;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -28,6 +29,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+    	
+    	
+    	
+    	
         $categories = Category::all();
         $products = Product::with('platform','publisher', 'images')->paginate(config('pagination.value'));
 
