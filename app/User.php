@@ -59,4 +59,13 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function getUserOrderAttribute(  )
+    {
+        if (!empty($this->orders->where('status', 0)->first())) {
+            return $this->orders->where('status', 0)->first();
+        } else {
+            return false;
+        }
+    }
 }
