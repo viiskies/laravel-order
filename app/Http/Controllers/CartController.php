@@ -25,6 +25,7 @@ class CartController extends Controller
         $user = Auth::user();
         $order = $user->orders()->asCart()->first();
         $backorder =$user->orders()->asCartBackOrder()->first();
+        $preorder =$user->orders()->asCartPreOrder()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
@@ -37,80 +38,40 @@ class CartController extends Controller
         {
             $backorders = $backorder->orderProducts()->get();
         }else{
-            $backorders = [];
+            $backorders =[];
         }
-//        dd($backorder->orderProducts()->get());
+        if (!empty($preorder))
+        {
+            $preorders = $preorder->orderProducts()->get();
+        }else{
+            $preorders =[];
+        }
+
         return view('orders.single_basket', [
             'products' => $order_products,
             'order_id' => $order_id,
             'order' =>$order,
-            'backorders' => $backorders]);
+            'backorders' => $backorders,
+            'preorders' => $preorders
+        ]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
-        $user = Auth::user();
-        $user_order = $user->orders()->asCart()->first();
-        $get_product = Product::findOrfail($product_id);
+        $product = Product::findOrfail($product_id);
 
-        if($get_product->stock()->first()->amount < $request->quantity) {
-            $unavailable_quantity =$request->quantity - $get_product->stock()->first()->amount;
-            $cart_backorder = $user->orders()->asCartBackOrder()->first();
-
-            if (empty($cart_backorder)) {
-                $backorder=$user->orders()->create([
-                    'status' => Order::PENDING,
-                    'date' => Carbon::now(),
-                    'type' => Order::BACKORDER
-                ]);
-            } else {
-                $backorder= $cart_backorder;
-            }
-            if(empty($user_order)) {
-                $order = $user->orders()->create([
-                    'status' => Order::PENDING,
-                    'date' => Carbon::now(),
-                    'type' => Order::ORDER
-                ]);
-            }else{
-                $order = $user_order;
-            }
-            $product = $backorder->orderProducts->where('product_id', $product_id)->first();
-
-            if ($product == null)
+        if ($product->stock()->first()->amount !== 0 && $product->preorder !== Order::PREORDER)
+        {
+            $amount = $this->getTotal->getStoreOrder($product_id, $request);
+            if ($amount !== 0 )
             {
-                $product = Product::findOrFail($product_id);
-                $backorder->orderProducts()->create($request->except('_token')+[
-                        'product_id' => $product_id,
-                        'price' => $product->PriceAmount,
-                        'quantity' => $unavailable_quantity
-                    ]);
-            }else{
-                $amount = $product->quantity + $request->quantity;
-                $product->update(['quantity' => $amount]);
+                $this->getTotal->getStoreBackOrder($product_id, $amount);
             }
-        }else {
-
-            if (empty($user_order)) {
-                $order = $user->orders()->create([
-                    'status' => Order::PENDING,
-                    'date' => Carbon::now(),
-                    'type' => Order::ORDER
-                ]);
-            } else {
-                $order = $user_order;
-            }
-            $product = $order->orderProducts->where('product_id', $product_id)->first();
-            if ($product == null) {
-                $product = Product::findOrFail($product_id);
-                $order->orderProducts()->create($request->except('_token') + [
-                        'product_id' => $product_id,
-                        'price' => $product->PriceAmount,
-                    ]);
-            } else {
-                $amount = $product->quantity + $request->quantity;
-                $product->update(['quantity' => $amount]);
-            }
+        }elseif($product->stock()->first()->amount === 0 && $product->preorder === Order::ORDER){
+            $this->getTotal->getStoreBackOrder($product_id, $request->quantity);
+        } elseif($product->preorder === Order::PREORDER) {
+            $this->getTotal->getStorePreOrder($product_id, $request->quantity);
         }
+
        return $product_id;
     }
 

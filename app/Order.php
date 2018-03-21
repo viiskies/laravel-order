@@ -65,4 +65,9 @@ class Order extends Model
     {
         return $query->where('type', Order::BACKORDER)->where('status', Order::PENDING);
     }
+
+    public function scopeAsCartPreorder($query){
+        return $query->where('type', Order::PREORDER)->where('status', Order::PENDING);
+    }
+
 }
