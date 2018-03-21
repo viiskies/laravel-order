@@ -20,6 +20,10 @@
 <ul>
 <li><a href="{{ route('categories.create') }}">Add category</a></li>
 </ul>
+<li><a href="{{ route('countries.index') }}">Countries</a></li>
+<ul>
+<li><a href="{{ route('countries.create') }}">Add country</a></li>
+</ul>
 <li><a href="{{ route('home') }}">Products</a></li>
 <ul>
 <li><a href="{{ route('products.create') }}">Add product</a></li>
