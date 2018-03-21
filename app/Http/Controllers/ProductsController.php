@@ -66,7 +66,7 @@ class ProductsController extends Controller
             $this->imageService->storeProductImages($product, $request->file('image'));
         }
 
-        return redirect()->route('products.index');
+        return redirect()->route('home');
     }
 
     public function show($id)
