@@ -32,7 +32,8 @@ class HomeController extends Controller
     	
     	
     	
-    	
+//    	$user = Auth::user();
+//    	$email = $user->country()->email;
         $categories = Category::all();
         $products = Product::with('platform','publisher', 'images')->paginate(config('pagination.value'));
 
