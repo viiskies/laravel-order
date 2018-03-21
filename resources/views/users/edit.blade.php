@@ -22,7 +22,7 @@
                 'contact_person' => $client->contact_person,
                 'payment_terms' => $client->payment_terms,
                 'phone' => $client->phone,
-                'country' => $user->country
+                'country_id' => $user->country_id
                 ])
                 @else
                 @include('users.partials.form', [
@@ -37,7 +37,7 @@
                 'contact_person' => '',
                 'payment_terms' => '',
                 'phone' => '',
-                'country' => ''
+                'country_id' => ''
                 ])
                 @endif
                 <div class="col-12 d-flex justify-content-center user-edit-label">

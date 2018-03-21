@@ -70,13 +70,23 @@
 			<label class="col control-label">Country</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<select name="country" class="custom-select">
-						<option> -- select users country -- </option>
-						@foreach($countries as $country)
-							<option value="{{ $country->id }}">{{ $country->name }}</option>
-						@endforeach
+					<select name="country_id" class="custom-select">
+						@if (!isset($country_id))
+							<option disabled selected></option>
+							@foreach($countries as $country)
+								<option value="{{ $country->id }}">{{ $country->name }}</option>
+							@endforeach
+						@else
+							<option selected value="{{$country_id}}">{{$user->country->name}}</option>
+							@foreach($countries as $country)
+								@if($country->id != $country_id)
+									<option value="{{ $country->id }}">{{ $country->name }}</option>
+								@endif
+							@endforeach
+						@endif
 					</select>
 				</div>
+				@include('users.partials.error', ['name' => 'country_id'])
 			</div>
 		</div>
 	</div>

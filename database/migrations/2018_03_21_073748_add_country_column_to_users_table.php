@@ -14,7 +14,7 @@ class AddCountryColumnToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table){
-            $table->string('country');
+            $table->string('country_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddCountryColumnToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table){
-            $table->dropColumn('country');
+            $table->dropColumn('country_id');
         });
     }
 }
