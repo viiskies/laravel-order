@@ -121,14 +121,6 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        // $product->categories()->sync([]);
-        // $prices_to_delete = $product->prices()->delete();
-        // $stock_to_delete = $product->stock()->delete();
-        // $product->importItems()->update(['product_id' => null]);
-
-        // $this->imageService->deleteProductImages($product);
-
-
         Product::destroy($id);
 
         return redirect()->back();
