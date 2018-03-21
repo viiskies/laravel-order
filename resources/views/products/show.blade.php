@@ -84,7 +84,7 @@
                             <div class="col-lg-2 col-md-6">
                                 <h3>{{ $productSingle->stock_amount }}</h3>
                             </div>
-                            <div class="col-lg-6 col-md-12 single-price-block-buotton">
+                            <div class="col-lg-6 col-md-12 single-price-block-button">
                                 <div class="input-group mt-1 mb-1 d-flex justify-content-center">
                                     <div class ="col-7">
                                         <input class="counter-inputas" type="number" id="value{{ $productSingle->id}}" name="amount">
