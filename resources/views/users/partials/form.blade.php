@@ -7,7 +7,9 @@
 					<select name="role" class="custom-select" id="inputGroupSelect01">
 						@if(old('role', $role) == 'admin')
 						<option selected value="admin">Admin</option>
+						<option value="user">User</option>
 						@else
+						<option value="admin">Admin</option>
 						<option selected value="user">User</option>
 						@endif
 					</select>
