@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Price;
 use App\Product;
 use DB;
 use App\Category;
@@ -32,6 +31,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+
+
+
         $categories = Category::all();
         $products = Product::with('platform','publisher', 'images')->paginate(config('pagination.value'));
 
