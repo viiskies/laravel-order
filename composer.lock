@@ -1058,6 +1058,7 @@
             "time": "2017-08-15T16:48:10+00:00"
         },
         {
+>>>>>>> upstream/master
             "name": "gabrielelana/byte-units",
             "version": "0.2.0",
             "source": {
@@ -1109,6 +1110,7 @@
             "time": "2015-03-11T15:46:37+00:00"
         },
         {
+>>>>>>> upstream/master
             "name": "guzzlehttp/guzzle",
             "version": "6.3.0",
             "source": {

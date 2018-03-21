@@ -3,7 +3,6 @@ require('slick-carousel');
 require('slick-lightbox');
 var autocomplete = require( "jquery-ui/ui/widgets/autocomplete" );
 
-
 $('.slider').slick({
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -84,6 +83,33 @@ $('.slider-nav').slick({
     focusOnSelect: true
 });
 
+//// Suggestion Autocomplete
+$( function() {
+
+    $( "#productsSearch" ).autocomplete({
+        source: function( request, response ) {
+            $.ajax( {
+                url: '/suggest',
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function( data ) {
+                    response(data );
+                },
+                error: function (err) {
+                    console.log('klaida')
+                }
+            } );
+        },
+        minLength: 2,
+
+    } );
+} );
+// End of Suggestion Autocomplete
+
+
+
 $('#gll').slickLightbox();
 
 $( function() {
@@ -101,35 +127,35 @@ $( function() {
             activeList.push(value['name']);
         });
 
-        input.autocomplete({
-            source: activeList
-        });
-
+    input.autocomplete({
+      source: activeList
     });
-
-
+  });
 });
 
 $('.add-into-cart').click(function(){
-    var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
-    var token = $('meta[name="csrf-token"]').attr('content');
-    var quantity = $(this).parent().prev().find('input').val();
-    $.ajax({
-        type: "post",
-        url: $(this).data('url'),
-        data: {quantity: quantity,_token: token},
-        dataType: "json",
-        success:function ()
-        {
-            element.html('Added to cart');
-            element.css({'color':'green','display':'block'})
-        },
-        error:function (error)
-        {
-            element.html(error['responseJSON']['errors']['quantity'][0]);
-            element.css({'color':'red','display':'block'});
-        }
-    })
+	var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
+	var token = $('meta[name="csrf-token"]').attr('content');
+	var quantity = $(this).parent().prev().find('input').val();
+	$.ajax({
+		type: "post",
+		url: $(this).data('url'),
+		data: {quantity: quantity,_token: token},
+		dataType: "json",
+		success:function (data)
+		{
+			console.log(data);
+			$('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
+			$('.totalPriceTop').html('  € '+data['totalPrice'].toFixed(2));
+			element.html('Added to cart');
+			element.css({'color':'green','display':'block'})
+		},
+		error:function (error)
+		{
+			element.html(error['responseJSON']['errors']['quantity'][0]);
+			element.css({'color':'red','display':'block'});
+		}
+	})
 });
 
 $('#show_packshots').click(function () {
@@ -158,10 +184,13 @@ $('.setquantity').keyup(function() {
             dataType: "json",
             success:function (data)
             {
+                console.log(data);
                 var element = $('#message' + data['id']);
-                $('#totalQuantity').html(data['totalQuantity']);
+                $('.totalQuantityTop').html('Item: '+data['totalQuantity']);
+	            $('.totalQuantity').html(data['totalQuantity']);
                 $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-                $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+	            $('.totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+	            $('.totalPriceTop').html('  € '+data['totalPrice'].toFixed(2));
                 element.html('updated');
                 element.css({'color':'green','display':'block'});
             },
@@ -172,7 +201,7 @@ $('.setquantity').keyup(function() {
                 message.css({'color':'red','display':'block'});
             }
         });
-    }, 1000)
+    }, 0)
 });
 
 $( ".table-tr" ).hover(
