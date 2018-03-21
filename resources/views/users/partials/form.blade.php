@@ -73,12 +73,13 @@
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<select name="country_id" class="custom-select">
+						<option disabled selected></option>
 						@foreach($countries as $country)
 							<option value="{{ $country->id }}"
-							@if($country_id == $country->id)
+							@if(isset($country_id) && $country_id == $country->id)
 							selected
 							@endif 
-							 >{{ $country->name }}</option>
+							>{{ $country->name }}</option>
 						@endforeach
 					</select>
 				</div>
