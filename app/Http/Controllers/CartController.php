@@ -51,8 +51,8 @@ class CartController extends Controller
         $product = $order->orderProducts->where('product_id', $product_id)->first();
         if ($product == null)
         {
-            $product = Product::findOrFail($product_id);
-            $order->orderProducts()->create($request->except('_token')+[
+	         $product = Product::findOrFail($product_id);
+	         $order->orderProducts()->create($request->except('_token')+[
                     'product_id' => $product_id,
                     'price' => $product->PriceAmount,
                 ]);
@@ -60,11 +60,10 @@ class CartController extends Controller
             $amount = $product->quantity + $request->quantity;
             $product->update(['quantity' => $amount]);
         }
-        
         $data = [
         	'product_id'=>$product_id,
-	        'totalQuantity' => $this->getTotal->getTotalCartQuantity($user_order),
-	        'totalPrice' => $this->getTotal->getTotalCartPrice($user_order),
+	        'totalQuantity' => $this->getTotal->getUserOrderTotalQuantity(),
+	        'totalPrice' => $this->getTotal->getUserOrderTotalPrice(),
         ];
 
         return $data;

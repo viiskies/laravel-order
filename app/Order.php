@@ -15,7 +15,7 @@ class Order extends Model
     const BACKORDER = 2;
 
     public $timestamps = false;
-    protected $fillable = ['status'];
+    protected $fillable = ['status', 'type'];
 
     public function orderProducts()
     {

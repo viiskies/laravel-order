@@ -1,4 +1,5 @@
-		<!-- Top Bar -->
+@inject('cartService', "App\Services\CartService")
+<!-- Top Bar -->
 		<div class="row">
 			<div class="top-bar">
 				<ul>
@@ -45,8 +46,8 @@
 						<span class="cart-menu-icon">
 							<i class="fa fa-cart-arrow-down"></i>
 						</span>
-						<span class="cart-menu-price">Items: 0</span>
-						<span class="cart-menu-price">€200</span>
+						<span class="cart-menu-price totalQuantityTop">Items: {{ $cartService->getUserOrderTotalQuantity()}}</span>
+						<span class="cart-menu-price totalPriceTop">  € {{ $cartService->getUserOrderTotalPrice() }}</span>
 					</span></a>
 				</div>
 			</div>
