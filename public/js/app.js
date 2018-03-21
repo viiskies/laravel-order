@@ -38031,9 +38031,9 @@ S2.define('select2/utils',[
 
   var id = 0;
   Utils.GetUniqueElementId = function (element) {
-    // Get a unique element Id. If element has no id,
-    // creates a new unique number, stores it in the id
-    // attribute and returns the new id.
+    // Get a unique element Id. If element has no id, 
+    // creates a new unique number, stores it in the id 
+    // attribute and returns the new id. 
     // If an id already exists, it simply returns it.
 
     var select2Id = element.getAttribute('data-select2-id');
@@ -38052,7 +38052,7 @@ S2.define('select2/utils',[
 
   Utils.StoreData = function (element, name, value) {
     // Stores an item in the cache for a specified element.
-    // name is the cache key.
+    // name is the cache key.    
     var id = Utils.GetUniqueElementId(element);
     if (!Utils.__cache[id]) {
       Utils.__cache[id] = {};
@@ -38063,19 +38063,19 @@ S2.define('select2/utils',[
 
   Utils.GetData = function (element, name) {
     // Retrieves a value from the cache by its key (name)
-    // name is optional. If no name specified, return
+    // name is optional. If no name specified, return 
     // all cache items for the specified element.
     // and for a specified element.
     var id = Utils.GetUniqueElementId(element);
     if (name) {
       if (Utils.__cache[id]) {
-        return Utils.__cache[id][name] != null ?
+        return Utils.__cache[id][name] != null ? 
 	      Utils.__cache[id][name]:
 	      $(element).data(name); // Fallback to HTML5 data attribs.
       }
       return $(element).data(name); // Fallback to HTML5 data attribs.
     } else {
-      return Utils.__cache[id];
+      return Utils.__cache[id];			   
     }
   };
 
@@ -42352,7 +42352,7 @@ S2.define('select2/options',[
 
       $e.attr('ajax--url', Utils.GetData($e[0], 'ajaxUrl'));
       Utils.StoreData($e[0], 'ajax-Url', Utils.GetData($e[0], 'ajaxUrl'));
-
+	  
     }
 
     var dataset = {};
@@ -43243,7 +43243,10 @@ $('.add-into-cart').click(function () {
         url: $(this).data('url'),
         data: { quantity: quantity, _token: token },
         dataType: "json",
-        success: function success() {
+        success: function success(data) {
+            console.log(data);
+            $('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
+            $('.totalPriceTop').html('  € ' + data['totalPrice'].toFixed(2));
             element.html('Added to cart');
             element.css({ 'color': 'green', 'display': 'block' });
         },
@@ -43279,10 +43282,13 @@ $('.setquantity').keyup(function () {
             data: { quantity: quantity, _token: token },
             dataType: "json",
             success: function success(data) {
+                console.log(data);
                 var element = $('#message' + data['id']);
-                $('#totalQuantity').html(data['totalQuantity']);
+                $('.totalQuantityTop').html('Item: ' + data['totalQuantity']);
+                $('.totalQuantity').html(data['totalQuantity']);
                 $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-                $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+                $('.totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+                $('.totalPriceTop').html('  € ' + data['totalPrice'].toFixed(2));
                 element.html('updated');
                 element.css({ 'color': 'green', 'display': 'block' });
             },
@@ -43292,7 +43298,7 @@ $('.setquantity').keyup(function () {
                 message.css({ 'color': 'red', 'display': 'block' });
             }
         });
-    }, 1000);
+    }, 0);
 });
 
 $(".table-tr").hover(function () {
@@ -43353,6 +43359,20 @@ $('.updateP').keyup(function () {
             }
         });
     }, 1000);
+});
+
+$(document).ready(function () {
+    $(".select-all-products-special-offers").change(function () {
+        if (this.checked) {
+            $(".gamescheckall").each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(".gamescheckall").each(function () {
+                this.checked = false;
+            });
+        }
+    });
 });
 
 /***/ }),

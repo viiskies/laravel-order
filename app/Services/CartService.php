@@ -28,4 +28,24 @@ class CartService
         }
         return $totalCartQuantity;
     }
+	
+	public function getUserOrderTotalPrice() {
+		$order = Auth::user()->orders->where('status', 0)->first();
+		if (!empty($order)){
+			$price = $this->getTotalCartPrice($order);
+			return $price;
+		}else{
+			return 0;
+		}
+    }
+	
+	public function getUserOrderTotalQuantity() {
+		$order = Auth::user()->orders->where('status', 0)->first();
+		if (!empty($order)){
+			$quantity = $this->getTotalCartQuantity($order);
+			return $quantity;
+		}else{
+			return 0;
+		}
+	}
 }

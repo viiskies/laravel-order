@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 		] );
 		
 		User ::create( [
-			'name'         => 'paulius',
+		'name'                  => 'paulius',
 			'password'          => bcrypt('secret'),
 			'role'              => 'user',
 			'client_id'         => $client -> id,

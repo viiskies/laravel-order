@@ -10,6 +10,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -32,6 +33,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+    	
+    	
+    	
+    	
         $categories = Category::all();
         $products = Product::with('platform','publisher', 'images')->paginate(config('pagination.value'));
 

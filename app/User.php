@@ -20,7 +20,7 @@ class User extends Authenticatable
         'role',
         'client_id',
         'price_coefficient',
-        'disabled'
+        'disabled',
     ];
 
     public $timestamps = false;
@@ -52,5 +52,13 @@ class User extends Authenticatable
     public function specialOffers()
     {
         return $this->belongsToMany(SpecialOffer::class, 'special_offer_user');
+    }
+	
+	public function getUserOrderAttribute(  ) {
+		if (!empty($this->orders->where('status',0)->first())){
+			return $this->orders->where('status', 0)->first();
+		}else{
+			return false;
+		}
     }
 }
