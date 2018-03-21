@@ -78,7 +78,7 @@ class UsersController extends Controller
         $client = $user->client;
 
         if($request->role != 'admin') {
-            $user->update($request->only('name', 'price_coefficient', 'role', 'country_id', 'disabled'));
+            $user->update($request->only('name', 'price_coefficient', 'role', 'country_id'));
             $client->update($request->except('name', 'password', 'role', '_token'));
         } else {
             $user->update($request->only('name', 'price_coefficient', 'role'));
@@ -89,6 +89,20 @@ class UsersController extends Controller
 
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if($user->disabled == 1)
+        {
+            $user->update([
+            'disabled' => 0
+            ]);
+        } else {
+            $user->update([
+            'disabled' => 1
+            ]);
+        }
+        
+
+        return redirect()->back();    
     }
 }
