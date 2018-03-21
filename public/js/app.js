@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 15);
@@ -10778,7 +10778,7 @@ return $.ui.version = "1.12.1";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.14.0
+ * @version 1.14.1
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -37475,37 +37475,11 @@ var requirejs, require, define;
             main.apply(undef, args);
         }
 
-//// Suggestion Autocomplete
-$(function () {
-  $("#productsSearch").autocomplete({
-    source: function source(request, response) {
-      $.ajax({
-        url: '/suggest',
-        dataType: "json",
-        data: {
-          term: request.term
-        },
-        success: function success(data) {
-          response(data);
-        },
-        error: function error(err) {
-          console.log('klaida');
-        }
-      });
-    },
-    minLength: 2
-
-  });
-});
-// End of Suggestion Autocomplete
-
-$('#gll').slickLightbox();
         if (!hasProp(defined, name) && !hasProp(defining, name)) {
             throw new Error('No ' + name);
         }
         return defined[name];
     }
-
 
     //Turns a plugin!resource to [plugin, resource]
     //with the plugin being undefined if the name
@@ -43210,6 +43184,32 @@ $('.slider-nav').slick({
     variableWidth: true,
     focusOnSelect: true
 });
+
+//// Suggestion Autocomplete
+$(function () {
+
+    $("#productsSearch").autocomplete({
+        source: function source(request, response) {
+            $.ajax({
+                url: '/suggest',
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function success(data) {
+                    response(data);
+                },
+                error: function error(err) {
+                    console.log('klaida');
+                }
+            });
+        },
+        minLength: 2
+
+    });
+});
+// End of Suggestion Autocomplete
+
 
 $('#gll').slickLightbox();
 

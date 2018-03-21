@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Price;
 use App\Product;
 use DB;
 use App\Category;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -15,10 +19,10 @@ class HomeController extends Controller
      *
      * @return void
      */
+
     public function __construct()
     {
         $this->middleware('auth');
-
     }
 
     /**
@@ -37,6 +41,13 @@ class HomeController extends Controller
             'direction' => '',
             'sortName' => ''
         ]);
+    }
+
+    public function paginate($items, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, config('pagination.value')), $items->count(), config('pagination.value'), $page, $options);
     }
 
     public function sort(Request $request)
@@ -72,14 +83,24 @@ class HomeController extends Controller
                     DB::raw('(SELECT amount FROM stock WHERE product_id = products.id ORDER BY date DESC LIMIT 1) AS amount'))
                     ->orderBy('amount', $direction);
                 break;
+            case 'price':
+                $products = Product::all();
+                if ($direction == 'desc') {
+                    $products = $this->paginate($products->sortBy('PriceAmount'));
+                } else {
+                    $products = $this->paginate($products->sortByDesc('PriceAmount'));
+                }
+                $products->setPath('/sort');
+                break;
             default:
                 $products = $products->orderBy('name', $direction);
                 break;
         }
 
-        $products = $products->paginate(config('pagination.value'));
+        if(!($products instanceof \Illuminate\Pagination\LengthAwarePaginator)){
+            $products = $products->paginate(config('pagination.value'));
+        }
         $categories = Category::all();
-
         return view('home', [
             'products' => $products->appends(Input::except('page')),
             'categories' => $categories,
