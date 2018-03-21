@@ -97,7 +97,7 @@ class HomeController extends Controller
                 break;
         }
 
-        if(!($products instanceof LengthAwarePaginator)){
+        if(!( $products instanceof LengthAwarePaginator )){
             $products = $products->paginate(config('pagination.value'));
         }
         $categories = Category::all();
