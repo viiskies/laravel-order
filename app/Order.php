@@ -27,10 +27,6 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function scopeAsCart($query)
-    {
-        return $query->where('status', Order::PENDING)->where('type', Order::ORDER);
-    }
 
     public function getOrderTypeAttribute()
     {
@@ -66,16 +62,16 @@ class Order extends Model
         return $this->hasOne(Chat::class);
     }
 
-    public function scopeAsCartBackOrder($query)
+    public function scopeCartBackOrder($query)
     {
         return $query->where('type', Order::BACKORDER);
     }
 
-    public function scopeAsCartPreorder($query){
+    public function scopeCartPreorder($query){
         return $query->where('type', Order::PREORDER);
     }
 
-    public function scopeAsCartOrder($query){
+    public function scopeCartOrder($query){
         return $query->where('type', Order::ORDER);
     }
 

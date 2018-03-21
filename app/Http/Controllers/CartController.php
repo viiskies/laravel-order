@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Order;
 use App\OrderProduct;
-use App\Price;
 use App\Product;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CartService;
 
@@ -23,9 +20,9 @@ class CartController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->asCart()->first();
-        $backorder =$user->orders()->asCartBackOrder()->first();
-        $preorder =$user->orders()->asCartPreOrder()->first();
+        $order = $user->orders()->InCart()->first();
+        $backorder =$user->orders()->CartBackOrder()->InCart()->first();
+        $preorder =$user->orders()->CartPreOrder()->InCart()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();

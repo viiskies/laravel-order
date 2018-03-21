@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Order;
-use App\Product;
 use Auth;
 use Carbon\Carbon;
 
@@ -35,7 +34,7 @@ class CartService
     public function getStoreOrder($product, $request)
     {
         $user = Auth::user();
-        $user_order = $user->orders()->asCart()->first();
+        $user_order = $user->orders()->InCart()->first();
 
         if (empty($user_order))
         {
@@ -78,7 +77,7 @@ class CartService
     public function getStoreBackOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_backorder = $user->orders()->asCartBackOrder()->InCart()->first();
+        $user_backorder = $user->orders()->CartBackOrder()->InCart()->first();
         if (empty($user_backorder))
         {
             $backorder = $user->orders()->create([
@@ -106,7 +105,7 @@ class CartService
     public function getStorePreOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_preorder = $user->orders()->asCartPreorder()->InCart()->first();
+        $user_preorder = $user->orders()->CartPreorder()->InCart()->first();
         if (empty($user_preorder))
         {
             $preorder = $user->orders()->create([
