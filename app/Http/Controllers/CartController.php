@@ -61,15 +61,15 @@ class CartController extends Controller
 
         if ($product->stock()->first()->amount !== 0 && $product->preorder !== Order::PREORDER)
         {
-            $amount = $this->getTotal->getStoreOrder($product_id, $request);
+            $amount = $this->getTotal->getStoreOrder($product, $request);
             if ($amount !== 0 )
             {
-                $this->getTotal->getStoreBackOrder($product_id, $amount);
+                $this->getTotal->getStoreBackOrder($product, $amount);
             }
         }elseif($product->stock()->first()->amount === 0 && $product->preorder === Order::ORDER){
-            $this->getTotal->getStoreBackOrder($product_id, $request->quantity);
+            $this->getTotal->getStoreBackOrder($product, $request->quantity);
         } elseif($product->preorder === Order::PREORDER) {
-            $this->getTotal->getStorePreOrder($product_id, $request->quantity);
+            $this->getTotal->getStorePreOrder($product, $request->quantity);
         }
         $data = [
         	'product_id'=>$product_id,

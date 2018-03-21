@@ -32,11 +32,11 @@ class CartService
         return $totalCartQuantity;
     }
 
-    public function getStoreOrder($product_id, $request)
+    public function getStoreOrder($product, $request)
     {
         $user = Auth::user();
         $user_order = $user->orders()->asCart()->first();
-        $product = Product::findOrfail($product_id);
+
         if (empty($user_order))
         {
             $order = $user->orders()->create([
@@ -47,7 +47,7 @@ class CartService
         }else{
             $order = $user_order;
         }
-        $order_product = $order->orderProducts->where('product_id', $product_id)->first();
+        $order_product = $order->orderProducts->where('product_id', $product->id)->first();
         if ($order_product == null)
         {
             if ($request->quantity <= $product->stock()->first()->amount)
@@ -58,7 +58,7 @@ class CartService
                 $value = $request->quantity - $product->stock()->first()->amount;
             }
             $order->orderProducts()->create([
-                    'product_id' => $product_id,
+                    'product_id' => $product->id,
                     'price' => $product->PriceAmount,
                     'quantity' => $quantity,
                 ]);
@@ -75,11 +75,10 @@ class CartService
         }
         return $value;
     }
-    public function getStoreBackOrder($product_id, $quantity)
+    public function getStoreBackOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_backorder = $user->orders()->asCartBackOrder()->first();
-        $product = Product::findOrfail($product_id);
+        $user_backorder = $user->orders()->asCartBackOrder()->InCart()->first();
         if (empty($user_backorder))
         {
             $backorder = $user->orders()->create([
@@ -90,11 +89,11 @@ class CartService
         }else{
             $backorder = $user_backorder;
         }
-        $backorder_product = $backorder->orderProducts->where('product_id', $product_id)->first();
+        $backorder_product = $backorder->orderProducts->where('product_id', $product->id)->first();
         if ($backorder_product == null)
         {
             $backorder->orderProducts()->create([
-                    'product_id' => $product_id,
+                    'product_id' => $product->id,
                     'price' => $product->PriceAmount,
                     'quantity' => $quantity
                 ]);
@@ -104,11 +103,10 @@ class CartService
         }
     }
 
-    public function getStorePreOrder($product_id, $quantity)
+    public function getStorePreOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_preorder = $user->orders()->asCartPreorder()->first();
-        $product = Product::findOrfail($product_id);
+        $user_preorder = $user->orders()->asCartPreorder()->InCart()->first();
         if (empty($user_preorder))
         {
             $preorder = $user->orders()->create([
@@ -119,11 +117,11 @@ class CartService
         }else{
             $preorder = $user_preorder;
         }
-        $preorder_product = $preorder->orderProducts->where('product_id', $product_id)->first();
+        $preorder_product = $preorder->orderProducts->where('product_id', $product->id)->first();
         if ($preorder_product == null)
         {
             $preorder->orderProducts()->create([
-                'product_id' => $product_id,
+                'product_id' => $product->id,
                 'price' => $product->PriceAmount,
                 'quantity' => $quantity
             ]);
