@@ -20,9 +20,9 @@ class CartController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->InCart()->first();
-        $backorder =$user->orders()->CartBackOrder()->InCart()->first();
-        $preorder =$user->orders()->CartPreOrder()->InCart()->first();
+        $order = $user->orders()->InCart()->Order()->first();
+        $backorder =$user->orders()->InCart()->BackOrder()->first();
+        $preorder =$user->orders()->InCart()->PreOrder()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();

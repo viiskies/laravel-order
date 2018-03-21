@@ -34,7 +34,7 @@ class CartService
     public function getStoreOrder($product, $request)
     {
         $user = Auth::user();
-        $user_order = $user->orders()->InCart()->first();
+        $user_order = $user->orders()->InCart()->Order()->first();
 
         if (empty($user_order))
         {
@@ -77,7 +77,7 @@ class CartService
     public function getStoreBackOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_backorder = $user->orders()->CartBackOrder()->InCart()->first();
+        $user_backorder = $user->orders()->InCart()->BackOrder()->first();
         if (empty($user_backorder))
         {
             $backorder = $user->orders()->create([
@@ -105,7 +105,7 @@ class CartService
     public function getStorePreOrder($product, $quantity)
     {
         $user = Auth::user();
-        $user_preorder = $user->orders()->CartPreorder()->InCart()->first();
+        $user_preorder = $user->orders()->InCart()->Preorder()->first();
         if (empty($user_preorder))
         {
             $preorder = $user->orders()->create([

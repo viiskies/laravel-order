@@ -62,16 +62,16 @@ class Order extends Model
         return $this->hasOne(Chat::class);
     }
 
-    public function scopeCartBackOrder($query)
+    public function scopeBackOrder($query)
     {
         return $query->where('type', Order::BACKORDER);
     }
 
-    public function scopeCartPreorder($query){
+    public function scopePreorder($query){
         return $query->where('type', Order::PREORDER);
     }
 
-    public function scopeCartOrder($query){
+    public function scopeOrder($query){
         return $query->where('type', Order::ORDER);
     }
 
