@@ -86,7 +86,7 @@ class HomeController extends Controller
             case 'price':
                 $products = Product::all();
                 if ($direction == 'desc') {
-                    $products = $this->paginate($products->sortBy('PriceAmount'));
+                    $products = $this->paginate($products->sortBy('PriceAmount') );
                 } else {
                     $products = $this->paginate($products->sortByDesc('PriceAmount'));
                 }
@@ -97,7 +97,7 @@ class HomeController extends Controller
                 break;
         }
 
-        if(!( $products instanceof LengthAwarePaginator )){
+        if(!($products instanceof LengthAwarePaginator)){
             $products = $products->paginate(config('pagination.value'));
         }
         $categories = Category::all();
