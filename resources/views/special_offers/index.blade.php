@@ -109,7 +109,7 @@
         </div>
     </div>
     <div class="col-12">
-        <button class="btn btn-dark mt-3" type="submit" value="submit">Submit</button>
+        <button class="btn btn-dark btn-block mt-5" type="submit" value="submit">Submit</button>
     </div>
 </div>
 </form>
