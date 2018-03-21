@@ -26,35 +26,35 @@ $('.karusele').slick({
     dots: false,
     arrows: false,
     responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: false
-            }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
+    {
+        breakpoint: 1024,
+        settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: false
         }
+    },
+    {
+        breakpoint: 600,
+        settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+        }
+    },
+    {
+        breakpoint: 480,
+        settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+        }
+    }
         // You can unslick at a given breakpoint now by adding:
         // settings: "unslick"
         // instead of a settings object
-    ],
-    autoplaySpeed: 2000
-});
+        ],
+        autoplaySpeed: 2000
+    });
 
 $('.prev').click(function(){
     $('.karusele').slick('slickPrev');
@@ -210,7 +210,7 @@ $( ".table-tr" ).hover(
     }, function() {
         $( this ).css("background-color","").css("opacity", "1");
     }
-);
+    );
 
 var timer = null;
 $('.updateQ').keyup(function() {
@@ -268,4 +268,20 @@ $('.updateP').keyup(function() {
             }
         });
     }, 1000)
+});
+
+
+
+$(document).ready(function() {
+    $(".select-all-products-special-offers").change(function() {
+        if (this.checked) {
+            $(".gamescheckall").each(function() {
+                this.checked=true;
+            });
+        } else {
+            $(".gamescheckall").each(function() {
+                this.checked=false;
+            });
+        }
+    });
 });

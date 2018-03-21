@@ -43361,6 +43361,20 @@ $('.updateP').keyup(function () {
     }, 1000);
 });
 
+$(document).ready(function () {
+    $(".select-all-products-special-offers").change(function () {
+        if (this.checked) {
+            $(".gamescheckall").each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(".gamescheckall").each(function () {
+                this.checked = false;
+            });
+        }
+    });
+});
+
 /***/ }),
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
