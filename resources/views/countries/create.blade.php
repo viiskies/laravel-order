@@ -1,25 +1,25 @@
 <form action="{{route('countries.store')}}" method="post">
     @csrf
     <div class="form-group">
-        @if ($errors->get('name'))
-            @foreach($errors->get('name') as $error)
+        @if ($errors->any())
+            @foreach($errors->all() as $error)
                 <div class="alert alert-danger" role="alert">
-                    {{ $error }}
+                    <p>{{ $error }}</p>
                 </div>
             @endforeach
         @endif
         <label for="name">Name:</label>
         <br>
         <input type="text" name="name" class="form-control" placeholder="Country name" value="{{old('name')}}">
-        <br>
+        <br><br>
         <label for="email">Email:</label>
         <br>
         <input type="text" name="email" class="form-control" placeholder="Email" value="{{old('email')}}">
-        <br>
+        <br><br>
         <label for="phone">Phone:</label>
         <br>
         <input type="text" name="phone" class="form-control" placeholder="Phone number" value="{{old('phone')}}">
-        <br>
+        <br><br>
         <button type="submit" class="btn btn-secondary">Submit</button>
     </div>
 </form>

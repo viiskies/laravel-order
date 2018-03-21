@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Country;
+use App\Http\Requests\StoreCountryRequest;
 use Illuminate\Http\Request;
 
 class CountriesController extends Controller
@@ -21,7 +22,7 @@ class CountriesController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(StoreCountryRequest $request)
     {
         Country::create($request->only('name', 'email', 'phone'));
         return redirect()->route('countries.index');
@@ -42,7 +43,7 @@ class CountriesController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(StoreCountryRequest $request, $id)
     {
         Country::findOrFail($id)->update([
             'name' => $request->get('name'),

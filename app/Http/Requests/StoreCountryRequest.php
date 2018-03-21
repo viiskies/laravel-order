@@ -29,4 +29,13 @@ class StoreCountryRequest extends FormRequest
             'phone' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Country name is required',
+            'email.required' => 'Email is required',
+            'phone.required' => 'Phone is required',
+        ];
+    }
 }
