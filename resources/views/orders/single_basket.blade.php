@@ -60,6 +60,13 @@
             </tbody>
         </table>
     </div>
+	<div class="row">
+		<div class="col-12">
+			<div class="pull-right">
+				<a class="btn btn-dark" href="{{ route('home') }}">Back to Shop</a>
+			</div>
+		</div>
+	</div>
     <!-- Comments and attachments -->
     @if(!empty($products))
     <div class="row">
