@@ -38,9 +38,11 @@ Route::patch('chat/enable', 'ChatsController@enable')->name('chat.enable');
 
 Route::resource('publishers', 'PublishersController');
 Route::resource('platforms', 'PlatformController');
+Route::resource('countries', 'CountriesController');
 
 Route::resource('products', 'ProductsController');
 Route::get('search/', 'SearchController@search')->name('products.search');
+Route::get('suggest/', 'SuggestionController@suggest')->name('products.suggest');
 
 Route::resource('users', 'UsersController');
 Route::resource('categories', 'CategoriesController');
@@ -59,6 +61,7 @@ Route::get('special', 'SpecialOffersController@index')->name('special.index');
 Route::post('special/store', 'SpecialOffersController@store')->name('special.store');
 Route::post('special/platform', 'SpecialOffersController@getByPlatform')->name('special.filter.platform');
 Route::post('special/publisher', 'SpecialOffersController@getByPublisher')->name('special.filter.publisher');
+Route::post('special/country', 'SpecialOffersController@getByCountry')->name('special.filter.country');
 Route::post('special/search', 'SpecialOffersController@search')->name('special.search');
 
 Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');

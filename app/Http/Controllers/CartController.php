@@ -71,8 +71,13 @@ class CartController extends Controller
         } elseif($product->preorder === Order::PREORDER) {
             $this->getTotal->getStorePreOrder($product_id, $request->quantity);
         }
+        $data = [
+        	'product_id'=>$product_id,
+	        'totalQuantity' => $this->getTotal->getUserOrderTotalQuantity(),
+	        'totalPrice' => $this->getTotal->getUserOrderTotalPrice(),
+        ];
 
-       return $product_id;
+        return $data;
     }
 
     public function update($id, StoreOrderRequest $request)

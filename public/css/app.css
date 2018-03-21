@@ -15011,7 +15011,7 @@ div#search {
 }
 
 .form-inline {
-  width: 50% !important;
+  width: 100% !important;
 }
 
 div#sidebar {
@@ -15262,12 +15262,63 @@ USER EDIT
 }
 
 /*
+IMPORT PRODUCTS
+*/
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #000000;
+  border-color: #000000;
+}
+
+/*
+SPECIAL OFFERS
+*/
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+  border: solid #ced4da 1px !important;
+  outline: 0;
+}
+
+.select2-container--default .select2-selection--multiple {
+  background-color: white;
+  border: solid #ced4da 1px !important;
+  border-radius: 4px;
+  cursor: text;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+}
+
+.special-offers-clients-select .input-group-text {
+  padding: 0 0.75rem;
+}
+
+.special-offers-clients-select .input-group-text input[type="checkbox"] {
+  margin-top: 0px;
+}
+
+.special-offers-clients-select .input-group-text .form-group {
+  margin-bottom: 0;
+}
+
+.special-offers-clients-select-all {
+  font-size: 12px;
+  margin-bottom: 0;
+  margin-right: 10px;
+}
+
+/*
 MOBILE
 */
 
 @media only screen and (max-width: 990px) {
   .cart-menu {
     display: none;
+  }
+
+  .single-price-block {
+    height: auto;
   }
 
   .cart-menu-mobile {

@@ -43185,6 +43185,31 @@ $('.slider-nav').slick({
     focusOnSelect: true
 });
 
+//// Suggestion Autocomplete
+$(function () {
+
+    $("#productsSearch").autocomplete({
+        source: function source(request, response) {
+            $.ajax({
+                url: '/suggest',
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function success(data) {
+                    response(data);
+                },
+                error: function error(err) {
+                    console.log('klaida');
+                }
+            });
+        },
+        minLength: 2
+
+    });
+});
+// End of Suggestion Autocomplete
+
 $('#gll').slickLightbox();
 
 $(function () {
@@ -43219,6 +43244,8 @@ $('.add-into-cart').click(function () {
         dataType: "json",
         success: function success(data) {
             console.log(data);
+            $('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
+            $('.totalPriceTop').html('  € ' + data['totalPrice'].toFixed(2));
             element.html('Added to cart');
             element.css({ 'color': 'green', 'display': 'block' });
         },
@@ -43254,10 +43281,13 @@ $('.setquantity').keyup(function () {
             data: { quantity: quantity, _token: token },
             dataType: "json",
             success: function success(data) {
+                console.log(data);
                 var element = $('#message' + data['id']);
-                $('#totalQuantity').html(data['totalQuantity']);
+                $('.totalQuantityTop').html('Item: ' + data['totalQuantity']);
+                $('.totalQuantity').html(data['totalQuantity']);
                 $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-                $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+                $('.totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
+                $('.totalPriceTop').html('  € ' + data['totalPrice'].toFixed(2));
                 element.html('updated');
                 element.css({ 'color': 'green', 'display': 'block' });
             },
@@ -43267,7 +43297,7 @@ $('.setquantity').keyup(function () {
                 message.css({ 'color': 'red', 'display': 'block' });
             }
         });
-    }, 1000);
+    }, 0);
 });
 
 $(".table-tr").hover(function () {
@@ -43328,6 +43358,20 @@ $('.updateP').keyup(function () {
             }
         });
     }, 1000);
+});
+
+$(document).ready(function () {
+    $(".select-all-products-special-offers").change(function () {
+        if (this.checked) {
+            $(".gamescheckall").each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(".gamescheckall").each(function () {
+                this.checked = false;
+            });
+        }
+    });
 });
 
 /***/ }),

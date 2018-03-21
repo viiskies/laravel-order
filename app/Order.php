@@ -10,12 +10,12 @@ class Order extends Model
     const UNCONFIRMED = 1;
     const CONFIRMED = 2;
     const REJECTED = 3;
-
     const ORDER = 0;
     const PREORDER = 1;
     const BACKORDER = 2;
 
     public $timestamps = false;
+
     protected $fillable = ['status','type'];
 
     public function orderProducts()
@@ -55,6 +55,11 @@ class Order extends Model
             return "Rejected";
         }
     }
+	
+	public function scopeInCart($query)
+	{
+		return $query->where('status', Order::PENDING);
+	}
 
     public function chat()
     {
