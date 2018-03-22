@@ -43237,21 +43237,27 @@ $('.add-into-cart').click(function () {
     var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
     var token = $('meta[name="csrf-token"]').attr('content');
     var quantity = $(this).parent().prev().find('input').val();
+    element.css({ 'display': 'none' });
     $.ajax({
         type: "post",
         url: $(this).data('url'),
         data: { quantity: quantity, _token: token },
         dataType: "json",
         success: function success(data) {
-            console.log(data);
             $('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
             $('.totalPriceTop').html('  € ' + data['totalPrice'].toFixed(2));
             element.html('Added to cart');
             element.css({ 'color': 'green', 'display': 'block' });
+            setTimeout(function () {
+                element.css({ 'display': 'none' });
+            }, 3000);
         },
         error: function error(_error) {
             element.html(_error['responseJSON']['errors']['quantity'][0]);
             element.css({ 'color': 'red', 'display': 'block' });
+            setTimeout(function () {
+                element.css({ 'display': 'none' });
+            }, 3000);
         }
     });
 });
