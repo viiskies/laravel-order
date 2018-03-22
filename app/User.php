@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(SpecialOffer::class, 'special_offer_user');
     }
-	
+
 	public function getUserOrderAttribute(  ) {
 		if (!empty($this->orders->where('status',0)->first())){
 			return $this->orders->where('status', 0)->first();

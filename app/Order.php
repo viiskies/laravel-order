@@ -54,7 +54,7 @@ class Order extends Model
             return "Rejected";
         }
     }
-	
+
 	public function scopeInCart($query)
 	{
 		return $query->where('status', Order::PENDING);

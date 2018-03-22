@@ -28,7 +28,7 @@ class CartService
         }
         return $totalCartQuantity;
     }
-	
+
 	public function getUserOrderTotalPrice() {
 		$order = Auth::user()->orders->where('status', 0)->first();
 		if (!empty($order)){
@@ -38,7 +38,7 @@ class CartService
 			return 0;
 		}
     }
-	
+
 	public function getUserOrderTotalQuantity() {
 		$order = Auth::user()->orders->where('status', 0)->first();
 		if (!empty($order)){
