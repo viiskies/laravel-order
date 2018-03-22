@@ -52,6 +52,7 @@ class CartService
             if ($request->quantity <= $product->stock()->first()->amount)
             {
                 $quantity  = $request->quantity;
+                $value = 0;
             }else{
                 $quantity  = $product->stock()->first()->amount;
                 $value = $request->quantity - $product->stock()->first()->amount;
@@ -66,6 +67,7 @@ class CartService
             if ($amount <= $product->stock()->first()->amount)
             {
                 $order_product->update(['quantity' => $amount]);
+                $value = 0;
             }else{
                 $order_product->update(['quantity' => $product->stock()->first()->amount]);
                 $value = $amount - $product->stock()->first()->amount;

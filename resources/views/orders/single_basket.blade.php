@@ -27,7 +27,7 @@
                     <td data-label="Platform:" class="align-middle text-right">{{ $product->product->platform->name }}</td>
                     <td data-label="Name:" class="align-middle text-right">{{ $product->product->name }}</td>
                     <td data-label="Release date:" class="align-middle text-right">{{ $product->product->release_date }}</td>
-                    <td data-label="Publisher:" class="align-middle text-right">{{ !empty($product->product->publisher) ? $product->product->publisher->name : '' }}</td>
+                     <td data-label="Publisher:" class="align-middle text-right">{{ !empty($product->product->publisher) ? $product->product->publisher->name : '' }}</td>
                     <td data-label="Price:" class="align-middle text-right">{{ number_format($product->product->PriceAmount, 2, '.', '') }} €</td>
                     <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle text-right">{{ number_format($cartService->getSingleProductPrice($product), 2, '.', '') }} €</td>
                     <td data-label="Amount:" class="align-middle text-right">

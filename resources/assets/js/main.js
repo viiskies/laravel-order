@@ -182,7 +182,6 @@ $('.setquantity').keyup(function() {
             dataType: "json",
             success:function (data)
             {
-                console.log(data);
                 var element = $('#message' + data['id']);
                 $('.totalQuantityTop').html('Item: '+data['totalQuantity']);
 	            $('.totalQuantity').html(data['totalQuantity']);

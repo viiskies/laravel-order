@@ -14,7 +14,7 @@ class AddPreorderStatusColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table("products", function (Blueprint $table){
-           $table->unsignedInteger('preorder')->nullable();
+           $table->tinyInteger('preorder')->nullable();
         });
     }
 
