@@ -11,9 +11,8 @@ class HeaderComposer {
     public function compose(View $view) {
 
         $user = Auth::user();
-        $default_country = Country::where('default', 1)->first();
-
         if(empty($user->country)){
+            $default_country = Country::where('default', 1)->first();
             if($default_country == null) {
                 $email = 'paulius@gamestar.lt';
                 $phone = '869889141';
