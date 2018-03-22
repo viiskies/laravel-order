@@ -108,8 +108,6 @@ $( function() {
 } );
 // End of Suggestion Autocomplete
 
-
-
 $('#gll').slickLightbox();
 
 $( function() {
@@ -127,16 +125,17 @@ $( function() {
             activeList.push(value['name']);
         });
 
-    input.autocomplete({
-      source: activeList
+        input.autocomplete({
+            source: activeList
+        });
     });
-  });
 });
 
 $('.add-into-cart').click(function(){
 	var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
 	var token = $('meta[name="csrf-token"]').attr('content');
 	var quantity = $(this).parent().prev().find('input').val();
+    element.css({'display':'none'});
 	$.ajax({
 		type: "post",
 		url: $(this).data('url'),
@@ -144,16 +143,19 @@ $('.add-into-cart').click(function(){
 		dataType: "json",
 		success:function (data)
 		{
-			console.log(data);
 			$('.totalQuantityTop').html('Items: ' + data['totalQuantity']);
 			$('.totalPriceTop').html('  € '+data['totalPrice'].toFixed(2));
 			element.html('Added to cart');
-			element.css({'color':'green','display':'block'})
+			element.css({'color':'green','display':'block'});
+            setTimeout(function () { element.css({'display':'none'});
+            }, 3000);
 		},
 		error:function (error)
 		{
 			element.html(error['responseJSON']['errors']['quantity'][0]);
 			element.css({'color':'red','display':'block'});
+            setTimeout(function () { element.css({'display':'none'});
+            }, 3000);
 		}
 	})
 });
@@ -184,7 +186,6 @@ $('.setquantity').keyup(function() {
             dataType: "json",
             success:function (data)
             {
-                console.log(data);
                 var element = $('#message' + data['id']);
                 $('.totalQuantityTop').html('Item: '+data['totalQuantity']);
 	            $('.totalQuantity').html(data['totalQuantity']);
