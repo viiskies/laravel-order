@@ -26,6 +26,7 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function scopeAsCart($query)
     {
         return $query->where('status', Order::PENDING   );
