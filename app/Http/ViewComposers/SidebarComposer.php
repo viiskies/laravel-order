@@ -14,14 +14,14 @@ class SidebarComposer
 
     public function __construct(ProductService $productService)
     {
-        $this->ProductService = $productService;
+        $this->productService = $productService;
     }
 
     public function compose(View $view)
     {
         $cats = Category::all();
         $products_latest = Product::orderBy('id', 'desc')->take(8)->get();
-        $mostPopularProducts = $this->ProductService->MostPopularProducts();
+        $mostPopularProducts = $this->productService->getMostPopular();
         $view->with(['cats' => $cats, 'products_latest' => $products_latest, 'mpp' => $mostPopularProducts]);
     }
 }
