@@ -133,15 +133,15 @@ class CartController extends Controller
 
     public function confirm(Request $request)
     {
-        if ($request->has(order_id)) {
+        if ($request->has('order_id')) {
             Order::findOrFail($request->order_id)->update(['status' => Order::UNCONFIRMED]);
         }
-        if ($request->has(backorder_id)) {
+        if ($request->has('backorder_id')) {
             Order::findOrFail($request->backorder_id)->update(['status' => Order::UNCONFIRMED]);
         }
-        if ($request->has(preorder_id)) {
+        if ($request->has('preorder_id')) {
             Order::findOrFail($request->preorder_id)->update(['status' => Order::UNCONFIRMED]);
         }
-        return redirect()->back();
+    return redirect()->back();
     }
 }
