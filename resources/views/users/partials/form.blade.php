@@ -31,15 +31,6 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col control-label">Password</label>
-			<div class="col inputGroupContainer">
-				<div class="input-group">
-					<input  name="password" placeholder="Password" class="form-control"  type="password">
-					</div>
-					@include('users.partials.error', ['name' => 'password'])
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col control-label">VAT number</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">

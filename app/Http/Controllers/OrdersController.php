@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangeOrderStatusRequest;
 use App\Invoice;
+use App\Mail\OrderConfirmed;
+use App\Mail\OrderRejected;
 use App\Order;
 use App\OrderProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Services\InvoiceService;
 
@@ -31,9 +34,9 @@ class OrdersController extends Controller
         $user=Auth::user();
         if($user->role == 'admin')
         {
-            $orders = Order::paginate(20);
+            $orders = Order::paginate(config('pagination.value'));
         }else{
-            $orders =$user->orders()->paginate(20);
+            $orders =$user->orders()->paginate(config('pagination.value'));
         }
 
         return view('orders.orders', [
@@ -50,16 +53,19 @@ class OrdersController extends Controller
 
     public function action(ChangeOrderStatusRequest $request, $id)
     {
-
-        if ($request->action === 'confirm'){
+        $userEmail = Auth::user()->client->email;
+        if ($request->action === 'confirm') {
             $status = Order::CONFIRMED;
-        }elseif($request->action === 'reject'){
+            Mail::to($userEmail)->send(new OrderConfirmed($id));
+
+        } elseif($request->action === 'reject') {
             $status = Order::REJECTED;
+            Mail::to($userEmail)->send(new OrderRejected($id));
         }
-        $file=$request->file('invoice');
+
+        $file = $request->file('invoice');
         if (isset($file))
         {
-
             $filenameWithExt = $this->checkInvoice->generateName($file);
 
             Invoice::create($request->except('_token') + [

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Country;
+use App\Http\Requests\StorePasswordRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\UserCreated;
 use App\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 
 class UsersController extends Controller
@@ -43,8 +45,13 @@ class UsersController extends Controller
     public function store(StoreUserRequest $request)
     {
        if($request->role != 'admin'){
+           $password_token = str_random(64);
            $client = Client::create($request->except('name', 'password', 'role', '_token') + ['name' => $request->get('client_name')]);
-           $client->user()->create($request->only('name', 'role','price_coefficient', 'country_id') + ['password' => bcrypt($request->password)]);
+           $client->user()->create($request->only('name', 'role','price_coefficient', 'country_id') +
+               ['password' => '', 'password_token' => $password_token]);
+
+           Mail::to($request->only('email'))->send(new UserCreated($password_token));
+
        } else {
            User::create($request->only('name', 'role') + ['password' => bcrypt($request->password)]);
        }
@@ -90,5 +97,19 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getToken($token)
+    {
+      return view ('users.passwordCreate');
+    }
+
+    public function storePassword(StorePasswordRequest $request)
+    {
+        $token = basename(url()->previous());
+        $user = User::where('password_token', $token)->first();
+        $user->update(['password' => bcrypt($request->get('password')), 'password_token' => null]);
+        return redirect()->route('home');
+
     }
 }

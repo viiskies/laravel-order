@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Mail\OrderReceived;
 use App\Order;
 use App\OrderProduct;
 use App\Product;
+use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -115,9 +118,14 @@ class CartController extends Controller
         }
         return redirect()->back();
     }
+
     public function confirm($id)
     {
         Order::findOrFail($id)->update(['status' => Order::UNCONFIRMED]);
+        $order = Order::findOrFail($id);
+
+        $userEmail = Auth::user()->client->email;
+        Mail::to($userEmail)->send(new OrderReceived($order, $this->getTotal));
         return redirect()->back();
     }
 }
