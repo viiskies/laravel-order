@@ -31,7 +31,6 @@ class CartController extends Controller
             $order_id = $order->id;
         }else{
                 $order_products = [];
-                $order_id = 0;
         }
         if (!empty($backorder))
         {
@@ -39,7 +38,6 @@ class CartController extends Controller
             $backorder_id = $backorder->id;
         }else{
             $backorders =[];
-            $backorder_id = 0;
         }
         if (!empty($preorder))
         {
@@ -47,17 +45,13 @@ class CartController extends Controller
             $preorder_id = $preorder->id;
         }else{
             $preorders =[];
-            $preorder_id = 0;
         }
 
         return view('orders.single_basket', [
             'products' => $order_products,
-            'order_id' => $order_id,
             'order' =>$order,
             'backorders' => $backorders,
-            'backorder_id' => $backorder_id,
             'preorders' => $preorders,
-            'preorder_id' => $preorder_id,
         ]);
     }
     public function store($product_id, StoreOrderRequest $request)

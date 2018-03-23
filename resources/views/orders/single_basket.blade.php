@@ -181,9 +181,9 @@
                     <label for="exampleFormControlTextarea1"><h4>Comments</h4></label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
                 </div>
-                <input type="hidden" name="order_id" value="{{$order_id}}">
-                <input type="hidden" name="backorder_id" value="{{$backorder_id}}">
-                <input type="hidden" name="preorder_id" value="{{$preorder_id}}">
+                <input type="hidden" name="order_id" value="{{!empty($products) ? $products->first()->order->id : ''}}">
+                <input type="hidden" name="backorder_id" value="{{!empty($backorders) ? $backorders->first()->order->id : ''}}">
+                <input type="hidden" name="preorder_id" value="{{!empty($preorders) ? $preorders->first()->order->id : ''}}">
                 <div class="form-group">
                     <button type="submit" class="btn btn-danger btn-lg btn-block" >Confirm your order</button>
                 </div>
