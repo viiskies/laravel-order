@@ -172,7 +172,7 @@
 	</div>
 
     <!-- Comments and attachments -->
-    @if(!empty($products) || !empty($backorders) || !empty($preorders))
+    @if(!empty($order) || !empty($backorder) || !empty($preorder))
     <div class="row">
         <div class="col-12">
             <form action="{{ route('cart.confirm') }}" method="post">
@@ -181,9 +181,15 @@
                     <label for="exampleFormControlTextarea1"><h4>Comments</h4></label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"></textarea>
                 </div>
-                <input type="hidden" name="order_id" value="{{!empty($products) ? $products->first()->order->id : ''}}">
-                <input type="hidden" name="backorder_id" value="{{!empty($backorders) ? $backorders->first()->order->id : ''}}">
-                <input type="hidden" name="preorder_id" value="{{!empty($preorders) ? $preorders->first()->order->id : ''}}">
+                @if(!empty($product))
+                    <input type="hidden" name="order_id" value="{{$order->id}}">
+                @endif
+                @if(!empty($backorder))
+                    <input type="hidden" name="backorder_id" value="{{$backorder->id}}">
+                @endif
+                @if(!empty($preorder))
+                    <input type="hidden" name="preorder_id" value="{{$preorder->id}}">
+                @endif
                 <div class="form-group">
                     <button type="submit" class="btn btn-danger btn-lg btn-block" >Confirm your order</button>
                 </div>

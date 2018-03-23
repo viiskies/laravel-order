@@ -28,28 +28,31 @@ class CartController extends Controller
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
-            $order_id = $order->id;
         }else{
                 $order_products = [];
+                $order = null;
         }
         if (!empty($backorder))
         {
             $backorders = $backorder->orderProducts()->get();
-            $backorder_id = $backorder->id;
+
         }else{
             $backorders =[];
+            $backorder = null;
         }
         if (!empty($preorder))
         {
             $preorders = $preorder->orderProducts()->get();
-            $preorder_id = $preorder->id;
         }else{
             $preorders =[];
+            $preorder = null;
         }
 
         return view('orders.single_basket', [
             'products' => $order_products,
             'order' =>$order,
+            'backorder' => $backorder,
+            'preorder' => $preorder,
             'backorders' => $backorders,
             'preorders' => $preorders,
         ]);
@@ -130,13 +133,13 @@ class CartController extends Controller
 
     public function confirm(Request $request)
     {
-        if ($request->order_id != 0) {
+        if ($request->has(order_id)) {
             Order::findOrFail($request->order_id)->update(['status' => Order::UNCONFIRMED]);
         }
-        if ($request->backorder_id !=0) {
+        if ($request->has(backorder_id)) {
             Order::findOrFail($request->backorder_id)->update(['status' => Order::UNCONFIRMED]);
         }
-        if ($request->preorder_id != 0) {
+        if ($request->has(preorder_id)) {
             Order::findOrFail($request->preorder_id)->update(['status' => Order::UNCONFIRMED]);
         }
         return redirect()->back();
