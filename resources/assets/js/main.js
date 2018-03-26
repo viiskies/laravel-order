@@ -132,9 +132,9 @@ $( function() {
 });
 
 $('.add-into-cart').click(function(){
-	var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
+	var element = $('#' + $(this).closest('td').prev().find('span')[0]['id']);
 	var token = $('meta[name="csrf-token"]').attr('content');
-	var quantity = $(this).parent().prev().find('input').val();
+	var quantity = $(this).closest('td').prev().find('input').val();
 	var button = $(this);
 	button.css('display', 'none');
 	$(this).parent().append('<span class="loader"></span>');

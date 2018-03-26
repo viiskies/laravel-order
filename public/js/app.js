@@ -43234,9 +43234,9 @@ $(function () {
 });
 
 $('.add-into-cart').click(function () {
-    var element = $('#' + $(this).parent().prev().find('span')[0]['id']);
+    var element = $('#' + $(this).closest('td').prev().find('span')[0]['id']);
     var token = $('meta[name="csrf-token"]').attr('content');
-    var quantity = $(this).parent().prev().find('input').val();
+    var quantity = $(this).closest('td').prev().find('input').val();
     var button = $(this);
     button.css('display', 'none');
     $(this).parent().append('<span class="loader"></span>');
@@ -43366,6 +43366,12 @@ $('.setquantity_BP').keyup(function () {
             }
         });
     }, 0);
+});
+
+$(".table-tr").hover(function () {
+    $(this).css("background-color", "white").css("opacity", "0.7");
+}, function () {
+    $(this).css("background-color", "").css("opacity", "1");
 });
 
 var timer = null;
