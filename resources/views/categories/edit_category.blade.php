@@ -1,15 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.page')
 @section('content')
-	<form action="{{route('categories.update', $category->id)}}" method="post">
-		@csrf
-		@method('PUT')
-		<label for="">Category name</label>
-		<input type="text" name="name" value="{{$category->name}}">
-		<button type="submit">Save</button>
-	</form>
-	@if(!empty($errors->has('name')))
-		<div class="alert alert-success" role="alert">
-			{{$errors->has('name')}}
-		</div>
-	@endif
+<div class="col-10 mt-5">
+    <form action="{{route('categories.update', $category->id)}}" method="post">
+    @csrf
+    <div class="form-group">
+        <input type="hidden" name="_method" value="put">
+        <label for="name">Category name:</label>
+        <br>
+        <input type="text" name="name" class="form-control" placeholder="Category name" value="{{$category->name}}">
+        <br>
+        <button type="submit" class="btn btn-danger">Edit</button>
+    </div>
+</form>
+</div>
+</div>
 @endsection
+

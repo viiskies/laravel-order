@@ -1,6 +1,7 @@
 @extends('layouts.page')
 @section('content')
 <div class="col-10 mt-5">
+	@include('layouts.partials.messages')
 	<a class="btn btn-dark" href="{{route('publishers.create')}}">Create new publisher</a>
 	<div class="col-md-12 table-responsive no-gutters">
 		<table class="table table-sm table_container">
