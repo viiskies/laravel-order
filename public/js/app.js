@@ -43287,7 +43287,6 @@ $('.setquantity').keyup(function () {
     $('#' + messageId).css({ 'display': 'none' });
     clearTimeout(timer);
     timer = setTimeout(function () {
-
         var token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             type: "post",
@@ -43330,17 +43329,16 @@ $('.setquantity').keyup(function () {
     }, 0);
 });
 
-$('.setquantity_B').keyup(function () {
+$('.setquantity_BP').keyup(function () {
+
     var quantity = $(this).val();
     var url = $(this).data('url');
     var messageId = $(this).parent().find('span')[0]['id'];
     $('#' + messageId).css({ 'display': 'none' });
     $(this).parent().prev().html('<span class="loader"></span>');
-    var totalQuantity = $(this).parent().parent().next().children()[1]['id'];
-    var totalPrice = $(this).parent().parent().next().children()[2]['id'];
+    var index = $(this).data('index');
     clearTimeout(timer);
     timer = setTimeout(function () {
-
         var token = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             type: "post",
@@ -43349,9 +43347,9 @@ $('.setquantity_B').keyup(function () {
             dataType: "json",
             success: function success(data) {
                 var element = $('#message' + data['id']);
-                $('#' + totalPrice).html(data['totalQuantity']);
-                $('#singlePrice_B' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-                $('#' + totalQuantity).html(data['totalPrice'].toFixed(2) + ' €');
+                $('#totalPrice_' + index).html(data['totalPrice'].toFixed(2) + ' €');
+                $('#singlePrice_' + index + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
+                $('#totalQuantity_' + index).html(data['totalQuantity']);
                 element.html('updated');
                 element.css({ 'color': 'green', 'display': 'block' });
                 setTimeout(function () {
@@ -43359,48 +43357,9 @@ $('.setquantity_B').keyup(function () {
                 }, 3000);
             },
             error: function error(_error3) {
+                console.log('neveikia');
                 var message = $('#' + messageId);
                 message.html(_error3['responseJSON']['errors']['quantity'][0]);
-                message.css({ 'color': 'red', 'display': 'block' });
-                setTimeout(function () {
-                    message.css({ 'display': 'none' });
-                }, 3000);
-            }
-        });
-    }, 0);
-});
-
-$('.setquantity_P').keyup(function () {
-    var quantity = $(this).val();
-    var url = $(this).data('url');
-    var messageId = $(this).parent().find('span')[0]['id'];
-    $('#' + messageId).css({ 'display': 'none' });
-    $(this).parent().prev().html('<span class="loader"></span>');
-    var totalQuantity = $(this).parent().parent().next().children()[1]['id'];
-    var totalPrice = $(this).parent().parent().next().children()[2]['id'];
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-
-        var token = $('meta[name="csrf-token"]').attr('content');
-        $.ajax({
-            type: "post",
-            url: url,
-            data: { quantity: quantity, from: 'backorder', _token: token },
-            dataType: "json",
-            success: function success(data) {
-                var element = $('#message' + data['id']);
-                $('#' + totalPrice).html(data['totalQuantity']);
-                $('#singlePrice_P' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
-                $('#' + totalQuantity).html(data['totalPrice'].toFixed(2) + ' €');
-                element.html('updated');
-                element.css({ 'color': 'green', 'display': 'block' });
-                setTimeout(function () {
-                    element.css({ 'display': 'none' });
-                }, 3000);
-            },
-            error: function error(_error4) {
-                var message = $('#' + messageId);
-                message.html(_error4['responseJSON']['errors']['quantity'][0]);
                 message.css({ 'color': 'red', 'display': 'block' });
                 setTimeout(function () {
                     message.css({ 'display': 'none' });
@@ -43436,8 +43395,8 @@ $('.updateQ').keyup(function () {
                 $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
                 $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
             },
-            error: function error(_error5) {
-                $('#' + messageId).html(_error5['responseJSON']['errors']['quantity'][0]);
+            error: function error(_error4) {
+                $('#' + messageId).html(_error4['responseJSON']['errors']['quantity'][0]);
                 $('#' + messageId).css({ 'color': 'red', 'display': 'block' });
             }
         });
@@ -43462,8 +43421,8 @@ $('.updateP').keyup(function () {
                 $('#singlePrice' + data['id']).html(data['singleProductPrice'].toFixed(2) + ' €');
                 $('#totalPrice').html(data['totalPrice'].toFixed(2) + ' €');
             },
-            error: function error(_error6) {
-                $('#' + messageId).html(_error6['responseJSON']['errors']['price'][0]);
+            error: function error(_error5) {
+                $('#' + messageId).html(_error5['responseJSON']['errors']['price'][0]);
                 $('#' + messageId).css({ 'color': 'red', 'display': 'block' });
             }
         });

@@ -35,7 +35,7 @@
                     <td data-label="Price:" class="align-middle text-right">{{ number_format($product->product->PriceAmount, 2, '.', '') }} €</td>
                     <td id="singlePrice{{ $product->id }}" data-label="Price:" class="align-middle text-right">{{ number_format($cartService->getSingleProductPrice($product), 2, '.', '') }} €</td>
                     <td data-label="Amount:" class="align-middle text-right">
-                        <input data-url="{{ route('order.update',$product->id) }}" class="input setquantity" type="number" name="amount" value="{{ $product->quantity }}">
+                        <input data-url="{{ route('order.update',$product->id) }}" class="input setquantity" type="number" name="amount" value="{{ $product->quantity }}" min="1">
                         <br>
                         <span id="message{{ $product->id }}" ></span>
                     </td>
@@ -86,7 +86,7 @@
                         <td data-label="Price:" class="align-middle text-right">{{ number_format($B_product->product->PriceAmount, 2, '.', '') }} €</td>
                         <td id="singlePrice_B{{ $B_product->id }}" data-label="Price:" class="align-middle text-right">{{ number_format($cartService->getSingleProductPrice($B_product), 2, '.', '') }} €</td>
                         <td data-label="Amount:" class="align-middle text-right">
-                            <input data-url="{{ route('order.update',$B_product->id) }}" class="input setquantity_B" type="number" name="amount" value="{{ $B_product->quantity }}">
+                            <input data-index="B" min="1" data-url="{{ route('order.update',$B_product->id) }}" class="input setquantity_BP" type="number" name="amount" value="{{ $B_product->quantity }}">
                             <br>
                             <span id="message{{ $B_product->id }}" ></span>
                         </td>
@@ -107,7 +107,7 @@
             <h3>PRE-ORDER</h3>
             <thead class="thead-light">
             <tr>
-                <<th><input type="checkbox" name="selectAll" id="selectPreorders"></th>
+                <th><input type="checkbox" name="selectAll" id="selectPreorders"></th>
                 <th scope="col">EAN:</th>
                 <th scope="col">Platform:</th>
                 <th scope="col">Name:</th>
@@ -130,7 +130,7 @@
                         <td data-label="Price:" class="align-middle text-right">{{ number_format($P_product->product->PriceAmount, 2, '.', '') }} €</td>
                         <td id="singlePrice_P{{ $P_product->id }}" data-label="Price:" class="align-middle text-right">{{ number_format($cartService->getSingleProductPrice($P_product), 2, '.', '') }} €</td>
                         <td data-label="Amount:" class="align-middle text-right">
-                            <input data-url="{{ route('order.update',$P_product->id) }}" class="input setquantity_P" type="number" name="amount" value="{{ $P_product->quantity }}">
+                            <input data-index="P" min="1" data-url="{{ route('order.update',$P_product->id) }}" class="input setquantity_BP" type="number" name="amount" value="{{ $P_product->quantity }}">
                             <br>
                             <span id="message{{ $P_product->id }}" ></span>
                         </td>

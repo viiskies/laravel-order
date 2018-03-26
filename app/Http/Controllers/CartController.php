@@ -101,13 +101,7 @@ class CartController extends Controller
             }elseif($request->from == 'order'){
                 if ($product->first()->product->stock->first()->amount >=  $request->quantity)
                 {
-                    $product->update(['quantity' => $request->quantity]);
-                    $singleProduct = $product->first();
-                    $data = ['id' => $id,
-                        'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
-                        'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
-                        'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
-                    ];
+                    $data = $this->getTotal->updateOrder ($request->quantity, $product);
                 }else{
                     $product->update(['quantity' => $product->first()->product->stock->first()->amount]);
                     $data = ['id' => $id,
@@ -117,14 +111,8 @@ class CartController extends Controller
                     ];
                 }
             }else{
-                $product->update(['quantity' => $request->quantity]);
-                $singleProduct = $product->first();
-                $data = ['id' => $id,
-                    'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
-                    'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
-                    'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
-            ];}
-
+                $data = $this->getTotal->updateOrder ($request->quantity, $product);
+            }
         return $data;
     }
 
