@@ -22,7 +22,8 @@ class User extends Authenticatable
         'client_id',
         'price_coefficient',
         'disabled',
-        'country_id'
+        'country_id',
+        'user_online'
     ];
 
     public $timestamps = false;
