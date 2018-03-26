@@ -26,6 +26,7 @@
 							<h4>Most Popular</h4>
 						</div>
 						<div class="col-12">
+
 							@foreach ($mpp as $popular_product)
 								<div class="most-popular-prod-sidebar text-center">
 									<a href="{{ route('products.show', $popular_product->id ) }}">
@@ -36,5 +37,6 @@
 									<p class="text-center">{{ $popular_product->platform->name }}</p>
 								</div>
 							@endforeach
+
 						</div>
 					</div>
