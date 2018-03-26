@@ -11,7 +11,7 @@
         <table class="table table-sm">
             <thead class="thead-light">
                 <tr>
-                    <th><input type="checkbox" name="selectAll" id="selectOrders"></th>
+                    <th><input type="checkbox" class="selectAll" name="selectAll" value="orders" ></th>
                     <th scope="col">EAN:</th>
                     <th scope="col">Platform:</th>
                     <th scope="col">Name:</th>
@@ -63,7 +63,7 @@
             <h3>BACK-ORDER</h3>
             <thead class="thead-light">
             <tr>
-                <th><input type="checkbox" name="selectAll" id="selectBackorders"></th>
+                <th><input type="checkbox" class="selectAll" value="backorders" name="selectAll"></th>
                 <th scope="col">EAN:</th>
                 <th scope="col">Platform:</th>
                 <th scope="col">Name:</th>
@@ -94,8 +94,8 @@
                 @endforeach
                 <tr>
                     <td scope="total" colspan="7" class="text-right"><b>Total</b></td>
-                    <td class="align-middle text-right" id="totalPrice_B" rowspan="6" data-label="Total">{{ !empty($backorders) ? number_format($cartService->getTotalCartPrice($backorders->first()->order), 2, '.', '') : ''}} €</td>
-                    <td class="align-middle text-right" id="totalQuantity_B" data-label="Total quantity">{{ !empty($backorders) ? $cartService->getTotalCartQuantity($backorders->first()->order) : '' }}</td>
+                    <td class="align-middle text-right" id="totalPrice_B" rowspan="6" data-label="Total">{{ !empty($backorders->orderProducts) ? number_format($cartService->getTotalCartPrice($backorders->first()->order), 2, '.', '') : ''}} €</td>
+                    <td class="align-middle text-right" id="totalQuantity_B" data-label="Total quantity">{{ !empty($backorders->orderProducts) ? $cartService->getTotalCartQuantity($backorders->first()->order) : '' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -107,7 +107,7 @@
             <h3>PRE-ORDER</h3>
             <thead class="thead-light">
             <tr>
-                <th><input type="checkbox" name="selectAll" id="selectPreorders"></th>
+                <th><input type="checkbox" class="selectAll" name="selectAll" value="preorders"></th>
                 <th scope="col">EAN:</th>
                 <th scope="col">Platform:</th>
                 <th scope="col">Name:</th>
@@ -138,8 +138,8 @@
                 @endforeach
                 <tr>
                     <td scope="total" colspan="7" class="text-right"><b>Total</b></td>
-                    <td class="align-middle text-right" id="totalPrice_P" rowspan="6" data-label="Total">{{ !empty($preorders) ? number_format($cartService->getTotalCartPrice($preorders->first()->order), 2, '.', '') : ''}} €</td>
-                    <td class="align-middle text-right" id="totalQuantity_P" data-label="Total quantity">{{ !empty($preorders) ? $cartService->getTotalCartQuantity($preorders->first()->order) : '' }}</td>
+                    <td class="align-middle text-right" id="totalPrice_P" rowspan="6" data-label="Total">{{ !empty($preorders->orderProducts) ? number_format($cartService->getTotalCartPrice($preorders->first()->order), 2, '.', '') : ''}} €</td>
+                    <td class="align-middle text-right" id="totalQuantity_P" data-label="Total quantity">{{ !empty($preorders->orderProducts) ? $cartService->getTotalCartQuantity($preorders->first()->order) : '' }}</td>
                 </tr>
             </tbody>
         </table>

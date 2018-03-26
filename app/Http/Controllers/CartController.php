@@ -36,7 +36,6 @@ class CartController extends Controller
         if (!empty($backorder))
         {
             $backorders = $backorder->orderProducts()->get();
-
         }else{
             $backorders =[];
             $backorder = null;
@@ -133,23 +132,17 @@ class CartController extends Controller
             foreach ($request->checkbox as $orderProduct) {
                 OrderProduct::findOrFail($orderProduct)->delete();
             }
-            if ($request->has('order_id')){
-                $order = Order::findOrFail($request->order_id);
-                if (count($order->orderProducts) == 0) {
-                    $order->delete();
-                }
-            }
-            if ($request->has('backorder_id')){
-                $backorder = Order::findOrFail($request->backorder_id);
-                if (count($backorder->orderProducts) == 0) {
-                    $backorder->delete();
-                }
-            }
-
-            if ($request->has('preorder_id')){
-                $preorder = Order::findOrFail($request->preorder_id);
-                if (count($preorder->orderProducts) == 0) {
-                    $preorder->delete();
+            $orders = [$request->order_id,
+                $request->get('backorder_id'),
+                $request->get('preorder_id')];
+            for ($i = 0 ; $i < count($orders); $i++)
+            {
+                if ($orders[$i] !== null)
+                {
+                    $order = Order::findOrFail($orders[$i]);
+                    if (count($order->orderProducts) == 0) {
+                        $order->delete();
+                    }
                 }
             }
         }
@@ -161,16 +154,15 @@ class CartController extends Controller
     {
         if ($request->has('order_id')) {
             $order = Order::findOrFail($request->order_id);
-            $order->update(['status' => Order::UNCONFIRMED]);
             foreach ($order->orderProducts as $product) {
-                $stock = Stock::findOrFail($product->product_id);
-                $quantity = $stock->amount - $product->quantity;
-                if ($quantity >= 0) {
-                    Stock::create(['amount' => $quantity, 'product_id' => $product->product_id]);
-                } else {
-                    Stock::create(['amount' => 0, 'product_id' => $product->product_id]);
+                $stock = Product::findOrFail($product->product_id)->stockamount;
+                $quantity = $stock - $product->quantity;
+                if ($quantity < 0) {
+                    $quantity = 0;
                 }
+                Stock::create(['amount' => $quantity, 'product_id' => $product->product_id]);
             }
+            $order->update(['status' => Order::UNCONFIRMED]);
         }
         if ($request->has('backorder_id')) {
             Order::findOrFail($request->backorder_id)->update(['status' => Order::UNCONFIRMED]);

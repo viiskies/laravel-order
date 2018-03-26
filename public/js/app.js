@@ -43357,7 +43357,6 @@ $('.setquantity_BP').keyup(function () {
                 }, 3000);
             },
             error: function error(_error3) {
-                console.log('neveikia');
                 var message = $('#' + messageId);
                 message.html(_error3['responseJSON']['errors']['quantity'][0]);
                 message.css({ 'color': 'red', 'display': 'block' });
@@ -43443,37 +43442,13 @@ $(document).ready(function () {
     });
 });
 
-$("#selectOrders").click(function () {
+$(".selectAll").click(function () {
     if (this.checked) {
-        $(".orders").each(function () {
+        $("." + $(this).val()).each(function () {
             this.checked = true;
         });
     } else {
-        $(".orders").each(function () {
-            this.checked = false;
-        });
-    }
-});
-
-$("#selectPreorders").click(function () {
-    if (this.checked) {
-        $(".preorders").each(function () {
-            this.checked = true;
-        });
-    } else {
-        $(".preorders").each(function () {
-            this.checked = false;
-        });
-    }
-});
-
-$("#selectBackorders").click(function () {
-    if (this.checked) {
-        $(".backorders").each(function () {
-            this.checked = true;
-        });
-    } else {
-        $(".backorders").each(function () {
+        $("." + $(this).val()).each(function () {
             this.checked = false;
         });
     }

@@ -346,37 +346,13 @@ $(document).ready(function() {
     });
 });
 
-$("#selectOrders").click(function() {
+$(".selectAll").click(function() {
     if (this.checked) {
-        $(".orders").each(function() {
+        $("." + $(this).val()).each(function() {
             this.checked=true;
         });
     } else {
-        $(".orders").each(function() {
-            this.checked=false;
-        });
-    }
-});
-
-$("#selectPreorders").click(function() {
-    if (this.checked) {
-        $(".preorders").each(function() {
-            this.checked=true;
-        });
-    } else {
-        $(".preorders").each(function() {
-            this.checked=false;
-        });
-    }
-});
-
-$("#selectBackorders").click(function() {
-    if (this.checked) {
-        $(".backorders").each(function() {
-            this.checked=true;
-        });
-    } else {
-        $(".backorders").each(function() {
+        $("." + $(this).val()).each(function() {
             this.checked=false;
         });
     }
