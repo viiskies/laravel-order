@@ -112,6 +112,8 @@
                         </th>
                         <th scope="col">Amount</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col" class="packshots"></th>
                     </tr>
                     </thead>
@@ -135,6 +137,16 @@
                             </td>
                             <td class="align-middle text-right product-image-mobile-center">
                                 <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
+                            </td>
+                            <td class="align-middle text-right product-image-mobile-center">
+                                <a class="btn btn-dark btn-sm" href="{{ route('products.edit', ['id' => $product->id])}}">Edit</a>
+                            </td>
+                            <td class="align-middle text-right product-image-mobile-center">
+                                <form action="{{ route('products.destroy', ['id' => $product->id])}}" method="post">
+                                    @csrf
+                                        <input type="hidden" name="_method" value="delete">
+                                        <button type="submit" class="btn btn-dark btn-sm add-into-cart">Delete</button>
+                                </form>
                             </td>
                             <td class="align-middle product-image-mobile-center packshots">
                                 <div class="packshot">

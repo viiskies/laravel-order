@@ -1,4 +1,7 @@
-<form action="{{route('platforms.update', ['platform' => $platformEdit->id])}}" method="post">
+@extends('layouts.page')
+@section('content')
+<div class="col-10 mt-5">
+    <form action="{{ route('platforms.update', ['id' => $platformEdit->id])}}" method="post">
     @csrf
     <div class="form-group">
         @if ($errors->get('name'))
@@ -9,10 +12,14 @@
             @endforeach
         @endif
         <input type="hidden" name="_method" value="put">
-        <label for="name">Name:</label>
+        <label for="name">Publisher name:</label>
         <br>
-        <input type="text" name="name" class="form-control" placeholder="Platform name" value="{{ $platformEdit->name }}">
+        <input type="text" name="name" class="form-control" placeholder="Publisher name" value="{{ $platformEdit->name }}">
         <br>
-        <button type="submit" class="btn btn-secondary">Submit</button>
+        <button type="submit" class="btn btn-danger">Edit</button>
     </div>
 </form>
+</div>
+</div>
+@endsection
+
