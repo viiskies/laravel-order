@@ -31,6 +31,7 @@ class CountriesController extends Controller
             }
         }
        Country::create($request->only('name', 'email', 'phone', 'default'));
+       session() -> flash( 'success', 'Country created successfully' );
 
         return redirect()->route('countries.index');
     }
@@ -57,12 +58,14 @@ class CountriesController extends Controller
             $arr['default']=0;
         }
         Country::findOrFail($id)->update($arr);
-        return redirect()->route('countries.show', $id);
+        session() -> flash( 'success', 'Country updated successfully' );
+        return redirect()->route('countries.index', $id);
     }
 
     public function destroy($id)
     {
         Country::destroy($id);
+        session() -> flash( 'success', 'Platform deleted successfully' );
         return redirect()->route('countries.index');
     }
 }

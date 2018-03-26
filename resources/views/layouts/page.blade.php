@@ -15,9 +15,7 @@
 			<div class="row">
 				@include('layouts.partials.sidebar_no_pop')
 			</div>
-
 				@yield('content')
-
 				<!-- New arrivals -->
 				<hr>
 				<div class="row">
@@ -41,6 +39,7 @@
 								<a href="{{ route('products.show', array('id'=>$product_latest->id)) }}"><h5>{{ $product_latest->name }}</h5></a>
 							</div>
 							@endforeach
+
 						</div>
 					</div>
 					<div class="col-sm-2 karuseles-arrow-containeris d-flex justify-content-center">

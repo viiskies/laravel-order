@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrderRequest;
 use App\Order;
 use App\OrderProduct;
-use App\Price;
 use App\Product;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\CartService;
+
 
 class CartController extends Controller
 {
@@ -23,42 +22,56 @@ class CartController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $order = $user->orders()->asCart()->first();
+        $order = $user->orders()->InCart()->Order()->first();
+        $backorder =$user->orders()->InCart()->BackOrder()->first();
+        $preorder =$user->orders()->InCart()->PreOrder()->first();
         if (!empty($order))
         {
             $order_products = $order->orderProducts()->get();
-            $order_id = $order->id;
         }else{
                 $order_products = [];
-                $order_id = [];
+                $order = null;
         }
-        return view('orders.single_basket', ['products' => $order_products, 'order_id' => $order_id, 'order' =>$order]);
+        if (!empty($backorder))
+        {
+            $backorders = $backorder->orderProducts()->get();
+
+        }else{
+            $backorders =[];
+            $backorder = null;
+        }
+        if (!empty($preorder))
+        {
+            $preorders = $preorder->orderProducts()->get();
+        }else{
+            $preorders =[];
+            $preorder = null;
+        }
+
+        return view('orders.single_basket', [
+            'products' => $order_products,
+            'order' =>$order,
+            'backorder' => $backorder,
+            'preorder' => $preorder,
+            'backorders' => $backorders,
+            'preorders' => $preorders,
+        ]);
     }
     public function store($product_id, StoreOrderRequest $request)
     {
-        $user = Auth::user();
-        $user_order = $user->orders()->asCart()->first();
-        if (empty($user_order))
+        $product = Product::findOrfail($product_id);
+
+        if ($product->stock()->first()->amount !== 0 && $product->preorder !== 1)
         {
-            $order = $user->orders()->create([
-                'status' => Order::PENDING,
-                'date' => Carbon::now(),
-                'type' => 0,
-            ]);
-        }else{
-            $order = $user_order;
-        }
-        $product = $order->orderProducts->where('product_id', $product_id)->first();
-        if ($product == null)
-        {
-	         $product = Product::findOrFail($product_id);
-	         $order->orderProducts()->create($request->except('_token')+[
-                    'product_id' => $product_id,
-                    'price' => $product->PriceAmount,
-                ]);
-        }else{
-            $amount = $product->quantity + $request->quantity;
-            $product->update(['quantity' => $amount]);
+            $amount = $this->getTotal->storeOrder($product, $request);
+            if ($amount !== 0 )
+            {
+                $this->getTotal->storeBackOrder($product, $amount);
+            }
+        }elseif($product->stock()->first()->amount === 0 && $product->preorder === 0){
+            $this->getTotal->storeBackOrder($product, $request->quantity);
+        } elseif($product->preorder === 1) {
+            $this->getTotal->storePreOrder($product, $request->quantity);
         }
         $data = [
         	'product_id'=>$product_id,
@@ -85,13 +98,22 @@ class CartController extends Controller
                     'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
                 ];
             }else{
-                $product->update($request->except('_token'));
-                $singleProduct = $product->first();
-                $data = ['id' => $id,
-                    'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
-                    'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
-                    'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
-                ];
+                if ($product->first()->product->stock->first()->amount >=  $request->quantity)
+                {
+                    $product->update($request->except('_token'));
+                    $singleProduct = $product->first();
+                    $data = ['id' => $id,
+                        'totalQuantity' => $this->getTotal->getTotalCartQuantity($singleProduct->order),
+                        'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
+                        'totalPrice' => $this->getTotal->getTotalCartPrice($singleProduct->order),
+                    ];
+                }else{
+                    $product->update(['quantity' => $product->first()->product->stock->first()->amount]);
+                    $data = ['id' => $id,
+                        'singleQuantity' => $product->first()->product->stock->first()->amount,
+                        'true' => true,
+                    ];
+                }
             }
 
         return $data;
@@ -107,9 +129,19 @@ class CartController extends Controller
         }
         return redirect()->back();
     }
-    public function confirm($id)
+
+
+    public function confirm(Request $request)
     {
-        Order::findOrFail($id)->update(['status' => Order::UNCONFIRMED]);
-        return redirect()->back();
+        if ($request->has('order_id')) {
+            Order::findOrFail($request->order_id)->update(['status' => Order::UNCONFIRMED]);
+        }
+        if ($request->has('backorder_id')) {
+            Order::findOrFail($request->backorder_id)->update(['status' => Order::UNCONFIRMED]);
+        }
+        if ($request->has('preorder_id')) {
+            Order::findOrFail($request->preorder_id)->update(['status' => Order::UNCONFIRMED]);
+        }
+    return redirect()->back();
     }
 }
