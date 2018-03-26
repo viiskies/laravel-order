@@ -16,13 +16,13 @@
                         <select name="platform" class="custom-select" id="inputGroupSelect04">
                             <option value="0"></option>
                             @foreach($platforms as $platform)
-                                <option value="{{ $platform->id }}">{{ $platform->name }}</option>
+                                <option {{$selectedPlatform == $platform->id ? 'selected="selected"' : '' }} value="{{ $platform->id }}">{{ $platform->name }}</option>
                             @endforeach
                         </select>
                         <select name="publisher" class="custom-select" id="inputGroupSelect04">
                             <option value="0"></option>
                             @foreach($publishers as $publisher)
-                                <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
+                                <option {{$selectedPublisher == $publisher->id ? 'selected="selected"' : '' }} value="{{ $publisher->id }}">{{ $publisher->name }}</option>
                             @endforeach
                         </select>
                         <div class="input-group mb-3">

@@ -70,5 +70,11 @@ class ImageService {
         Image::create(['filename' => $filename, 'featured' => $featured, 'product_id' => $product->id]);
     }
 
+    public function uploadImage($file)
+    {
+        $path = $file->storePublicly($this->image_dir);
+        $filename = basename($path);
+        return $filename;
+    }
 
 }

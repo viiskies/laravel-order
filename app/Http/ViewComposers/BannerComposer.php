@@ -3,7 +3,6 @@
 namespace App\Http\ViewComposers;
 
 
-
 use App\SpecialOffer;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -15,9 +14,9 @@ class BannerComposer
     {
         $user = Auth::user();
         $offers = SpecialOffer::all();
-            if($user->role != 'admin'){
-                $offers = $user->specialOffers()->where('expiration_date', '>', Carbon::now('Europe/Vilnius'))->get();
-            }
-                $view->with(['offers' => $offers]);
+        if ($user->role != 'admin') {
+            $offers = $user->specialOffers()->where('expiration_date', '>', Carbon::now('Europe/Vilnius'))->get();
+        }
+        $view->with(['offers' => $offers]);
     }
 }
