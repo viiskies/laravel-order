@@ -168,9 +168,9 @@ class CartController extends Controller
                 $stock = Stock::findOrFail($product->product_id);
                 $quantity = $stock->amount - $product->quantity;
                 if ($quantity >= 0) {
-                    $stock->update(['amount' => $quantity]);
+                    Stock::create(['amount' => $quantity, 'product_id' => $product->product_id]);
                 } else {
-                    $stock->update(['amount' => 0]);
+                    Stock::create(['amount' => 0, 'product_id' => $product->product_id]);
                 }
             }
         }
