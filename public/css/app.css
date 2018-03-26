@@ -15070,7 +15070,7 @@ div#radioboxes {
 }
 
 div.packshot {
-  width: 50%;
+  width: 100%;
   margin-left: 5px;
   display: inline-block;
   -webkit-box-pack: center;
@@ -15513,7 +15513,7 @@ table tr {
 }
 
 .stock {
-  width: 50px;
+  width: 60px;
 }
 
 .price {
@@ -15521,16 +15521,35 @@ table tr {
 }
 
 .title {
-  width: 270px;
-  word-wrap: break-word;
+  width: 250px;
 }
 
 .platform {
-  width: 50px;
+  width: 45px;
 }
 
 .ean {
   width: 80px;
+}
+
+.release {
+  width: 75px;
+}
+
+.preorders {
+  width: 75px;
+}
+
+.publisher {
+  width: 80px;
+}
+
+.amount {
+  width: 55px;
+}
+
+.actions {
+  width: 85px;
 }
 
 table th,

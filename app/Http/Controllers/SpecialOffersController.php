@@ -35,19 +35,12 @@ class SpecialOffersController extends Controller
 
     public function store(Request $request)
     {
-
-        $clients = $request->get('client_id');
-        if ($request->has('filename')) {
-
+            $clients = $request->get('client_id');
             $file = $request->filename;
             $path = $file->storePublicly($this->image_dir);
-
             $filename = basename($path);
-
             $special_offer = SpecialOffer::create(['filename' => $filename] + $request->only('expiration_date', 'description'));
-        }else {
-            $special_offer = SpecialOffer::create($request->only('expiration_date', 'description'));
-        }
+
         foreach ($clients as $client_id) {
             $client = Client::findOrFail($client_id);
             $special_offer->users()->attach($client->user->id);
@@ -66,18 +59,19 @@ class SpecialOffersController extends Controller
         $publishers = Publisher::all();
         $platforms = Platform::all();
         $clients = Client::all();
+        $products = Product::where('name', 'LIKE', '%'.$request->get('search').'%');
 
             if($request->platform == 0 && $request->publisher == 0){
-                $products = Product::where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+                $products = $products->get();
             }
             elseif ($request->platform > 0 && $request->publisher == 0) {
-                $products = Product::where('platform_id', $request->get('platform'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+                $products = $products->where('platform_id', $request->get('platform'))->get();
             }
             elseif ($request->platform == 0 && $request->publisher > 0){
-                $products = Product::where('publisher_id', $request->get('publisher'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+                $products = $products->where('publisher_id', $request->get('publisher'))->get();
             }
             elseif ($request->platform > 0 && $request->publisher > 0){
-                $products = Product::where('publisher_id', $request->get('publisher'))->where('platform_id', $request->get('platform'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+                $products = $products->where('publisher_id', $request->get('publisher'))->where('platform_id', $request->get('platform'))->get();
             }
 
         return view('special_offers.index', compact('products', 'publishers', 'platforms', 'platform_name', 'publisher_name', 'clients'));
