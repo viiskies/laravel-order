@@ -154,9 +154,7 @@ class CartController extends Controller
             }
         }
 
-
     return redirect()->back();
-
     }
 
     public function confirm(Request $request)

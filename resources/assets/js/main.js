@@ -256,7 +256,6 @@ $('.setquantity_BP').keyup(function() {
             },
             error:function (error)
             {
-                console.log('neveikia');
                 var message = $('#' + messageId);
                 message.html(error['responseJSON']['errors']['quantity'][0]);
                 message.css({'color':'red','display':'block'});
