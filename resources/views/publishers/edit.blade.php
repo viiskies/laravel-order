@@ -1,6 +1,3 @@
-
-
-
 @extends('layouts.page')
 @section('content')
 <div class="col-10 mt-5">
