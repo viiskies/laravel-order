@@ -67,36 +67,26 @@ class SpecialOffersController extends Controller
         $platforms = Platform::all();
         $clients = Client::all();
 
-        if($request->platform == 0 && $request->publisher == 0){
-            $products = Product::search('*' . $request->get('search') . '*')->get();
-        }
-        //reikia pabaigti su else kad rodytu tik kategorijas ir tik publisherius atskirai
-        else {
-            $platform_name = Platform::findOrFail($request->get('platform'));
-            $publisher_name = Publisher::findOrFail($request->get('publisher'));
-            $products = Product::where('platform_id', $request->get('platform'))->where('publisher_id', $request->get('publisher'))->search('*' . $request->get('search') . '*')->get();
-        }
+            if($request->platform == 0 && $request->publisher == 0){
+                $products = Product::where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+            }
+            elseif ($request->platform > 0 && $request->publisher == 0) {
+                $products = Product::where('platform_id', $request->get('platform'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+            }
+            elseif ($request->platform == 0 && $request->publisher > 0){
+                $products = Product::where('publisher_id', $request->get('publisher'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+            }
+            elseif ($request->platform > 0 && $request->publisher > 0){
+                $products = Product::where('publisher_id', $request->get('publisher'))->where('platform_id', $request->get('platform'))->where('name', 'LIKE', '%'.$request->get('search').'%')->get();
+            }
+
         return view('special_offers.index', compact('products', 'publishers', 'platforms', 'platform_name', 'publisher_name', 'clients'));
     }
 
-
-    public function search(Request $request)
+    public function show($id)
     {
-        $clients = Client::all();
-        $publishers = Publisher::all();
-        $platforms = Platform::all();
+        $special_offer = SpecialOffer::FindOrFail($id);
 
-        if ($request->get('search') == null) {
-            $products = Product::all();
-        } else {
-            $products = Product::search('*' . $request->get('search') . '*')->get();
-        }
-        return view('special_offers.index', compact('products', 'publishers', 'platforms', 'clients'));
-    }
-
-    public function show()
-    {
-        $a = 'adasd';
-        return view('special_offers.show', compact('a'));
+        return view('special_offers.show', compact('special_offer'));
     }
 }

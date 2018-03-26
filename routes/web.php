@@ -58,7 +58,7 @@ Route::post('update/{id}', 'CartController@update')->name('order.update');
 Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
 
 Route::get('special', 'SpecialOffersController@index')->name('special.index');
-Route::get('special/show', 'SpecialOffersController@show')->name('special.show');
+Route::get('special/show/{id}', 'SpecialOffersController@show')->name('special.show');
 Route::post('special/store', 'SpecialOffersController@store')->name('special.store');
 Route::post('special/filter', 'SpecialOffersController@filter')->name('special.filter');
 Route::post('special/country', 'SpecialOffersController@getByCountry')->name('special.filter.country');

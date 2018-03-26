@@ -28,7 +28,7 @@
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" placeholder="Search" name="search">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-dark" type="submit" value="Filter">Search</button>
+                                <button class="btn btn-outline-dark" type="submit" value="filter">Search</button>
                             </div>
                         </div>
                     </div>
