@@ -121,16 +121,8 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-
-        $prices_to_delete = $product->prices->pluck('id');
-        $stock_to_delete = $product->stock->pluck('id');
-
-        $this->imageService->deleteProductImages($product);
-        Price::destroy($prices_to_delete);
-        Stock::destroy($stock_to_delete);
-
         Product::destroy($id);
 
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
 }
