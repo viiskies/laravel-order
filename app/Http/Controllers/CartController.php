@@ -92,7 +92,7 @@ class CartController extends Controller
             $product->update([
                 'price' => $request->price,
             ]);
-            $product = OrderProduct::where('id', $id);
+            $product = OrderProduct::findOrFail($id);
             $singleProduct = $product->first();
             $data = ['id' => $id,
                 'singleProductPrice' => $this->getTotal->getSingleProductPrice($singleProduct),
@@ -120,9 +120,10 @@ class CartController extends Controller
     {
         $order_product = OrderProduct::findOrFail($id);
         $order_product->delete();
-        $order_products = OrderProduct::where('order_id', $order_product->order_id)->get();
+        $order_products = $order_product->order->orderProducts()->get();
         if ($order_products->count() == 0){
             Order::findOrFail($order_product->order_id)->delete();
+            return redirect()->route('order.orders');
         }
         return redirect()->back();
     }
@@ -131,8 +132,9 @@ class CartController extends Controller
     {
         if ($request->has('checkbox')){
             foreach ($request->checkbox as $orderProduct) {
-                OrderProduct::findOrFail($orderProduct)->delete();
+                $selectedProducts[] = $orderProduct;
             }
+            OrderProduct::whereIn('id', $selectedProducts)->delete();
             $orders = [$request->get('order_id'),
                 $request->get('backorder_id'),
                 $request->get('preorder_id')];
