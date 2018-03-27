@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Category;
 use App\Order;
 use App\Product;
 use DB;
-use Illuminate\Contracts\View\View;
+
 
 class ProductService {
     public function getMostPopular($quantity = 3)
@@ -27,7 +26,7 @@ class ProductService {
             ->get();
     }
 
-    public function newArrivals()
+    public function getNewArrivals()
     {
         $products = Product::all();
         $products_latest = [];
