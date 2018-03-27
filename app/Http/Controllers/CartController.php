@@ -121,7 +121,7 @@ class CartController extends Controller
         $order_product = OrderProduct::findOrFail($id);
         $order_product->delete();
         $order_products = OrderProduct::where('order_id', $order_product->order_id)->get();
-        if (count($order_products) == 0){
+        if ($order_products->count() == 0){
             Order::findOrFail($order_product->order_id)->delete();
         }
         return redirect()->back();
@@ -141,7 +141,7 @@ class CartController extends Controller
                 if ($orders[$i] !== null)
                 {
                     $order = Order::findOrFail($orders[$i]);
-                    if (count($order->orderProducts) == 0) {
+                    if ($order->orderProducts->count() == 0) {
                         $order->delete();
                     }
                 }
@@ -157,12 +157,12 @@ class CartController extends Controller
             $order = Order::findOrFail($request->order_id);
             $order->update(['status' => Order::UNCONFIRMED]);
             foreach ($order->orderProducts as $product) {
-                $stock = Product::findOrFail($product->product_id)->stockamount;
+                $stock = $product->product->stockamount;
                 $quantity = $stock - $product->quantity;
                 if ($quantity < 0) {
                     $quantity = 0;
                 }
-                Stock::create(['amount' => $quantity, 'product_id' => $product->product_id]);
+                $product->product->stock()->create(['amount' => $quantity]);
             }
         }
         if ($request->has('backorder_id')) {

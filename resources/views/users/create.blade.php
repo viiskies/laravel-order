@@ -9,6 +9,7 @@
             <form class="form-group" method="post" action="{{route('users.store')}}">
                 {{csrf_field()}}
                 @include('users.partials.form', [
+                'role' => "user",
                 'name' => "",
                 'price_coefficient' => "",
                 'client_name' => "",
@@ -16,6 +17,7 @@
                 'registration_number' => "",
                 'registration_address' => "",
                 'shipping_address' => "",
+                'company_address' => "",
                 'email' => "",
                 'contact_person' => "",
                 'payment_terms' => "",

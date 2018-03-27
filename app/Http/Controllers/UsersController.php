@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Session;
 
 
 class UsersController extends Controller
@@ -48,8 +49,9 @@ class UsersController extends Controller
        } else {
            User::create($request->only('name', 'role') + ['password' => bcrypt($request->password)]);
        }
+       session() -> flash( 'success', 'User created successfully' );
 
-        return redirect()->back();
+        return redirect()->route('users.index');
     }
 
 
@@ -78,17 +80,34 @@ class UsersController extends Controller
         $client = $user->client;
 
         if($request->role != 'admin') {
-            $user->update($request->only('name', 'price_coefficient', 'role', 'country_id', 'disabled'));
+            $user->update($request->only('name', 'price_coefficient', 'role', 'country_id'));
             $client->update($request->except('name', 'password', 'role', '_token'));
         } else {
             $user->update($request->only('name', 'price_coefficient', 'role'));
         }
+        session() -> flash( 'success', 'User updated successfully' );
         return redirect()->route('users.index', $id);
     }
 
 
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        if($user->disabled == 1)
+        {
+            $user->update([
+            'disabled' => 0
+            ]);
+            session() -> flash( 'success', 'User enabled successfully' );
+
+        } else {
+            $user->update([
+            'disabled' => 1
+            ]);
+            session() -> flash( 'success', 'User disabled successfully' );
+        }
+
+        return redirect()->back();    
     }
 }

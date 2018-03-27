@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('content')
-
     <!-- Table filters -->
     <div class="col-lg-10 col-md-12">
         <div id="radioboxes" class="row justify-content-around">
@@ -41,7 +40,7 @@
                                 </a>
                             @endif
                         </th>
-                        <th scope="col" class="title" style="width: 250px;">
+                        <th scope="col" class="title">
                             @if ($sortName == 'title' && $direction == 'asc')
                                 <a href="{{ route('home.sort', ['name' => 'title', 'direction' => 'desc']) }}">
                                     Title: <i class="fa fa-sort-up"></i>
@@ -62,9 +61,8 @@
                                     Pl.: <i class="fa fa-sort-down"></i>
                                 </a>
                             @endif
-
                         </th>
-                        <th scope="col" class="release" style="width: 75px;">
+                        <th scope="col" class="release">
                             @if ($sortName == 'release' && $direction == 'asc')
                                 <a href="{{ route('home.sort', ['name' => 'release', 'direction' => 'desc']) }}">
                                     Release: <i class="fa fa-sort-up"></i>
@@ -75,10 +73,10 @@
                                 </a>
                             @endif
                         </th>
-                        <th scope="col" class="preorders" style="width: 75px;">Order deadline:
+                        <th scope="col" class="preorders">Order deadline:
                             <i class="fa fa-sort-down"></i>
                         </th>
-                        <th scope="col" class="publisher" style="width: 80px;">
+                        <th scope="col" class="publisher">
                             @if ($sortName == 'pub' && $direction == 'asc')
                                 <a href="{{ route('home.sort', ['name' => 'pub', 'direction' => 'desc']) }}">
                                     Publisher: <i class="fa fa-sort-up"></i>
@@ -111,8 +109,8 @@
                                 </a>
                             @endif
                         </th>
-                        <th scope="col" style="width: 55px;">Amount</th>
-                        <th scope="col" style="width: 85px;" class="mr-1"></th>
+                        <th scope="col" class="amount">Amount</th>
+                        <th scope="col" class="actions"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -135,40 +133,31 @@
                             <td Data-label="Stock:" class="align-middle text-right">{{$product->stockamount}}</td>
                             <td Data-label="Price:" class="align-middle text-right">{{ number_format($product->priceamount, 2, '.', '')}}</td>
                             <td Data-label="Amount" class="align-middle text-right">
-                                <input class="input" type="number" min="1" id="value{{ $product->id }}" name="amount">
+                                <input class="input" type="number" id="value{{ $product->id }}" name="amount">
                                 <span style="display: none; color: green" id="message{{ $product->id }}" ></span>
                             </td>
+                            @admin
                             <td Data-label="Actions:" class="align-middle text-right">
                                 <div class="dropdown">
                                     <button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Actions
+                                        Actions
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <button class="dropdown-item add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
                                         <a class="dropdown-item" href="{{ route('products.edit', ['id' => $product->id])}}">Edit</a>
                                         <form action="{{ route('products.destroy', ['id' => $product->id])}}" method="post">
                                             @csrf
-                                                <input type="hidden" name="_method" value="delete">
-                                                <button type="submit" class="dropdown-item">Delete</button>
+                                            <input type="hidden" name="_method" value="delete">
+                                            <button type="submit" class="dropdown-item">Delete</button>
                                         </form>
                                     </div>
                                 </div>
                             </td>
-
-                          {{--   <td class="align-middle text-right product-image-mobile-center">
-                                <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
-                            </td>
-                            <td class="align-middle text-right product-image-mobile-center">
-                                <a class="btn btn-dark btn-sm" href="{{ route('products.edit', ['id' => $product->id])}}">Edit</a>
-                            </td>
-                            <td class="align-middle text-right product-image-mobile-center">
-                                <form action="{{ route('products.destroy', ['id' => $product->id])}}" method="post">
-                                    @csrf
-                                        <input type="hidden" name="_method" value="delete">
-                                        <button type="submit" class="btn btn-danger btn-sm add-into-cart">Delete</button>
-                                </form>
-                            </td> --}}
-                            
+                            @else
+                                <td class="align-middle text-right product-image-mobile-center">
+                                    <button class="btn btn-dark btn-sm add-into-cart" data-url="{{ route('order.store', $product->id) }}">To cart</button>
+                                </td>
+                                @endadmin
                         </tr>
                     @endforeach
                     </tbody>
