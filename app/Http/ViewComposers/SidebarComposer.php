@@ -5,7 +5,6 @@ namespace App\Http\ViewComposers;
 use App\Services\ProductService;
 use Illuminate\Contracts\View\View;
 use App\Category;
-use App\Product;
 use DB;
 
 class SidebarComposer
@@ -19,9 +18,6 @@ class SidebarComposer
 
     public function compose(View $view)
     {
-        $cats = Category::all();
-        $products_latest = Product::orderBy('id', 'desc')->take(8)->get();
-        $mostPopularProducts = $this->productService->getMostPopular();
-        $view->with(['cats' => $cats, 'products_latest' => $products_latest, 'mpp' => $mostPopularProducts]);
+        $view->with(['cats' => Category::all(), 'products_latest' => $this->productService->getNewArrivals(), 'mpp' => $this->productService->getMostPopular()]);
     }
 }
