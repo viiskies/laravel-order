@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="top-bar">
 				<ul>
-					<li><i class="fa fa-phone-volume"></i>  <a href="#">+370 644 54348</a></li>
+					<li><i class="fa fa-phone"></i>  <a href="#">+370 644 54348</a></li>
 					<li><i class="fa fa-envelope"></i>  <a href="#">info@gamestar.eu</a></li>
 				</ul>
 			</div>
@@ -28,8 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link btn btn-outline-danger" href="{{ route('home') }}">Home <span
-                                    class="sr-only">(current)</span></a>
+                        <a class="nav-link btn {{ (\Request::route()->getName() == 'home') ? 'btn-outline-danger' : 'btn-danger' }}" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-danger" href="#">Order</a>
@@ -38,7 +37,7 @@
                         <a class="nav-link btn btn-danger" href="#">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-danger" href="{{ route('pages.contacts') }}">Contact</a>
+                        <a class="nav-link btn {{ (\Request::route()->getName() == 'pages.contacts') ? 'btn-outline-danger' : 'btn-danger' }}" href="{{ route('pages.contacts') }}">Contact</a>
                     </li>
                 </ul>
             </div>
