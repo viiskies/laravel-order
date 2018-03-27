@@ -21,6 +21,7 @@ class User extends Authenticatable
         'client_id',
         'price_coefficient',
         'disabled',
+        'country_id'
     ];
 
     public $timestamps = false;
@@ -53,7 +54,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(SpecialOffer::class, 'special_offer_user');
     }
-	
+
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
 	public function getUserOrderAttribute(  ) {
 		if (!empty($this->orders->where('status',0)->first())){
 			return $this->orders->where('status', 0)->first();

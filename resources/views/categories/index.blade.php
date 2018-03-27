@@ -1,33 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.page')
 @section('content')
-	@if(session('status'))
-		<div class="alert alert-success">{{session('status')}}</div>
-	@endif
-	<a role="button" class="btn btn-primary" href="{{route('categories.create')}}">Create new category</a>
-	<table>
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>id</th>
-				<th>Category name</th>
-				<th>Action</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach($categories as $category)
+<div class="col-10 mt-5">
+	@include('layouts.partials.messages')
+	<a class="btn btn-dark" href="{{route('categories.create')}}">Create new category</a>
+	<div class="col-md-12 table-responsive no-gutters">
+		<table class="table table-sm table_container">
+			<thead class="thead-light">
 				<tr>
-					<td>{{$loop->iteration}}</td>
-					<td>{{$category->id}}</td>
-					<td>{{$category->name}}</td>
-					<td><a role="button" class="btn btn-success" href="{{route('categories.edit',$category->id)}}">Edit</a></td>
-					<td>
-						<form action="{{route('categories.destroy', $category->id)}}" method="post">@csrf @method('DELETE') <button type="submit" class="btn btn-danger" >Delete</button></form>
+					<th scope="col" colspan="3">Category:</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($categories as $category)
+				<tr class="table-tr">
+					<td Data-label="Publisher:" class="align-middle text-right">
+						<div class="justify-content-end">
+							<p>{{ $category->name }}</p>
+						</div>
+					</td>
+					<td class="text-lg-right"><a href="{{route('categories.edit',$category->id)}}" class="btn btn-dark btn-sm">Edit</a>
+					</td>
+					<td class="text-lg-left">
+						<form action="{{route('categories.destroy', $category->id)}}" method="post">
+							@csrf
+							<div class="form-group">
+								<input type="hidden" name="_method" value="delete">
+								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+							</div>
+						</form>
 					</td>
 				</tr>
-			@endforeach
-		</tbody>
-
-	</table>
-	<a role="button" class="btn btn-primary" href="{{'categories.create'}}">Create new category</a>
+				@endforeach
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
 @endsection

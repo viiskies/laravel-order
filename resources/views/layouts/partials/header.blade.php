@@ -3,8 +3,8 @@
 		<div class="row">
 			<div class="top-bar">
 				<ul>
-					<li><i class="fa fa-phone"></i>  <a href="#">+370 644 54348</a></li>
-					<li><i class="fa fa-envelope"></i>  <a href="#">info@gamestar.eu</a></li>
+					<li><i class="fa fa-phone-volume"></i>  <a href="#">{{$phone}}</a></li>
+					<li><i class="fa fa-envelope"></i>  <a href="#">{{$email}}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -44,13 +44,15 @@
         </nav>
     </div>
     <div class="cart-menu">
-        <a href="{{ route('order.index') }}"><span class="cart-menu-inside">
-						<span class="cart-menu-icon">
-							<i class="fa fa-cart-arrow-down"></i>
-						</span>
-						<span class="cart-menu-price totalQuantityTop">Items: {{ $cartService->getUserOrderTotalQuantity()}}</span>
-						<span class="cart-menu-price totalPriceTop">  € {{ $cartService->getUserOrderTotalPrice() }}</span>
-					</span></a>
+        <a href="{{ route('order.index') }}">
+            <span class="cart-menu-inside">
+                <span class="cart-menu-icon">
+                    <i class="fa fa-cart-arrow-down"></i>
+                </span>
+                <span class="cart-menu-price totalQuantityTop">Items: {{ $cartService->getUserOrderTotalQuantity()}}</span>
+                <span class="cart-menu-price totalPriceTop">  € {{ $cartService->getUserOrderTotalPrice() }}</span>
+            </span>
+        </a>
     </div>
 </div>
 <!-- Slider -->

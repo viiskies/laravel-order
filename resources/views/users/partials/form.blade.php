@@ -1,24 +1,28 @@
 <div class="row">
 	<div class="col-md-6">
-<div class="form-group">
+		<div class="form-group">
 			<label class="col control-label">Role</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-			<select name="role" class="custom-select" id="inputGroupSelect01">
-				<option selected>Choose...</option>
-				<option value="admin">Admin</option>
-				<option value="user">User</option>
-			</select>
-		</div>
-	</div>
+					<select name="role" class="custom-select" id="inputGroupSelect01">
+						@if(old('role', $role) == 'admin')
+						<option selected value="admin">Admin</option>
+						<option value="user">User</option>
+						@else
+						<option value="admin">Admin</option>
+						<option selected value="user">User</option>
+						@endif
+					</select>
+				</div>
+			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">User name</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<input  name="name" placeholder="User name" class="form-control"  type="text" value="{{old('name', $name)}}">
-					</div>
-					@include('users.partials.error', ['name' => 'name'])
+				</div>
+				@include('users.partials.error', ['name' => 'name'])
 			</div>
 		</div>
 		<div class="form-group">
@@ -26,17 +30,17 @@
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<input  name="email" placeholder="E-mail" class="form-control"  type="email" value="{{old('email', $email)}}">
-					</div>
-					@include('users.partials.error', ['name' => 'email'])
+				</div>
+				@include('users.partials.error', ['name' => 'email'])
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">Password</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<input  name="password" placeholder="Password" class="form-control"  type="password">
-					</div>
-					@include('users.partials.error', ['name' => 'password'])
+					<input  name="password" placeholder="Password" class="form-control"  type="password" >
+				</div>
+				@include('users.partials.error', ['name' => 'password'])
 			</div>
 		</div>
 		<div class="form-group">
@@ -44,8 +48,8 @@
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<input  name="vat_number" placeholder="VAT number" class="form-control"  type="text" value="{{old('vat_number', $vat_number)}}">
-					</div>
-					@include('users.partials.error', ['name' => 'vat_number'])
+				</div>
+				@include('users.partials.error', ['name' => 'vat_number'])
 			</div>
 		</div>
 		<div class="form-group">
@@ -53,25 +57,35 @@
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<input  name="registration_number" placeholder="Registration number" class="form-control"  type="text" value="{{old('registration_number', $registration_number)}}">
-					</div>
-					@include('users.partials.error', ['name' => 'registration_number'])
+				</div>
+				@include('users.partials.error', ['name' => 'registration_number'])
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">Payment terms</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<input  name="payment_terms" placeholder="Payment terms" class="form-control"  type="text">
-					</div>
-					@include('users.partials.error', ['name' => 'payment_terms'])
+					<input  name="payment_terms" placeholder="Payment terms" class="form-control"  type="text" value="{{old('payment_terms', $payment_terms)}}">
+				</div>
+				@include('users.partials.error', ['name' => 'payment_terms'])
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">Country</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<input  name="country" placeholder="Country" class="form-control"  type="text">
+					<select name="country_id" class="custom-select">
+						<option disabled selected></option>
+						@foreach($countries as $country)
+							<option value="{{ $country->id }}"
+							@if(isset($country_id) && $country_id == $country->id)
+							selected
+							@endif 
+							>{{ $country->name }}</option>
+						@endforeach
+					</select>
 				</div>
+				@include('users.partials.error', ['name' => 'country_id'])
 			</div>
 		</div>
 	</div>
@@ -80,18 +94,27 @@
 			<label class="col control-label">Contact person</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<input  name="contact_person" placeholder="Contact person" class="form-control"  type="text">
-					</div>
-					@include('users.partials.error', ['name' => 'contact_person'])
+					<input  name="contact_person" placeholder="Contact person" class="form-control"  type="text" value="{{old('contact_person', $contact_person)}}">
+				</div>
+				@include('users.partials.error', ['name' => 'contact_person'])
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col control-label">Client name</label>
+			<div class="col inputGroupContainer">
+				<div class="input-group">
+					<input  name="client_name" placeholder="Client name" class="form-control"  type="text" value="{{old('client_name', $client_name)}}">
+				</div>
+				@include('users.partials.error', ['name' => 'client_name'])
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">Phone number</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<input  name="phone" placeholder="Phone number" class="form-control"  type="text">
-					</div>
-					@include('users.partials.error', ['name' => 'phone'])
+					<input  name="phone" placeholder="Phone number" class="form-control"  type="text" value="{{old('phone', $phone)}}">
+				</div>
+				@include('users.partials.error', ['name' => 'phone'])
 			</div>
 		</div>
 		<div class="form-group">
@@ -99,17 +122,17 @@
 			<div class="col inputGroupContainer">
 				<div class="input-group">
 					<input  name="price_coefficient" placeholder="Price coefficient" class="form-control"  type="text" value="{{old('price_coefficient', $price_coefficient)}}">
-					</div>
-					@include('users.partials.error', ['name' => 'price_coefficient'])
+				</div>
+				@include('users.partials.error', ['name' => 'price_coefficient'])
 			</div>
 		</div>
 		<div class="form-group">
 			<label class="col control-label">Company address</label>
 			<div class="col inputGroupContainer">
 				<div class="input-group">
-					<textarea class="form-control" name="registration_address" placeholder="Company address" rows="5"></textarea>
+					<textarea class="form-control" name="registration_address" placeholder="Company address" rows="5" value="{{old('company_address', $company_address)}}"></textarea>
 				</div>
-					@include('users.partials.error', ['name' => 'registration_address'])
+				@include('users.partials.error', ['name' => 'registration_address'])
 			</div>
 		</div>
 		<div class="form-group">

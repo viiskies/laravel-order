@@ -16,7 +16,7 @@ class PlatformController extends Controller
 
 
     public function create()
-    {
+    {   
         return view('platforms.create');
     }
 
@@ -24,6 +24,7 @@ class PlatformController extends Controller
     public function store(StorePlatformRequest $request)
     {
         Platform::create($request->except('_token'));
+        session() -> flash( 'success', 'Platform created successfully' );
         return redirect()->route('platforms.index');
     }
 
@@ -45,13 +46,22 @@ class PlatformController extends Controller
     public function update(StorePlatformRequest $request, $id)
     {
         Platform::findOrFail($id)->update(['name' => $request->get('name')]);
-        return redirect()->route('platforms.show', $id);
+        session() -> flash( 'success', 'Platform updated successfully' );
+        return redirect()->route('platforms.index', $id);
     }
 
 
     public function destroy($id)
-    {
-        Platform::destroy($id);
+    {   
+        $platform = Platform ::findOrFail( $id );
+        if ($platform->products()->count() > 0)
+        {
+            session() -> flash( 'failure', 'Cannot delete, there are products in this platform' );  
+        } else {
+            $platform -> delete();
+            session() -> flash( 'success', 'Platform deleted successfully' );
+        }
+
         return redirect()->route('platforms.index');
     }
 }

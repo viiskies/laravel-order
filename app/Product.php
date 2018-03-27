@@ -2,12 +2,16 @@
 
 namespace App;
 
+use App\Services\PricingService;
 use Illuminate\Database\Eloquent\Model;
 use ScoutElastic\Searchable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use Searchable;
+
+    use SoftDeletes;
 
     protected $searchRules = [MySearchRule::class];
     public $timestamps = false;
@@ -72,6 +76,11 @@ class Product extends Model
         return $this->hasMany(Image::class);
     }
 
+    public function importItems()
+    {
+        return $this->hasMany(ImportItem::class);
+    }
+
     public function platform()
     {
         return $this->belongsTo(Platform::class);
@@ -122,11 +131,7 @@ class Product extends Model
 
     public function getPriceAmountAttribute()
     {
-        if (isset($this->prices->last()->amount)) {
-            return $this->prices->last()->amount;
-        } else {
-            return 0;
-        }
+        return app(PricingService::class)->getPrice(auth()->user(),$this);
     }
 
     public function getFeaturedImageAttribute()
@@ -146,4 +151,5 @@ class Product extends Model
         $path = 'image/default_featured.png';
         return asset($path);
     }
+
 }
