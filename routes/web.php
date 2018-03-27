@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('complete/{token}', 'UsersController@getToken')->name('complete.show');
         Route::post('complete', 'UsersController@storePassword')->name('complete.store');
 
+
         Route::resource('categories', 'CategoriesController');
 
         Route::post('order/{id}', 'CartController@store')->name('order.store');
@@ -59,6 +60,17 @@ Route::middleware('auth')->group(function () {
         Route::get('orders', 'OrdersController@index')->name('order.orders');
         Route::get('order/{id}', 'OrdersController@show')->name('order.products');
         Route::put('order/{id}/action', 'OrdersController@action')->name('order.action');
+        Route::post('update/{id}', 'CartController@update')->name('order.update');
+        Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
+        Route::delete('order', 'CartController@destroySelected')->name('order.product.del_selected');
+
+        Route::get('special', 'SpecialOffersController@index')->name('special.index');
+        Route::get('special/show/{id}', 'SpecialOffersController@show')->name('special.show');
+        Route::post('special/store', 'SpecialOffersController@store')->name('special.store');
+        Route::post('special/filter', 'SpecialOffersController@filter')->name('special.filter');
+        Route::post('special/country', 'SpecialOffersController@getByCountry')->name('special.filter.country');
+        Route::post('special/search', 'SpecialOffersController@search')->name('special.search');
+
 
         Route::post('update/{id}', 'CartController@update')->name('order.update');
         Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
