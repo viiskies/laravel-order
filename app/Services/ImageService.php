@@ -7,10 +7,12 @@ use App\SpecialOffer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ImageService {
+class ImageService
+{
     private $image_dir = 'public/image/';
 
-    private function getPath($filename) {
+    private function getPath($filename)
+    {
         $path = $this->image_dir . $filename;
         return $path;
     }
@@ -32,7 +34,7 @@ class ImageService {
             foreach ($product->images as $image) {
                 $image->update(['featured' => 0]);
             }
-            $image = Image::findOrFail( $request['featured'] );
+            $image = Image::findOrFail($request['featured']);
             $image->update(['featured' => 1]);
         }
 
@@ -49,9 +51,7 @@ class ImageService {
 
         //adding new images
         if (array_key_exists('image', $request)) {
-            $file = $request['image'];
-            $path = $file->storePublicly($this->image_dir);
-            $filename = basename($path);
+            $filename = $this->uploadImage($request['image']);
             if ($product->images()->exists()) {
                 $is_featured = 0;
             } else {
@@ -64,9 +64,7 @@ class ImageService {
     public function storeProductImages($product, $image)
     {
         $featured = 1;
-        $file = $image;
-        $path = $file->storePublicly($this->image_dir);
-        $filename = basename($path);
+        $filename = $this->uploadImage($image);
         Image::create(['filename' => $filename, 'featured' => $featured, 'product_id' => $product->id]);
     }
 
@@ -76,5 +74,4 @@ class ImageService {
         $filename = basename($path);
         return $filename;
     }
-
 }

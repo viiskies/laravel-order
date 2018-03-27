@@ -13,10 +13,11 @@ class BannerComposer
     public function compose(View $view)
     {
         $user = Auth::user();
-        $offers = SpecialOffer::all();
+        $offers = new SpecialOffer;
         if ($user->role != 'admin') {
-            $offers = $user->specialOffers()->where('expiration_date', '>', Carbon::now('Europe/Vilnius'))->get();
+            $offers = $user->specialOffers();
         }
+        $offers = $offers->where('expiration_date', '>', Carbon::now('Europe/Vilnius'))->get();
         $view->with(['offers' => $offers]);
     }
 }

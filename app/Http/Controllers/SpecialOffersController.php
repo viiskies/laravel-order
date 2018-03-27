@@ -17,7 +17,6 @@ class SpecialOffersController extends Controller
 {
     protected $price;
     protected $imageService;
-    private $image_dir = 'public/image/';
 
     public function __construct(PricingService $price, ImageService $image)
     {
@@ -54,7 +53,7 @@ class SpecialOffersController extends Controller
         foreach ($games as $game) {
             $specialOffer->prices()->create(['amount' => $request->get('price'), 'product_id' => $game]);
         }
-        return redirect(route('special.index'));
+        return redirect(route('special.index')->with('status', 'Success'));
     }
 
     public function filter(Request $request)
@@ -81,7 +80,6 @@ class SpecialOffersController extends Controller
         }
 
         $products = $products->get();
-
 
         return view('special_offers.index', compact('products', 'publishers', 'platforms', 'selectedPublisher', 'selectedPlatform', 'clients'));
     }

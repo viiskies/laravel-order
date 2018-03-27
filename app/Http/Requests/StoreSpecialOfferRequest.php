@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreSpecialOfferRequest extends FormRequest
 {
@@ -13,7 +14,12 @@ class StoreSpecialOfferRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if ($user = Auth::user()->role == 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public function rules()
