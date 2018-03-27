@@ -4,13 +4,16 @@ namespace App\Services;
 
 use App\Image;
 use Image as Resizer;
+use App\SpecialOffer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ImageService {
+class ImageService
+{
     private $image_dir = 'public/image/';
 
-    private function getPath($filename) {
+    private function getPath($filename)
+    {
         $path = $this->image_dir . $filename;
         return $path;
     }
@@ -32,7 +35,7 @@ class ImageService {
             foreach ($product->images as $image) {
                 $image->update(['featured' => 0]);
             }
-            $image = Image::findOrFail( $request['featured'] );
+            $image = Image::findOrFail($request['featured']);
             $image->update(['featured' => 1]);
         }
 
@@ -49,9 +52,7 @@ class ImageService {
 
         //adding new images
         if (array_key_exists('image', $request)) {
-            $file = $request['image'];
-            $path = $file->storePublicly($this->image_dir);
-            $filename = basename($path);
+            $filename = $this->uploadImage($request['image']);
             if ($product->images()->exists()) {
                 $is_featured = 0;
             } else {
@@ -64,6 +65,7 @@ class ImageService {
     public function storeProductImages($product, $image)
     {
         $featured = 1;
+
         $file = $image;
         $filename = basename($path);
         
@@ -86,4 +88,20 @@ class ImageService {
 
         Image::create(['filename' => $thumb_filename, 'featured' => $featured, 'product_id' => $product->id]);
 }
+
+    public function uploadImage($file)
+    {
+
+        $img_thumb = Resizer::make($file->getRealPath());
+
+        $img_thumb->height() > $img_thumb->width() ? $width=null : $height=null;
+        $img_thumb->resize($width, $height, function ($constraint) {
+        $constraint->aspectRatio();
+        });
+
+        $img_thumb->save( storage_path('app/public/image/medium-' . $filename , 90) ); 
+
+        $filename = $img_thumb->basename;
+        return $filename;
+    }
 }
