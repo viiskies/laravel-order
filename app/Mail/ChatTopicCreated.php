@@ -9,16 +9,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ChatTopicCreated extends Mailable
 {
+
     use Queueable, SerializesModels;
 
+    protected $id;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id)
     {
-        //
+        $this->id = $id;
     }
 
     /**
@@ -28,6 +30,9 @@ class ChatTopicCreated extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.chat.newChatTopic');
+        return $this->view('emails.chat.newChatTopic')
+            ->with([
+                'id' => $this->id
+            ]);
     }
 }
