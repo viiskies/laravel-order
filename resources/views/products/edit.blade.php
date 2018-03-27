@@ -1,112 +1,244 @@
-<form action="{{ route('products.update', ['id' => $product->id]) }}" enctype="multipart/form-data" method="post">
-    @csrf
-    @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+@extends('layouts.page')
+@section('content')
+<div class="col-10">
+    <div class="row">
+        <div class="col-12 text-center mt-5 mb-5">
+            <h2>Edit product</h2>
         </div>
-    @endif
-    <input type="hidden" name="_method" value="put">
+        <div class="col-12">
+            <form action="{{ route('products.update', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <input type="hidden" name="_method" value="put">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
 
-    <label for="name">Name:</label>
-    <br>
-    <input type="text" name="name" class="form-control" placeholder="Product name"
-           value="{{ old('name', $product->name) }}">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Pre-order?</label>
+                                <div class="col">
+                                    <div class="radio">
+                                        @if($product->preorder == 1)
+                                            <label>
+                                                <input class="yes" checked type="radio" name="pre_order" value="1" /> Yes
+                                            </label>
+                                            <label>
+                                                <input class="no" type="radio" name="pre_order" value="0" /> No
+                                            </label>
+                                        @else
+                                            <label>
+                                                <input class="yes" type="radio" name="pre_order" value="1" /> Yes
+                                            </label>
+                                            <label>
+                                                <input class="no" checked  type="radio" name="pre_order" value="0" /> No
+                                            </label>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="ean">EAN:</label>
-    <br>
-    <input type="number" name="ean" class="form-control" placeholder="EAN"
-           value="{{ old('ean', $product->ean) }}">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Order deadline</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        @if($product->preorder == 1)
+                                            <input  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date {{ old('deadline', $product->deadline) }}">
+                                        @else
+                                            <input disabled  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date {{ old('deadline', $product->deadline) }}">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="price_amount">Price:</label>
-    <br>
-    <input type="text" step="0.01" name="price_amount" class="form-control" placeholder="Price"
-           value="{{ old('price_amount', $product->price_amount) }}">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Name</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input id="name" name="name" placeholder="Product name" class="form-control"  type="text" value="{{ old('name', $product->name) }}">
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="stock_amount">Stock:</label>
-    <br>
-    <input type="number" name="stock_amount" class="form-control" placeholder="Stock"
-           value="{{ old('stock_amount', $product->stock_amount) }}">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">EAN</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input type="number"  name="ean" placeholder="EAN" class="form-control"  type="text" value="{{ old('ean', $product->ean) }}">
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="platform_id">Platform:</label>
-    <br>
-    @foreach ($platforms as $platform)
-        <input type="radio" class="form-radio-input" name="platform_id"
-               value="{{ $platform->id }}" id="{{ $platform->id }}"
-               @if (old('platform_id', $product->platform->id) == $platform->id) checked @endif>
-        <label for="{{ $platform->name }}" class="form-radio-label">{{ $platform->name }} </label>
-    @endforeach
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Select a platform</label>
+                                <div class="col selectContainer">
+                                    <div class="input-group">
+                                        <input data-autocomplete="{{ $platforms }}" class="form-control autocomplete" type="text" name="platform_name" value="{{ old('platform', $product->platform->name) }}">
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="publisher">Publisher:</label>
-    <br>
-    @foreach($publishers as $publisher)
-        @if ( empty($product->publisher->id ) )
-            <input type="radio" class="form-radio-input" name="publisher_id" id="{{ $publisher->id }}"
-                   value="{{ $publisher->id }}"
-                   @if (old('publisher_id') == $publisher->id) checked @endif>
-        @else
-            <input type="radio" class="form-radio-input" name="publisher_id" id="{{ $publisher->id }}"
-                   value="{{ $publisher->id }}"
-                   @if (old('publisher_id', $product->publisher->id) == $publisher->id) checked @endif>
-        @endif
+                            <div class="form-group">
+                                <label class="col control-label">Select a category</label>
+                                <div class="col selectContainer">
+                                    <div class="input-group">
+                                        @if($product->categories != null)
+                                        @foreach($product->categories as $category)
+                                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]" value="{{$category->name}}">
+                                        @endforeach
+                                        @else
+                                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]">    
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
 
-        <label for="{{ $publisher->name }}" class="form-radio-label">{{ $publisher->name }}</label>
-    @endforeach
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Select a publisher</label>
+                                <div class="col selectContainer">
+                                    <div class="input-group">
+                                        @if($product->publisher != null)
+                                        <input data-autocomplete="{{ $publishers }}" class="form-control autocomplete" type="text" name="publisher_name" value="{{ old('publisher', $product->publisher->name) }}">
+                                        @else
+                                        <input data-autocomplete="{{ $publishers }}" class="form-control autocomplete" type="text" name="publisher_name" value="">
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col control-label">Images</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input type="file" class="form-control-file" name="image" id="image">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label class="col control-label">Release date</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input  name="release_date" placeholder="Release date" class="form-control"  type="date" value="{{  old('release_date', $product->release_date) }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col control-label">PEGI</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input  name="pegi" placeholder="PEGI" class="form-control"  type="number" value="{{ old('pegi', $product->pegi) }}">
+                                    </div>
+                                </div>
+                            </div>
 
-    <label for="description">Description:</label>
-    <br>
-    <textarea type="text" name="description" id="description" class="form-control"
-              placeholder="Product description">{{ old('description', $product->description) }}</textarea>
-    <br>
-    <label for="release_date">Release Date:</label>
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Video URL</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input  name="video" placeholder="Video URL" class="form-control"  type="text" value="{{ old('video', $product->video) }}">
+                                    </div>
+                                </div>
+                            </div>
 
-    <input type="date" name="release_date" class="form-control"
-           value="{{  old('release_date', $product->release_date) }}">
-    <br>
-    <label for="video">Video</label>
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Price</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input  name="price_amount" placeholder="Price" class="form-control"  type="text" value="{{ old('price_amount', $product->price_amount) }}">
+                                    </div>
+                                    @if ($errors->has('price_amount'))
+                                    <span class="create-product-error">
+                                        <strong>{{ $errors->first('price_amount') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
 
-    <input type="text" name="video" class="form-control"
-           value="{{ old('video', $product->video) }}">
-    <br>
-    <label for="pegi">Pegi</label>
-    <br>
-    <input type="number" name="pegi" class="form-control"
-           value="{{ old('pegi', $product->pegi) }}">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Stock</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <input  name="stock_amount" placeholder="Stock" class="form-control"  type="text" value="{{ old('stock_amount', $product->stock_amount) }}">
+                                    </div>
+                                    @if ($errors->has('stock_amount'))
+                                    <span class="create-product-error">
+                                        <strong>{{ $errors->first('stock_amount') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
 
-    <input type="file" name="image" id="image">
-    <br>
+                            <div class="form-group">
+                                <label class="col control-label">Synapsis</label>
+                                <div class="col inputGroupContainer">
+                                    <div class="input-group">
+                                        <textarea class="form-control" name="description" placeholder="Synapsis" rows="4">{{ old('description', $product->description) }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-    <label for="image_id">Select images to remove:</label>
-    <br>
-    @foreach ($product->images as $image)
-        <img src="{{ $image->url}}">
-        <input class="form-check-input" name="image_id[]" type="checkbox" value="{{ $image->id }}"
-               id="{{ $image->filename }}"
-               @if ((is_array(old('image_id'))) && in_array($image->id, old('image_id'))) checked @endif>
-    @endforeach
-    <br>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="col control-label">Select featured image:</label>
+                                        @foreach ($product->images as $image)
+                                            <div style="width: 100px; height: 50px; display: inline-block;">
+                                                <a target="_blank" href="{{ $image->url }}"><img style="width: 100%;" src="{{ $image->url }}"></a>
+                                            </div>
+                                        <input class="form-radio-input" name="featured" type="radio" value="{{ $image->id }}" id="{{ $image->filename }}"
+                                        @if (old('featured', $product->featured_image->id) == $image->id) checked @endif>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <label for="featured">Select featured image:</label>
-    <br>
-    @foreach ($product->images as $image)
-        <img src="{{ $image->url }}">
-        <input class="form-radio-input" name="featured" type="radio" value="{{ $image->id }}"
-               id="{{ $image->filename }}"
-               @if (old('featured', $product->featured_image->id) == $image->id) checked @endif>
-    @endforeach
-    <br>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="col control-label">Select images to remove:</label>
+                                    @foreach ($product->images as $image)
+                                        <div style="width: 100px; height: 50px; display: inline-block;">
+                                            <a target="_blank" href="{{ $image->url}}"><img style="width: 100%;" src="{{ $image->url}}"></a>
+                                        </div>
+                                        <input class="form-radio-input" name="image_id[]" type="checkbox" value="{{ $image->id }}" id="{{ $image->filename }}"
+                                    @if ((is_array(old('image_id'))) && in_array($image->id, old('image_id'))) checked 
+                                    @endif>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <button type="submit" class="btn btn-secondary">Submit</button>
-</form>
+                    <div class="row mt-5">
+                        <div class="col-12 form-group">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger btn-block" >Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div
+@endsection
+

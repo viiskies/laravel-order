@@ -334,3 +334,15 @@ $(document).ready(function() {
         }
     });
 });
+
+$('.no').on("click", function () {
+    $('.deadline').prop("disabled", true);
+    return;
+});
+
+$('.yes').on("click", function () {
+    $('.deadline').prop("disabled", false);
+    return;
+});
+
+

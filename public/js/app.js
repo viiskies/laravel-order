@@ -43430,6 +43430,16 @@ $(document).ready(function () {
     });
 });
 
+$('.no').on("click", function () {
+    $('.deadline').prop("disabled", true);
+    return;
+});
+
+$('.yes').on("click", function () {
+    $('.deadline').prop("disabled", false);
+    return;
+});
+
 /***/ }),
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
