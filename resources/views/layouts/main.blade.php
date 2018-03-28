@@ -2,7 +2,7 @@
 		<!DOCTYPE html>
 <html>
 <head>
-	<title>Index</title>
+	<title>@if (isset($title)) {{ $title }} @else Welcome @endif - Game Star</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="csrf-token" content="{{ csrf_token() }}">
