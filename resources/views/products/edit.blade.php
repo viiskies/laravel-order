@@ -88,9 +88,14 @@
                             <div class="form-group">
                                 <label class="col control-label">Select a category</label>
                                 <div class="col selectContainer">
+<<<<<<< HEAD
                                     <div class="input-group-prepend input_cat">
                                         <button class="btn btn-dark add_cat" type="button">Add</button>
                                         @if($categories->isNotEmpty())
+=======
+                                    <div class="input-group">
+                                        @if($product->categories->count() > 0)
+>>>>>>> 38c4e0c4464550ab5c0855db987a56cf67334b9f
                                         @foreach($product->categories as $category)
                                             <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]" value="{{$category->name}}">
                                         @endforeach
