@@ -15,7 +15,7 @@ class Product extends Model
 
     protected $searchRules = [MySearchRule::class];
     public $timestamps = false;
-    protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
+    protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi', 'preorder', 'deadline'];
     protected $indexConfigurator = MyIndexConfigurator::class;
 
     protected $mapping = [

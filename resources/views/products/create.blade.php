@@ -26,10 +26,10 @@
                     <div class="col">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="pre_order" value="yes" /> Yes
+                                <input class="yes" type="radio" name="pre_order" value="yes" /> Yes
                             </label>
                             <label>
-                                <input type="radio" name="pre_order" value="no" /> No
+                                <input class="no" type="radio" name="pre_order" value="no" /> No
                             </label>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                     <label class="col control-label">Order deadline</label>
                     <div class="col inputGroupContainer">
                         <div class="input-group">
-                            <input  name="deadline" placeholder="Order deadline" class="form-control" disabled="true"  type="date">
+                            <input  name="deadline" placeholder="Order deadline" class="form-control deadline" disabled="true"  type="date">
                         </div>
                     </div>
                 </div>

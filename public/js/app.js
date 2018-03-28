@@ -43399,12 +43399,6 @@ $('.setquantity_BP').keyup(function () {
     }, 0);
 });
 
-$(".table-tr").hover(function () {
-    $(this).css("background-color", "white").css("opacity", "0.7");
-}, function () {
-    $(this).css("background-color", "").css("opacity", "1");
-});
-
 var timer = null;
 $('.updateQ').keyup(function () {
     var url = $(this).data('url');
@@ -43483,6 +43477,16 @@ $(".selectAll").click(function () {
             this.checked = false;
         });
     }
+});
+
+$('.no').on("click", function () {
+    $('.deadline').prop("disabled", true);
+    return;
+});
+
+$('.yes').on("click", function () {
+    $('.deadline').prop("disabled", false);
+    return;
 });
 
 /***/ }),
