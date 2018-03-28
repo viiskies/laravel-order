@@ -49,10 +49,11 @@
                                 <label class="col control-label">Order deadline</label>
                                 <div class="col inputGroupContainer">
                                     <div class="input-group">
+                                        {{-- {{dd($product->deadline)}} --}}
                                         @if($product->preorder == 1)
-                                            <input  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date {{ old('deadline', $product->deadline) }}">
+                                            <input  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date" value="{{ old('deadline', $product->deadline) }}">
                                         @else
-                                            <input disabled  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date {{ old('deadline', $product->deadline) }}">
+                                            <input disabled  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date" value="{{ old('deadline', $product->deadline) }}">
                                         @endif
                                     </div>
                                 </div>

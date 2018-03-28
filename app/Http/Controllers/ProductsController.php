@@ -142,6 +142,7 @@ class ProductsController extends Controller
             'video' => $request->get('video'),
             'platform_id' => $platform->id,
             'publisher_id' => $publisher->id,
+            'deadline' => $request->get('deadline'),
         ]);
 
         if($product->stock_amount !=  $request->get('stock_amount')) {
