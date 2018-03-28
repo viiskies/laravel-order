@@ -115,7 +115,9 @@
 <div class="row mt-3">
     @foreach ($products as $related_prod)
     <div class="col-lg-3 col-md-12 related-products d-flex justify-content-center">
+        <div class="related-products-wrap ml-1 mr-1">
         <a href="{{ route('products.show', [ 'id' => $related_prod->id ]) }}"><img src="{{ $related_prod->featured_image_url }}"></a>
+    </div>
     </div>
     @endforeach
 </div>

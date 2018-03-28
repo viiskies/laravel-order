@@ -52,7 +52,7 @@ class ImageService
 
         //adding new images
         if (array_key_exists('image', $request)) {
-            $filename = $this->uploadImage($request['image']);
+            $filename = $this->uploadResizedImage($request['image']);
             if ($product->images()->exists()) {
                 $is_featured = 0;
             } else {
@@ -66,12 +66,11 @@ class ImageService
     {
         $featured = 1;
 
-        $file = $image;
-        $filename = basename($path);
+        $filename = $image->getClientOriginalName();
         
 
-        $width = 600; // your max width
-        $height = 600; // your max height
+        $width = 600;
+        $height = 600;
 
 
 
@@ -79,29 +78,50 @@ class ImageService
 
         $img_thumb->height() > $img_thumb->width() ? $width=null : $height=null;
         $img_thumb->resize($width, $height, function ($constraint) {
-        $constraint->aspectRatio();
+            $constraint->aspectRatio();
         });
 
-        $img_thumb->save( storage_path('app/public/image/medium-' . $filename , 90) ); 
+        while (file_exists( storage_path('app/public/image/medium-' . $filename ) )) {
+            $six_digit_random_number = mt_rand(100000, 999999);
+            $filename = $six_digit_random_number . $filename;
+        }   
+
+        $img_thumb->save( storage_path('app/public/image/medium-' . $filename ) ); 
 
         $thumb_filename = $img_thumb->basename;
 
         Image::create(['filename' => $thumb_filename, 'featured' => $featured, 'product_id' => $product->id]);
-}
+    }
 
-    public function uploadImage($file)
-    {
+    public function uploadResizedImage($image) {
 
-        $img_thumb = Resizer::make($file->getRealPath());
+        $filename = $image->getClientOriginalName();
+
+        $width = 600;
+        $height = 600;
+
+        $img_thumb = Resizer::make($image->getRealPath());
 
         $img_thumb->height() > $img_thumb->width() ? $width=null : $height=null;
         $img_thumb->resize($width, $height, function ($constraint) {
-        $constraint->aspectRatio();
+            $constraint->aspectRatio();
         });
 
-        $img_thumb->save( storage_path('app/public/image/medium-' . $filename , 90) ); 
+        while (file_exists( storage_path('app/public/image/medium-' . $filename ) )) {
+            $six_digit_random_number = mt_rand(100000, 999999);
+            $filename = $six_digit_random_number . $filename;
+        }   
+
+        $img_thumb->save( storage_path('app/public/image/medium-' . $filename ) ); 
 
         $filename = $img_thumb->basename;
+        return $filename;
+    }
+
+    public function uploadImage($file)
+    {
+        $path = $file->storePublicly($this->image_dir);
+        $filename = basename($path);
         return $filename;
     }
 }
