@@ -51,7 +51,6 @@ class SpecialOffersController extends Controller
         $games = $request->get('games');
 
         foreach ($games as $game) {
-            dd($request->specialProductPrice);
             $product = Product::FindOrFail($game);
             $price = $product->prices()->where('special_offer_id', null)->where('user_id', null)->orderBy('date', 'DESC')->first();
             $specialOffer->prices()->create(['amount' => $request->get('price_coef') * $price->amount, 'product_id' => $game]);
