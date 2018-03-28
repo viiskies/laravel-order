@@ -75,9 +75,28 @@ class ExportService
         $user = Auth::user();
         if ($user->role == 'admin')
         {
-            return Order::UnconfirmedOrder()->OrderType($type)->get();
+            $query = Order::UnconfirmedOrder();
+            return $this->orderType($query, $type);
         }else{
-            return $user->orders()->UnconfirmedOrder()->OrderType($type)->get();
+            $query = $user->orders()->UnconfirmedOrder();
+            return $this->orderType($query, $type);
         }
+    }
+    public function orderType($query, $type)
+    {
+        switch ($type)
+        {
+            case 'order':
+                $query = $query->Order();
+                break;
+            case 'backorder':
+                $query = $query->Backorder();
+                break;
+            case 'preorder':
+                $query->Preorder();
+                break;
+        }
+        $query = $query->get();
+        return $query;
     }
 }
