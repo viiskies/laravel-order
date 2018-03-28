@@ -67,7 +67,7 @@ class ExportService
         {
             $quantity += $q->quantity;
         }
-        return '<td>'.$quantity.'</td>';
+        return $quantity;
     }
 
     public function checkType($type)

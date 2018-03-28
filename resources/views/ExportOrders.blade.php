@@ -48,7 +48,7 @@
                         }
                     }
                 @endphp
-                {!! $exportService->getTotalQuantity($orderProduct->product, $type) !!}
+                <td>{!! $exportService->getTotalQuantity($orderProduct->product, $type) !!}</td>
             </tr>
             @endforeach
     </tbody>
