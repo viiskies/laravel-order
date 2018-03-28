@@ -8,8 +8,8 @@
         <li><i class="fa fa-user"></i>  {{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}}</li>
     </ul>
     <ul>
-       <li><i class="fa fa-phone"></i>  <a href="#">{{$phone}}</a></li>
-       <li><i class="fa fa-envelope"></i>  <a href="#">{{$email}}</a></li>
+       <li><i class="fa fa-phone"></i>  <a href="tel:{{$phone}}">{{$phone}}</a></li>
+       <li><i class="fa fa-envelope"></i>  <a href="mailto:{{$email}}">{{$email}}</a></li>
    </ul>
 </div>
 </div>
