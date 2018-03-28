@@ -66,29 +66,7 @@ class ImageService
     {
         $featured = 1;
 
-        $filename = $image->getClientOriginalName();
-        
-
-        $width = 600;
-        $height = 600;
-
-
-
-        $img_thumb = Resizer::make($image->getRealPath());
-
-        $img_thumb->height() > $img_thumb->width() ? $width=null : $height=null;
-        $img_thumb->resize($width, $height, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        while (file_exists( storage_path('app/public/image/medium-' . $filename ) )) {
-            $six_digit_random_number = mt_rand(100000, 999999);
-            $filename = $six_digit_random_number . $filename;
-        }   
-
-        $img_thumb->save( storage_path('app/public/image/medium-' . $filename ) ); 
-
-        $thumb_filename = $img_thumb->basename;
+        $filename = $this->uploadResizedImage($image);
 
         Image::create(['filename' => $thumb_filename, 'featured' => $featured, 'product_id' => $product->id]);
     }
