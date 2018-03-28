@@ -28,17 +28,17 @@
                                     <div class="radio">
                                         @if($product->preorder == 1)
                                             <label>
-                                                <input class="yes" checked type="radio" name="pre_order" value="1" /> Yes
+                                                <input class="yes" checked type="radio" name="preorder" value="1" /> Yes
                                             </label>
                                             <label>
-                                                <input class="no" type="radio" name="pre_order" value="0" /> No
+                                                <input class="no" type="radio" name="preorder" value="0" /> No
                                             </label>
                                         @else
                                             <label>
-                                                <input class="yes" type="radio" name="pre_order" value="1" /> Yes
+                                                <input class="yes" type="radio" name="preorder" value="1" /> Yes
                                             </label>
                                             <label>
-                                                <input class="no" checked  type="radio" name="pre_order" value="0" /> No
+                                                <input class="no" checked  type="radio" name="preorder" value="0" /> No
                                             </label>
                                         @endif
                                     </div>
@@ -49,7 +49,6 @@
                                 <label class="col control-label">Order deadline</label>
                                 <div class="col inputGroupContainer">
                                     <div class="input-group">
-                                        {{-- {{dd($product->deadline)}} --}}
                                         @if($product->preorder == 1)
                                             <input  name="deadline" placeholder="Order deadline" class="form-control deadline" type="date" value="{{ old('deadline', $product->deadline) }}">
                                         @else
@@ -89,13 +88,14 @@
                             <div class="form-group">
                                 <label class="col control-label">Select a category</label>
                                 <div class="col selectContainer">
-                                    <div class="input-group">
-                                        @if($product->categories != null)
+                                    <div class="input-group-prepend input_cat">
+                                        <button class="btn btn-dark add_cat" type="button">Add</button>
+                                        @if($categories->isNotEmpty())
                                         @foreach($product->categories as $category)
                                             <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]" value="{{$category->name}}">
                                         @endforeach
                                         @else
-                                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]">    
+                                            <input data-autocomplete="{{ $categories }}" class="form-control autocomplete" type="text" name="category_name[]" placeholder="Select a category">    
                                         @endif
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                             <div class="form-group">
                                 <label class="col control-label">Select a publisher</label>
                                 <div class="col selectContainer">
-                                    <div class="input-group">
+                                    <div class="input-group ">
                                         @if($product->publisher != null)
                                         <input data-autocomplete="{{ $publishers }}" class="form-control autocomplete" type="text" name="publisher_name" value="{{ old('publisher', $product->publisher->name) }}">
                                         @else

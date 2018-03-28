@@ -43212,24 +43212,29 @@ $(function () {
 
 $('#gll').slickLightbox();
 
+function addAutocomplete(input) {
+    input = $(input);
+    var autocomplete = input.attr('data-autocomplete');
+
+    autocomplete = JSON.parse(autocomplete);
+
+    activeList = [];
+
+    $.each(autocomplete, function (key, value) {
+        activeList.push(value['name']);
+    });
+
+    input.autocomplete({
+        source: activeList
+    });
+}
+
 $(function () {
     var inputs = $('.autocomplete');
 
     inputs.each(function (key, input) {
-        input = $(input);
-        var autocomplete = input.attr('data-autocomplete');
 
-        autocomplete = JSON.parse(autocomplete);
-
-        activeList = [];
-
-        $.each(autocomplete, function (key, value) {
-            activeList.push(value['name']);
-        });
-
-        input.autocomplete({
-            source: activeList
-        });
+        addAutocomplete(input);
     });
 });
 
@@ -43267,14 +43272,18 @@ $('.add-into-cart').click(function () {
     });
 });
 
-$('#show_packshots').click(function () {
-    $('.packshots').toggle();
-    return;
+$(document).ready(function () {
+    $('#show_packshots').click(function () {
+        $('.packshots').toggle();
+        return;
+    });
 });
 
-$('#show_preorders').click(function () {
-    $('.preorders').toggle();
-    return;
+$(document).ready(function () {
+    $('#show_preorders').click(function () {
+        $('.preorders').toggle();
+        return;
+    });
 });
 
 var timer = null;
@@ -43436,26 +43445,41 @@ $(document).ready(function () {
     });
 });
 
-$(".selectAll").click(function () {
-    if (this.checked) {
-        $("." + $(this).val()).each(function () {
-            this.checked = true;
-        });
-    } else {
-        $("." + $(this).val()).each(function () {
-            this.checked = false;
-        });
-    }
+$(document).ready(function () {
+    $(".selectAll").click(function () {
+        if (this.checked) {
+            $("." + $(this).val()).each(function () {
+                this.checked = true;
+            });
+        } else {
+            $("." + $(this).val()).each(function () {
+                this.checked = false;
+            });
+        }
+    });
 });
 
-$('.no').on("click", function () {
-    $('.deadline').prop("disabled", true);
-    return;
+$(document).ready(function () {
+    $('.no').on("click", function () {
+        $('.deadline').prop("disabled", true);
+        return;
+    });
 });
 
-$('.yes').on("click", function () {
-    $('.deadline').prop("disabled", false);
-    return;
+$(document).ready(function () {
+    $('.yes').on("click", function () {
+        $('.deadline').prop("disabled", false);
+        return;
+    });
+});
+
+$(document).ready(function () {
+    $('.add_cat').on("click", function () {
+        var categories = $('.input_cat input').attr('data-autocomplete').replace(/&/g, "&amp;").replace(/>/g, "&gt;").replace(/</g, "&lt;").replace(/"/g, "&quot;");;
+        var div = $('.input_cat').append('<input data-autocomplete="' + categories + '" class="form-control autocomplete" type="text" name="category_name[]" value="">');
+        addAutocomplete(div.children().last());
+        return;
+    });
 });
 
 /***/ }),
