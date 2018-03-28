@@ -40,7 +40,7 @@
                     <div class="col">
                         <div class="checkbox">
                             <label>
-                                <input type="radio" name="default" value="1" {{$checkedCountry == $countriesEdit->default ? 'checked="checked"' : '' }}>Make default
+                                <input type="radio" name="default" value="1" {{ $countriesEdit->default == 1 ? 'checked="checked"' : '' }}>Make default
                             </label>
                         </div>
                     </div>
