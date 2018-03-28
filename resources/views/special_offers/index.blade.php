@@ -65,7 +65,7 @@
                             <input class="form-control" type="number" step="0.01" name="price">
                         </div>
                         <div class="col-12 ">
-                            <label for="exampleFormControlTextarea1"><h4>Comments</h4></label>
+                            <label for="exampleFormControlTextarea1"><h4>Description</h4></label>
                             <textarea class="form-control" name="description" id="exampleFormControlTextarea1"
                                       rows="6"></textarea>
                         </div>
