@@ -92,14 +92,14 @@ class ProductsController extends Controller
     }
 
     public function update(StoreProductsRequest $request, $id)
-    {   
+    {
         $product = Product::findOrFail($id);
-        
+
         $category_id = [];
         $category_name = $request->get('category_name');
 
         foreach ($category_name as $name)
-        {   
+        {
             $category = Category::where('name', $name)->first();
 
             if($category == null)
@@ -107,7 +107,7 @@ class ProductsController extends Controller
                 $category = Category::Create(['name' => $name]);
             }
 
-            $category_id[] = $category->id;    
+            $category_id[] = $category->id;
         }
         // dd($category_id);
 
@@ -116,11 +116,11 @@ class ProductsController extends Controller
         $publisher = Publisher::where('name', $publisher_name)->first();
 
         $platform_name = $request->get('platform_name');
-        $platform = Platform::where('name', $platform_name)->first();   
+        $platform = Platform::where('name', $platform_name)->first();
 
         if ($publisher == null) {
             $publisher = Publisher::create( ['name' => $publisher_name] );
-        } 
+        }
 
         if ($platform == null) {
             $platform = Platform::create( ['name' => $platform_name] );
@@ -128,7 +128,7 @@ class ProductsController extends Controller
 
         if ($category == null) {
             $category = Category::create( ['name' => $category_name] );
-        }  
+        }
 
         $product->categories()->sync($category_id);
 

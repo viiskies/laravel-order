@@ -32,7 +32,6 @@ class SpecialOffersController extends Controller
         $platforms = Platform::all();
         $selectedPlatform = null;
         $selectedPublisher = null;
-
         return view('special_offers.index', compact('products', 'publishers', 'platforms', 'selectedPlatform', 'selectedPublisher', 'clients'));
     }
 
@@ -42,7 +41,6 @@ class SpecialOffersController extends Controller
         $file = $request->filename;
         $filename = $this->imageService->uploadImage($file);
         $specialOffer = SpecialOffer::create(['filename' => $filename] + $request->only('expiration_date', 'description'));
-
         foreach ($clients as $client_id) {
             $client = Client::findOrFail($client_id);
             $specialOffer->users()->attach($client->user->id);
@@ -53,6 +51,10 @@ class SpecialOffersController extends Controller
         foreach ($games as $game) {
             $specialOffer->prices()->create(['amount' => $request->get('price'), 'product_id' => $game]);
         }
+        foreach ($clients as $client) {
+            Mail::to($client->email)->send(new SpecialOffer());
+        }
+
         return redirect(route('special.index')->with('status', 'Success'));
     }
 

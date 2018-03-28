@@ -49,7 +49,7 @@ class UsersController extends Controller
        if($request->role != 'admin'){
            $password_token = str_random(64);
            $client = Client::create($request->except('name', 'password', 'role', '_token') + ['name' => $request->get('client_name')]);
-           $client->user()->create($request->only('name', 'role','price_coefficient', 'country_id') +
+           $client->user()->create($request->only('name', 'role', 'price_coefficient', 'country_id') +
                ['password' => '', 'password_token' => $password_token]);
 
            Mail::to($request->only('email'))->send(new UserCreated($password_token));
@@ -89,7 +89,7 @@ class UsersController extends Controller
 
         if($request->role != 'admin') {
             $user->update($request->only('name', 'price_coefficient', 'role', 'country_id'));
-            $client->update($request->except('name', 'password', 'role', '_token'));
+            $client->update($request->except('name', 'password', 'role', '_token')  + ['name' => $request->get('client_name')]);
         } else {
             $user->update($request->only('name', 'price_coefficient', 'role'));
         }
