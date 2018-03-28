@@ -1,4 +1,4 @@
-@inject('exportService', "App\Services\ExportToExcelService")
+@inject('exportService', "App\Services\ExportService")
 <table>
     <thead>
         <tr>
@@ -34,7 +34,20 @@
                 <td>{{ $orderProduct->product->platform->name }}</td>
                 <td>{{ $orderProduct->product->publisher->name }}</td>
                 {!! !empty($orderProduct->product->preorder) ? '<td>True</td>' : '' !!}
-                {!! $exportService->getQuantityAndPrice($orderProduct->product, $type) !!}
+                @php
+                    $orders = $exportService->checkType($type);
+                    foreach ($orders as $order)
+                    {
+                        $products = $order->orderProducts()->InProduct($orderProduct->product->id)->first();
+                        if (!empty($products)) {
+                            echo "<td style='border-left: 5px solid'>" . $products->quantity . "</td>";
+                            echo "<td style='border-right: 5px solid'>" . $products->price . "</td>";
+                        } else {
+                            echo "<td style='border-left: 5px solid'></td>";
+                            echo "<td style='border-right: 5px solid'></td>";
+                        }
+                    }
+                @endphp
                 {!! $exportService->getTotalQuantity($orderProduct->product, $type) !!}
             </tr>
             @endforeach
