@@ -74,6 +74,4 @@ class Order extends Model
     public function scopeOrder($query){
         return $query->where('type', Order::ORDER);
     }
-
-
 }

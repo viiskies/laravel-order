@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\Http\Requests\StoreSpecialOfferRequest;
+use App\Mail\SpecialOfferMail;
 use App\Platform;
 use App\Product;
 use App\Publisher;
@@ -12,6 +13,7 @@ use App\Services\PricingService;
 use App\SpecialOffer;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class SpecialOffersController extends Controller
 {
@@ -40,7 +42,14 @@ class SpecialOffersController extends Controller
         $clients = $request->get('client_id');
         $file = $request->filename;
         $filename = $this->imageService->uploadImage($file);
-        $specialOffer = SpecialOffer::create(['filename' => $filename] + $request->only('expiration_date', 'description'));
+        $description = $request->get('description');
+        $expiration_date = $request->get('expiration_date');
+
+        $specialOffer = SpecialOffer::create([
+            'filename' => $filename,
+            'description' => $description,
+            'expiration_date' => $expiration_date
+        ]);
         foreach ($clients as $client_id) {
             $client = Client::findOrFail($client_id);
             $specialOffer->users()->attach($client->user->id);
@@ -51,8 +60,10 @@ class SpecialOffersController extends Controller
         foreach ($games as $game) {
             $specialOffer->prices()->create(['amount' => $request->get('price'), 'product_id' => $game]);
         }
-        foreach ($clients as $client) {
-            Mail::to($client->email)->send(new SpecialOffer());
+
+        foreach ($specialOffer->users as $user) {
+            $email = $user->client->email;
+            Mail::to($email)->send(new SpecialOfferMail($specialOffer, $user));
         }
 
         return redirect(route('special.index')->with('status', 'Success'));
