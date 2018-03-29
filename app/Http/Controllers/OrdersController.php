@@ -6,6 +6,7 @@ use App\Http\Requests\ChangeOrderStatusRequest;
 use App\Order;
 use Illuminate\Support\Facades\Auth;
 use App\Services\InvoiceService;
+use Illuminate\Support\Facades\Storage;
 
 
 class OrdersController extends Controller
@@ -52,14 +53,21 @@ class OrdersController extends Controller
             $status = Order::REJECTED;
         }
         $file=$request->file('invoice');
-        if (isset($file))
+        if(isset($file))
         {
-            $filenameWithExt = $this->checkInvoice->generateName($file);
-            $order->invoice()->create($request->except('_token') + [
-                    'filename' => $filenameWithExt,
-                ]);
-
-            $file->storeAs('public/invoices', $filenameWithExt);
+            if (empty($order->invoice))
+            {
+                $filenameWithExt = $this->checkInvoice->uploadInvoice($file);
+                $order->invoice()->create($request->except('_token') + [
+                        'filename' => $filenameWithExt,
+                    ]);
+            }else {
+                Storage::delete('public/invoices/'.$order->invoice->filename);
+                $filenameWithExt = $this->checkInvoice->uploadInvoice($file);
+                $order->invoice->update($request->except('_token') + [
+                        'filename' => $filenameWithExt,
+                    ]);
+            }
         }
         $order->update(['status' => $status]);
 
@@ -71,7 +79,7 @@ class OrdersController extends Controller
         $order = Order::findOrFail($id);
         if (!empty($order->invoice->filename))
         {
-            $path = storage_path('app/public/invoices/'.$order->invoice()->get()->last()->filename);
+            $path = storage_path('app/public/invoices/'.$order->invoice->filename);
 
             return response()->download($path);
         }
