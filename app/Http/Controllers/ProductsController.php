@@ -49,24 +49,39 @@ class ProductsController extends Controller
             $platform = Platform::create( ['name' => $request->get('platform_name')] );
         } 
 
-        if ($category == null) {
-            $category = Category::create( ['name' => $request->get('category_name')] );
+        $category_id = [];
+        $category_name = $request->get('category_name');
 
-        } 
+        foreach ($category_name as $name)
+        {
+            if($name == null)
+            {
+                continue;
+            }
+
+            $category = Category::where('name', $name)->first();
+
+            if($category == null)
+            {
+                $category = Category::Create(['name' => $name]);
+            }
+
+            $category_id[] = $category->id;
+        }
 
         if ($publisher == null) {
             $publisher = Publisher::create( ['name' => $request->get('publisher_name')] );
         } 
 
         $product = Product::create($request->except('_token') + ['platform_id' => $platform->id, 'publisher_id' => $publisher->id]);
-        $product->categories()->attach($category->id);
+        $product->categories()->attach($category_id);
         $product->stock()->create( ['amount' => $request->get('stock_amount')] );
         $product->prices()->create( ['amount' => $request->get('price_amount')] );
         if ($request->has('image')) {
             $this->imageService->storeProductImages($product, $request->file('image'));
         }
 
-        return redirect()->route('products.index');
+        return redirect()->route('home');
     }
 
     public function show($id)
@@ -87,22 +102,65 @@ class ProductsController extends Controller
         $product = Product::findOrFail($id);
         $platforms = Platform::all();
         $publishers = Publisher::all();
-        return view('products.edit', ['product' => $product, 'platforms' => $platforms, 'publishers' => $publishers]);
+        $categories = Category::all();
+        return view('products.edit', ['product' => $product, 'platforms' => $platforms, 'publishers' => $publishers, 'categories' => $categories]);
     }
 
     public function update(StoreProductsRequest $request, $id)
     {
         $product = Product::findOrFail($id);
 
+        $category_id = [];
+        $category_name = $request->get('category_name');
+
+        foreach ($category_name as $name)
+        {   
+            if($name == null)
+            {
+                continue;
+            }
+
+            $category = Category::where('name', $name)->first();
+
+            if($category == null)
+            {
+                $category = Category::Create(['name' => $name]);
+            }
+
+            $category_id[] = $category->id;
+        }
+
+        $publisher_name = $request->get('publisher_name');
+        $publisher = Publisher::where('name', $publisher_name)->first();
+
+        $platform_name = $request->get('platform_name');
+        $platform = Platform::where('name', $platform_name)->first();
+
+        if ($publisher == null) {
+            $publisher = Publisher::create( ['name' => $publisher_name] );
+        }
+
+        if ($platform == null) {
+            $platform = Platform::create( ['name' => $platform_name] );
+        }
+
+        if ($category == null) {
+            $category = Category::create( ['name' => $category_name] );
+        }
+
+        $product->categories()->sync($category_id);
+
         $product->update([
+            'preorder' => $request->get('preorder'),
             'name' => $request->get('name'),
             'ean' => $request->get('ean'),
             'description' => $request->get('description'),
             'release_date' => $request->get('release_date'),
             'pegi' => $request->get('pegi'),
             'video' => $request->get('video'),
-            'platform_id' => $request->get('platform_id'),
-            'publisher_id' => $request->get('publisher_id'),
+            'platform_id' => $platform->id,
+            'publisher_id' => $publisher->id,
+            'deadline' => $request->get('deadline'),
         ]);
 
         if($product->stock_amount !=  $request->get('stock_amount')) {
@@ -114,23 +172,15 @@ class ProductsController extends Controller
 
         $this->imageService->updateProductImages($product, $request->only(['image_id', 'image', 'featured']));
 
-        return redirect()->route('products.show', $id);
+        return redirect('/');
 
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
-
-        $prices_to_delete = $product->prices->pluck('id');
-        $stock_to_delete = $product->stock->pluck('id');
-
-        $this->imageService->deleteProductImages($product);
-        Price::destroy($prices_to_delete);
-        Stock::destroy($stock_to_delete);
-
         Product::destroy($id);
 
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
 }

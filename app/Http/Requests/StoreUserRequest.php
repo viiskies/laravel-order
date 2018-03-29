@@ -25,13 +25,9 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:users,name',
-            'password' =>'required',
             'role' => 'required',
-            'vat_number' => 'required_if:role,user',
-            'registration_number' => 'required_if:role,user' ,
-            'registration_address' => 'required_if:role,user' ,
-            'shipping_address' => 'required_if:role,user' ,
-            'email' => 'required_if:role,user' ,
+            'client_name' => 'required_if:role,user',
+            'email' => 'required' ,
             'contact_person' => 'required_if:role,user' ,
             'phone' => 'required_if:role,user' ,
             'payment_terms' => 'required_if:role,user' ,

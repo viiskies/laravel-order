@@ -19,11 +19,11 @@ class HeaderComposer {
             if($default_country == null) {
                 $email = 'paulius@gamestar.lt';
                 $phone = '869889141';
-           } else {
+            } else {
                 $email = $default_country->email;
                 $phone = $default_country->phone;
             }
-        }else {
+        } else {
             $email = $user->country->email;
             $phone = $user->country->phone;
         }

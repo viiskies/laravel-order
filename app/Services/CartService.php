@@ -31,7 +31,7 @@ class CartService
         return $totalCartQuantity;
     }
 
-    public function getStoreOrder($product, $request)
+    public function storeOrder($product, $request)
     {
         $user = Auth::user();
         $user_order = $user->orders()->InCart()->Order()->first();
@@ -49,13 +49,13 @@ class CartService
         $order_product = $order->orderProducts->where('product_id', $product->id)->first();
         if ($order_product == null)
         {
-            if ($request->quantity <= $product->stock()->first()->amount)
+            if ($request->quantity <= $product->stockamount)
             {
                 $quantity  = $request->quantity;
                 $value = 0;
             }else{
-                $quantity  = $product->stock()->first()->amount;
-                $value = $request->quantity - $product->stock()->first()->amount;
+                $quantity  = $product->stockamount;
+                $value = $request->quantity - $product->stockamount;
             }
             $order->orderProducts()->create([
                     'product_id' => $product->id,
@@ -64,19 +64,19 @@ class CartService
                 ]);
         }else{
             $amount = $order_product->quantity + $request->quantity;
-            if ($amount <= $product->stock()->first()->amount)
+            if ($amount <= $product->stockamount)
             {
                 $order_product->update(['quantity' => $amount]);
                 $value = 0;
             }else{
-                $order_product->update(['quantity' => $product->stock()->first()->amount]);
-                $value = $amount - $product->stock()->first()->amount;
+                $order_product->update(['quantity' => $product->stockamount]);
+                $value = $amount - $product->stockamount;
             }
 
         }
         return $value;
     }
-    public function getStoreBackOrder($product, $quantity)
+    public function storeBackOrder($product, $quantity)
     {
         $user = Auth::user();
         $user_backorder = $user->orders()->InCart()->BackOrder()->first();
@@ -104,7 +104,7 @@ class CartService
         }
     }
 
-    public function getStorePreOrder($product, $quantity)
+    public function storePreOrder($product, $quantity)
     {
         $user = Auth::user();
         $user_preorder = $user->orders()->InCart()->Preorder()->first();
@@ -151,4 +151,15 @@ class CartService
 			return 0;
 		}
 	}
+
+	public function updateOrder($quantity, $product) {
+        $product->update(['quantity' => $quantity]);
+        $singleProduct = $product->first();
+        $data = ['id' => $product->first()->id,
+            'totalQuantity' => $this->getTotalCartQuantity($singleProduct->order),
+            'singleProductPrice' => $this->getSingleProductPrice($singleProduct),
+            'totalPrice' => $this->getTotalCartPrice($singleProduct->order),
+        ];
+        return $data;
+    }
 }

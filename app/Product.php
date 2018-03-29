@@ -5,14 +5,17 @@ namespace App;
 use App\Services\PricingService;
 use Illuminate\Database\Eloquent\Model;
 use ScoutElastic\Searchable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
     use Searchable;
 
+    use SoftDeletes;
+
     protected $searchRules = [MySearchRule::class];
     public $timestamps = false;
-    protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi'];
+    protected $fillable = ['name', 'platform_id', 'publisher_id', 'ean', 'description', 'release_date', 'video', 'pegi', 'preorder', 'deadline'];
     protected $indexConfigurator = MyIndexConfigurator::class;
 
     protected $mapping = [
@@ -37,7 +40,7 @@ class Product extends Model
     {
         $suggestArray[] = $this->name;
         $suggestArray[] = $this->platform->name;
-        if(isset($this->publisher->name)){
+        if (isset($this->publisher->name)){
             $suggestArray[] = $this->publisher->name;
         }
         $splittingName = $this->name;
@@ -71,6 +74,11 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function importItems()
+    {
+        return $this->hasMany(ImportItem::class);
     }
 
     public function platform()
@@ -143,5 +151,6 @@ class Product extends Model
         $path = 'image/default_featured.png';
         return asset($path);
     }
+
 
 }

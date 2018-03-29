@@ -9,13 +9,14 @@
             <form class="form-group" method="post" action="{{route('users.store')}}">
                 {{csrf_field()}}
                 @include('users.partials.form', [
+                'role' => "user",
                 'name' => "",
                 'price_coefficient' => "",
                 'client_name' => "",
                 'vat_number' => "",
                 'registration_number' => "",
-                'registration_address' => "",
                 'shipping_address' => "",
+                'registration_address' => "",
                 'email' => "",
                 'contact_person' => "",
                 'payment_terms' => "",
@@ -23,7 +24,7 @@
                 ])
                 <div class="col-12 form-group">
                     <div class="col">
-                        <button type="submit" class="btn btn-danger btn-block" >Create</button>
+                        <button type="submit" class="btn btn-danger btn-block">Create</button>
                     </div>
                 </div>
             </form>
