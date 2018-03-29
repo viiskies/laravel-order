@@ -18,18 +18,28 @@ Route::post('complete', 'UsersController@storePassword')->name('complete.store')
 
 Route::middleware('auth')->group(function () {
 
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-    Route::middleware('trackingUser')->group(function (){
+    Route::middleware('trackingUser')->group(function () {
+
+        Route::middleware('role:admin')->group(function () {
+
+            Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+            Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+            Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
+            Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
+            Route::get('cat/{id}', 'CategoriesController@show')->name('products.cat');
+            Route::resource('publishers', 'PublishersController');
+            Route::resource('platforms', 'PlatformController');
+            Route::resource('countries', 'CountriesController');
+            Route::resource('users', 'UsersController');
+            Route::resource('categories', 'CategoriesController');
+            Route::resource('products', 'ProductsController');
+
+        });
 
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('sort/', 'HomeController@sort')->name('home.sort');
-
-        Route::post('products/import', 'ProductsImportController@import')->name('products.import');
-        Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
-        Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
-        Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
-        Route::get('cat/{id}', 'CategoriesController@show')->name('products.cat');
 
         Route::get('chat', 'ChatsController@index')->name('chat.index');
         Route::get('chat/create', 'ChatsController@create')->name('chat.create');
@@ -40,13 +50,6 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
         Route::patch('chat/disable', 'ChatsController@disable')->name('chat.disable');
         Route::patch('chat/enable', 'ChatsController@enable')->name('chat.enable');
 
-        Route::resource('publishers', 'PublishersController');
-        Route::resource('platforms', 'PlatformController');
-        Route::resource('countries', 'CountriesController');
-        Route::resource('users', 'UsersController');
-        Route::resource('categories', 'CategoriesController');
-
-        Route::resource('products', 'ProductsController');
         Route::get('search/', 'SearchController@search')->name('products.search');
         Route::get('suggest/', 'SuggestionController@suggest')->name('products.suggest');
 
