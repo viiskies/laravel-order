@@ -13,6 +13,8 @@
 
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
+    Route::get('complete/{token}', 'UsersController@getToken')->name('complete.show');
+    Route::post('complete', 'UsersController@storePassword')->name('complete.store');
 
 Route::middleware('auth')->group(function () {
 
@@ -48,8 +50,6 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
         Route::get('suggest/', 'SuggestionController@suggest')->name('products.suggest');
 
         Route::resource('users', 'UsersController');
-        Route::get('complete/{token}', 'UsersController@getToken')->name('complete.show');
-        Route::post('complete', 'UsersController@storePassword')->name('complete.store');
 
 
         Route::resource('categories', 'CategoriesController');

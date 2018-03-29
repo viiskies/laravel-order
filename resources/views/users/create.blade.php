@@ -16,7 +16,7 @@
                 'vat_number' => "",
                 'registration_number' => "",
                 'shipping_address' => "",
-                'company_address' => "",
+                'registration_address' => "",
                 'email' => "",
                 'contact_person' => "",
                 'payment_terms' => "",
