@@ -75,6 +75,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('order/{id}', 'CartController@destroy')->name('order.product.delete');
 
         Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');
-
+        Route::get('export/{type}', 'OrderExportController@export')->name('export');
     });
 });
+
+
+

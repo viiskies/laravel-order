@@ -6,6 +6,7 @@ use App\Client;
 use App\Http\Requests\StoreSpecialOfferRequest;
 use App\Mail\SpecialOfferMail;
 use App\Platform;
+use App\Price;
 use App\Product;
 use App\Publisher;
 use App\Services\ImageService;
@@ -42,14 +43,8 @@ class SpecialOffersController extends Controller
         $clients = $request->get('client_id');
         $file = $request->filename;
         $filename = $this->imageService->uploadImage($file);
-        $description = $request->get('description');
-        $expiration_date = $request->get('expiration_date');
+        $specialOffer = SpecialOffer::create(['filename' => $filename] + $request->only('expiration_date', 'description'));
 
-        $specialOffer = SpecialOffer::create([
-            'filename' => $filename,
-            'description' => $description,
-            'expiration_date' => $expiration_date
-        ]);
         foreach ($clients as $client_id) {
             $client = Client::findOrFail($client_id);
             $specialOffer->users()->attach($client->user->id);
@@ -58,15 +53,16 @@ class SpecialOffersController extends Controller
         $games = $request->get('games');
 
         foreach ($games as $game) {
-            $specialOffer->prices()->create(['amount' => $request->get('price'), 'product_id' => $game]);
+            $product = Product::FindOrFail($game);
+            $price = $product->prices()->where('special_offer_id', null)->where('user_id', null)->orderBy('date', 'DESC')->first();
+            $specialOffer->prices()->create(['amount' => $request->get('price_coef') * $price->amount, 'product_id' => $game]);
         }
 
         foreach ($specialOffer->users as $user) {
             $email = $user->client->email;
             Mail::to($email)->send(new SpecialOfferMail($specialOffer, $user));
         }
-
-        return redirect(route('special.index')->with('status', 'Success'));
+        return redirect()->back()->with('status', 'Success');
     }
 
     public function filter(Request $request)
