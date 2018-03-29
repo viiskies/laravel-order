@@ -4,7 +4,7 @@
             <h2>Create password</h2>
         </div>
         <div class="col-12">
-            <form class="form-group" method="post" action="{{ route('complete.store') }}">
+            <form class="form-group" method="post" action="{{ route('complete.store', ['token' => $token]) }}">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <label class="col control-label">Password</label>

@@ -122,7 +122,7 @@ class UsersController extends Controller
     public function getToken($token)
     {
         if (User::where('password_token', $token)->exists()) {
-            return view('users.passwordCreate');
+            return view('users.passwordCreate', ['token' => $token]);
         } else {
             return redirect()->route('home');
         }
@@ -130,8 +130,7 @@ class UsersController extends Controller
 
     public function storePassword(StorePasswordRequest $request)
     {
-        $token = basename(url()->previous());
-        $user = User::where('password_token', $token)->first();
+        $user = User::where('password_token', $request->get('token'))->first();
         $user->update(['password' => bcrypt($request->get('password')), 'password_token' => null]);
 
         return redirect()->route('home');
