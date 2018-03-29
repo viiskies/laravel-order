@@ -16,7 +16,7 @@
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::middleware('trackingUser')->group(function (){
 
