@@ -55,15 +55,14 @@ class OrdersController extends Controller
         $file=$request->file('invoice');
         if(isset($file))
         {
+            $filenameWithExt = $this->checkInvoice->uploadInvoice($file);
             if (empty($order->invoice))
             {
-                $filenameWithExt = $this->checkInvoice->uploadInvoice($file);
                 $order->invoice()->create($request->except('_token') + [
                         'filename' => $filenameWithExt,
                     ]);
             }else {
                 Storage::delete('public/invoices/'.$order->invoice->filename);
-                $filenameWithExt = $this->checkInvoice->uploadInvoice($file);
                 $order->invoice->update($request->except('_token') + [
                         'filename' => $filenameWithExt,
                     ]);
