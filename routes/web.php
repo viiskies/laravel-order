@@ -16,16 +16,31 @@
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 
+Route::middleware('auth')->group(function()
+{
+
+	Route::middleware('role:admin')->group(function()
+	{
+		Route::post('products/import', 'ProductsImportController@import')->name('products.import');
+		Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
+		Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
+		Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
+		Route::get('cat/{id}', 'CategoriesController@show')->name('products.cat');
+		Route::resource('publishers', 'PublishersController');
+		Route::resource('platforms', 'PlatformController');
+		Route::resource('countries', 'CountriesController');
+		Route::resource('users', 'UsersController');
+		Route::resource('categories', 'CategoriesController');
+		Route::resource('products', 'ProductsController');
+
+	});
+Route::get('export/{type}', 'OrderExportController@export')->name('export');
+
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('sort/', 'HomeController@sort')->name('home.sort');
 
-Route::post('products/import', 'ProductsImportController@import')->name('products.import');
-Route::get('products/import', 'ProductsImportController@importForm')->name('products.import.form');
-Route::get('products/import/log', 'ProductsImportController@showLog')->name('products.import.log');
-Route::post('products/import/log', 'ProductsImportController@filter')->name('products.import.filter');
-Route::get('cat/{id}', 'CategoriesController@show')->name('products.cat');
 
 Route::get('chat', 'ChatsController@index')->name('chat.index')->middleware('role:user');
 Route::get('chat/create', 'ChatsController@create')->name('chat.create');
@@ -36,17 +51,8 @@ Route::post('chat/store_message', 'ChatsController@storeMessage')->name('chat.st
 Route::patch('chat/disable', 'ChatsController@disable')->name('chat.disable');
 Route::patch('chat/enable', 'ChatsController@enable')->name('chat.enable');
 
-
-Route::resource('publishers', 'PublishersController');
-Route::resource('platforms', 'PlatformController');
-Route::resource('countries', 'CountriesController');
-
-Route::resource('products', 'ProductsController');
 Route::get('search/', 'SearchController@search')->name('products.search');
 Route::get('suggest/', 'SuggestionController@suggest')->name('products.suggest');
-
-Route::resource('users', 'UsersController');
-Route::resource('categories', 'CategoriesController');
 
 Route::post('order/{id}', 'CartController@store')->name('order.store');
 Route::get('basket', 'CartController@index')->name('order.index');
@@ -68,4 +74,6 @@ Route::post('special/search', 'SpecialOffersController@search')->name('special.s
 
 Route::get('contacts', 'HomeController@contacts')->name('pages.contacts');
 
-Route::get('export/{type}', 'OrderExportController@export')->name('export');
+
+
+});
